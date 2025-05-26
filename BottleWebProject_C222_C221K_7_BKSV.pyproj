@@ -18,6 +18,10 @@
     <SuppressCollectPythonCloudServiceFiles>true</SuppressCollectPythonCloudServiceFiles>
     <Name>BottleWebProject_C222_C221K_7_BKSV</Name>
     <RootNamespace>BottleWebProject_C222_C221K_7_BKSV</RootNamespace>
+    <WebBrowserPort>80</WebBrowserPort>
+    <TestFramework>unittest</TestFramework>
+    <UnitTestPattern>test*.py</UnitTestPattern>
+    <UnitTestRootDirectory>.</UnitTestRootDirectory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
