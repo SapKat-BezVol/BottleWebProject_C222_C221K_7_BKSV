@@ -3,6 +3,8 @@ from io import BytesIO
 from bottle import route, view, request
 from utils.data_loader import load_data, get_preview
 import pandas as pd
+from bottle import route, request
+from utils.variant2 import process_variant2_post, render_variant2_template
 
 
 @route('/')
@@ -80,13 +82,12 @@ def variant1():
         error=error,
     )
 
-@route('/variant2')
-@view('variant2')
-def about():
-    """Рендер страницы для второго варианта."""
-    return dict(
-        year=datetime.now().year
-    )
+@route('/variant2', method=['GET', 'POST'])
+def variant2():
+    if request.method == 'POST':
+        return process_variant2_post(request)
+    return render_variant2_template()
+
 
 @route('/variant3')
 @view('variant3')
