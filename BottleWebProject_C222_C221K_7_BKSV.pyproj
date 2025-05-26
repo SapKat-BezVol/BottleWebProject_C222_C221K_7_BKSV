@@ -85,6 +85,7 @@
     <Content Include="static\scripts\_references.js" />
     <Content Include="views\about.tpl" />
     <Content Include="views\index.tpl" />
+    <Content Include="views\layoutvariant.tpl" />
     <Content Include="views\layout.tpl" />
     <Content Include="views\variant4.tpl" />
     <Content Include="views\variant3.tpl" />
