@@ -33,7 +33,7 @@
         {{!base}}
         <hr />
         <footer>
-            <p>&copy; {{ year }} - Элементы машинного обучения и анализа данных</p>
+            <p>&copy; {{ year }} - SapKat&BezVol©</p>
         </footer>
     </div>
 
