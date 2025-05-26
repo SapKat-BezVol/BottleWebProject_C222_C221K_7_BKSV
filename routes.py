@@ -15,7 +15,6 @@ def home():
 def about():
     """Рендер страницы с информацией о команде."""
     return dict(
-        message='Your application description page.',
         year=datetime.now().year
     )
 
