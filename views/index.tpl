@@ -1,29 +1,72 @@
 % rebase('layout.tpl', title='Home Page', year=year)
 
+<!-- Главная страница с четырьмя вкладками для вариантов анализа -->
 <div class="jumbotron">
-    <h1>Bottle</h1>
-    <p class="lead">Bottle is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://bottlepy.org/docs/dev/index.html" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+    <h1>Элементы машинного обучения и анализа данных</h1>
+    <p class="lead">
+        Проект учебной практики команды 7: анализ случайно сгенерированной таблицы (до 1000 строк и 10 столбцов).
+    </p>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            Bottle gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://bottlepy.org/docs/dev/index.html">Learn more &raquo;</a></p>
+<!-- Навигационные вкладки -->
+<ul class="nav nav-tabs" id="variantTabs" role="tablist">
+    <li role="presentation" class="active">
+        <a href="#variant1" aria-controls="variant1" role="tab" data-toggle="tab">Вариант 1 <small>Статистика</small></a>
+    </li>
+    <li role="presentation">
+        <a href="#variant2" aria-controls="variant2" role="tab" data-toggle="tab">Вариант 2 <small>Корреляции</small></a>
+    </li>
+    <li role="presentation">
+        <a href="#variant3" aria-controls="variant3" role="tab" data-toggle="tab">Вариант 3 <small>Графики</small></a>
+    </li>
+    <li role="presentation">
+        <a href="#variant4" aria-controls="variant4" role="tab" data-toggle="tab">Вариант 4 <small>Прогноз</small></a>
+    </li>
+</ul>
+
+<!-- Содержимое вкладок -->
+<div class="tab-content" style="margin-top: 20px;">
+    <!-- Вариант 1 -->
+    <div role="tabpanel" class="tab-pane fade in active" id="variant1">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Вариант 1: Распределения и статистики</h2>
+                <p>Построение распределений данных для каждого столбца, проверка на нормальность, вычисление основных статистик и выявление аномалий.</p>
+                <p><a class="btn btn-primary" href="/variant1">Перейти к анализу &raquo;</a></p>
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>The Python Package Index is a repository of software for the Python programming language.</p>
-        <p><a class="btn btn-default" href="https://pypi.python.org/pypi">Learn more &raquo;</a></p>
+
+    <!-- Вариант 2 -->
+    <div role="tabpanel" class="tab-pane fade" id="variant2">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Вариант 2: Корреляции и тепловая карта</h2>
+                <p>Построение матрицы корреляций и тепловой карты зависимостей между столбцами с выводами по обнаруженным связям.</p>
+                <p><a class="btn btn-primary" href="/variant2">Перейти к анализу &raquo;</a></p>
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Microsoft Azure</h2>
-        <p>You can easily publish to Microsoft Azure using Visual Studio. Find out how you can host your application using a free trial today.</p>
-        <p><a class="btn btn-default" href="http://azure.microsoft.com">Learn more &raquo;</a></p>
+
+    <!-- Вариант 3 -->
+    <div role="tabpanel" class="tab-pane fade" id="variant3">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Вариант 3: Графики и scatter‑matrix</h2>
+                <p>Различные диаграммы для каждого столбца, матрица рассеяния и визуализация выявленных зависимостей.</p>
+                <p><a class="btn btn-primary" href="/variant3">Перейти к графикам &raquo;</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Вариант 4 -->
+    <div role="tabpanel" class="tab-pane fade" id="variant4">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Вариант 4: Модель и прогнозирование</h2>
+                <p>Выбор целевой переменной, построение и обучение модели, получение прогноза для новых данных, введённых пользователем.</p>
+                <p><a class="btn btn-primary" href="/variant4">Перейти к прогнозу &raquo;</a></p>
+            </div>
+        </div>
     </div>
 </div>
