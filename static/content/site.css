@@ -3,20 +3,17 @@ body {
     padding-bottom: 20px;
 }
 
-/* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
 textarea {
     max-width: 280px;
 }
 
-/* styles for validation helpers */
 .field-validation-error {
     color: #b94a48;
 }
@@ -41,6 +38,18 @@ input[type="checkbox"].input-validation-error {
     display: none;
 }
 
+.upload-fields {
+    display: none;
+}
+
+#modeGenerate:checked ~ .generate-fields {
+    display: flex;
+}
+
+#modeGenerate:checked ~ .upload-fields {
+    display: none;
+}
+
 #modeUpload:checked ~ .generate-fields {
     display: none;
 }
@@ -49,20 +58,18 @@ input[type="checkbox"].input-validation-error {
     display: block;
 }
 
-#modeGenerate:checked ~ .generate-fields {
-    display: block;
-}
-
-#modeGenerate:checked ~ .upload-fields {
-    display: none;
-}
-
-.upload-fields,
 .generate-fields {
-    margin-bottom: 1rem;
+    margin: 1rem 0;
+    gap: 1rem;
+    flex-wrap: wrap;
 }
 
-.table-scroll {
-    max-height: 600px;
-    overflow: auto;
+.upload-fields {
+    margin: 1rem 0;
+}
+
+.table-frame {
+    width: 100%;
+    height: 85vh;
+    border: none;
 }

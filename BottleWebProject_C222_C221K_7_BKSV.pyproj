@@ -35,12 +35,16 @@
   <ItemGroup>
     <Compile Include="app.py" />
     <Compile Include="routes.py" />
+    <Compile Include="services\table_generator.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="utils\data_loader.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="data\" />
+    <Folder Include="services\" />
     <Folder Include="tests\" />
     <Folder Include="utils\" />
     <Folder Include="static\" />
