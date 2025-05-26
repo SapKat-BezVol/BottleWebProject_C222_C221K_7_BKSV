@@ -22,8 +22,8 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="/home">Home</a></li>
-                    <li><a href="/about">About</a></li>
+                    <li><a href="/home">Главная</a></li>
+                    <li><a href="/about">О команде</a></li>
                 </ul>
             </div>
         </div>
@@ -33,7 +33,7 @@
         {{!base}}
         <hr />
         <footer>
-            <p>&copy; {{ year }} - My Bottle Application</p>
+            <p>&copy; {{ year }} - Элементы машинного обучения и анализа данных</p>
         </footer>
     </div>
 
