@@ -1,1 +1,3 @@
-% rebase('layout.tpl', title='Вариант 1', year=year)
+% rebase('layout.tpl', title='Вариант 3', year=year)
+<h1>Вариант 3</h1>
+<p>Описание третьего варианта и результаты его выполнения появятся здесь.</p>
