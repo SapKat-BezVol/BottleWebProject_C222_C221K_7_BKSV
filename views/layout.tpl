@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }} - Элементы машинного обучения и анализа данных</title>
+    <title>{{ title }} - Р­Р»РµРјРµРЅС‚С‹ РјР°С€РёРЅРЅРѕРіРѕ РѕР±СѓС‡РµРЅРёСЏ Рё Р°РЅР°Р»РёР·Р° РґР°РЅРЅС‹С…</title>
     <link rel="stylesheet" type="text/css" href="/static/content/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="/static/content/site.css" />
     <script src="/static/scripts/modernizr-2.6.2.js"></script>
@@ -18,12 +18,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="/" class="navbar-brand">Элементы машинного обучения и анализа данных</a>
+                <a href="/" class="navbar-brand">Р­Р»РµРјРµРЅС‚С‹ РјР°С€РёРЅРЅРѕРіРѕ РѕР±СѓС‡РµРЅРёСЏ Рё Р°РЅР°Р»РёР·Р° РґР°РЅРЅС‹С…</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="/home">Главная</a></li>
-                    <li><a href="/about">О команде</a></li>
+                    <li><a href="/home">Р“Р»Р°РІРЅР°СЏ</a></li>
+                    <li><a href="/about">Рћ РєРѕРјР°РЅРґРµ</a></li>
                 </ul>
             </div>
         </div>
@@ -33,7 +33,7 @@
         {{!base}}
         <hr />
         <footer>
-            <p>&copy; {{ year }} - Элементы машинного обучения и анализа данных</p>
+            <p>&copy; {{ year }} - Р­Р»РµРјРµРЅС‚С‹ РјР°С€РёРЅРЅРѕРіРѕ РѕР±СѓС‡РµРЅРёСЏ Рё Р°РЅР°Р»РёР·Р° РґР°РЅРЅС‹С…</p>
         </footer>
     </div>
 

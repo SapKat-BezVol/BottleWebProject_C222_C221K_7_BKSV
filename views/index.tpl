@@ -1,4 +1,4 @@
-% rebase('layout.tpl', title='Home Page', year=year)
+% rebase('layout.tpl', title='Главная', year=year)
 
 <!-- Главная страница с четырьмя вкладками для вариантов анализа -->
 <div class="jumbotron">
