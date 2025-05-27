@@ -6,6 +6,7 @@ from bottle import route, template, view, request, response
 import pandas as pd
 from services.correlation_generator import build_correlation_plot
 from services.table_generator import build_table, _parse_upload, render_page, load_data
+from services.plot_generator import build_plot_html
 
 # Глобальная переменная
 generated_df: pd.DataFrame | None = None
@@ -64,15 +65,9 @@ def generate_table():
 @route("/generate_correlation", method="POST")
 def generate_correlation_route() -> str:
     global generated_df
-    print("DEBUG generated_df.head():")
-    print(generated_df.head())
-
-    print("DEBUG generated_df.describe():")
-    print(generated_df.describe())
     if generated_df is None:
         error_html = "<div class='alert alert-danger'>Сначала сгенерируйте или загрузите таблицу</div>"
         return render_page("", error_html)
-
     try:
         html_snippet = build_correlation_plot(generated_df)
         error_html = None
@@ -82,6 +77,25 @@ def generate_correlation_route() -> str:
 
     response.content_type = "text/html; charset=utf-8"
     return render_page(html_snippet, error_html)
+
+@route("/generate_plot", method="POST")
+def generate_plot_route() -> str:
+    global generated_df
+    if generated_df is None:
+        error_html = "<div class='alert alert-danger'>Сначала сгенерируйте или загрузите таблицу</div>"
+        return render_page("", error_html)
+
+    plot_type = request.forms.get("plot_type")
+    try:
+        html_snippet = build_plot_html(generated_df, plot_type)
+        error_html = None
+    except Exception as exc:
+        html_snippet = ""
+        error_html = f"<div class='alert alert-danger'>Ошибка: {exc}</div>"
+
+    response.content_type = "text/html; charset=utf-8"
+    return render_page(html_snippet, error_html)
+
 
 
 @route('/variant1', method='GET')

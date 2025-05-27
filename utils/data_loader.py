@@ -34,40 +34,29 @@ def load_data(
                 raise ValueError(f"Unsupported extension: {path.suffix}")
     return generate_synthetic(rows=rows, cols=cols, pattern=pattern)
 
-
 def _generate_linear(rows: int, cols: int, rng: np.random.Generator) -> pd.DataFrame:
     idx = np.arange(rows)
     data = np.empty((rows, cols))
     for c in range(cols):
-        start = rng.uniform(-500, 500) + rng.normal(0, 50)
-        step = rng.normal(loc=0.0, scale=rng.uniform(1.0, 20.0))
-        trend_perturbation = np.cumsum(rng.normal(0, 0.5, size=rows))  # медленный дрейф
-        noise = rng.normal(0, rng.uniform(1.0, 10.0), size=rows)
-        data[:, c] = start + step * idx + trend_perturbation + noise
-        data[:, c] = np.clip(data[:, c], -1_000, 1_000)
+        start = rng.uniform(-100, 100)
+        step = rng.uniform(-10, 10)
+        data[:, c] = start + step * idx
     return pd.DataFrame(data, columns=[f"col_{i + 1}" for i in range(cols)])
-
 
 def _generate_sine(rows: int, cols: int, rng: np.random.Generator) -> pd.DataFrame:
     idx = np.arange(rows)
     data = np.empty((rows, cols))
     for c in range(cols):
-        amplitude = rng.uniform(0.5, 5.0) * rng.lognormal(0, 0.3)
-        cycles = rng.uniform(0.1, 6.0) * rng.beta(2.0, 5.0)
+        amplitude = rng.uniform(0.5, 5.0)
+        cycles = rng.uniform(0.25, 4.0)
         frequency = 2.0 * np.pi * cycles / rows
-        phase = rng.uniform(-np.pi, 3 * np.pi) + rng.normal(0, 0.2)
-        noise = rng.normal(loc=0.0, scale=rng.uniform(0.1, 1.5), size=rows)
-        envelope = 1 + rng.normal(0, 0.2, size=rows) * rng.lognormal(0, 0.2, size=rows)
-        data[:, c] = envelope * amplitude * np.sin(frequency * idx + phase) + noise
+        phase = rng.uniform(0, 2.0 * np.pi)
+        data[:, c] = amplitude * np.sin(frequency * idx + phase)
     return pd.DataFrame(data, columns=[f"col_{i + 1}" for i in range(cols)])
-
 
 def _generate_gaussian(rows: int, cols: int, rng: np.random.Generator) -> pd.DataFrame:
-    means = rng.normal(loc=0.0, scale=10.0, size=cols) + rng.uniform(-20, 20, size=cols)
-    stds = rng.lognormal(mean=0.0, sigma=0.5, size=cols) + rng.uniform(0.1, 1.5, size=cols)
-    data = np.column_stack([rng.normal(loc=mu, scale=std, size=rows) for mu, std in zip(means, stds)])
+    data = rng.normal(loc=0.0, scale=1.0, size=(rows, cols))
     return pd.DataFrame(data, columns=[f"col_{i + 1}" for i in range(cols)])
-
 
 def generate_synthetic(
     *,
