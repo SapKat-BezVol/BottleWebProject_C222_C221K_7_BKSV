@@ -37,13 +37,13 @@
   <ItemGroup>
     <Compile Include="app.py" />
     <Compile Include="routes.py" />
+    <Compile Include="services\correlation_generator.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="services\table_generator.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="utils\data_loader.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="utils\variant2.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

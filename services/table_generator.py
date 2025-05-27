@@ -33,20 +33,15 @@ def build_table(mode: str,
                 upload_file,
                 rows: int = 100,
                 cols: int = 5,
-                pattern: str = "linear") -> Tuple[Optional[str], Optional[str]]:
-    """
-    Возвращает (table_html, error_html).  
-    Один из элементов кортежа всегда None.
-    """
+                pattern: str = "linear") -> Tuple[Optional[str], Optional[str], Optional[pd.DataFrame]]:
     try:
         if mode == "upload":
             df = _parse_upload(upload_file)
-        else:  # mode == "generate"
+        else:
             if not 1 <= rows <= 1000:
                 raise ValueError("Количество строк должно быть от 1 до 1000.")
             if not 1 <= cols <= 10:
                 raise ValueError("Количество столбцов должно быть от 1 до 10.")
-
             df = load_data(rows=rows, cols=cols, pattern=pattern)
 
         table_html = df.to_html(
@@ -56,11 +51,12 @@ def build_table(mode: str,
             max_rows=None,
             max_cols=None,
         )
-        return table_html, None
+        return table_html, None, df
 
     except Exception as exc:
         error_html = f"<div class='alert alert-danger'>{exc}</div>"
-        return None, error_html
+        return None, error_html, None
+
 
 
 def render_page(table_html: Optional[str], error_html: Optional[str]) -> str:
