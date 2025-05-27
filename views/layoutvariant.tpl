@@ -55,8 +55,8 @@
               <label for="pattern" class="form-label">Шаблон</label>
               <select id="pattern" name="pattern" class="form-select">
                 <option value="linear">linear</option>
-                <option value="sin">sin</option>
-                <option value="random">random</option>
+                <option value="gaussian">gaussian</option>
+                <option value="sine">sine</option>
               </select>
             </div>
           </div>

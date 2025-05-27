@@ -1,68 +1,105 @@
 from __future__ import annotations
 import pathlib
+import random
 from typing import Literal
 import numpy as np
 import pandas as pd
 
-__all__ = [
-    "load_data",
-    "generate_synthetic",
-    "get_preview",
-]
+__all__ = ["load_data", "generate_synthetic", "get_preview"]
 
+# ──────────────────────────────────────────────────────────────────────────────
+PatternStr = Literal["linear", "gaussian", "sine"]
+
+# ──────────────────────────────────────────────────────────────────────────────
 def load_data(
     source: str | pathlib.Path | None = None,
     *,
     rows: int | None = None,
     cols: int | None = None,
-    pattern: Literal["linear", "sin", "random"] = "linear",
-    seed: int = 1488,
+    pattern: PatternStr = "linear",
+    seed: int | None = None,
 ) -> pd.DataFrame:
     if source is not None:
         path = pathlib.Path(source).expanduser()
-        if not path.exists():
-            raise FileNotFoundError(f"Data file {path} does not exist.")
+        if not path.exists() or not path.is_file():
+            raise FileNotFoundError(f"File {path} not found.")
+        match path.suffix.lower():
+            case ".csv":
+                return pd.read_csv(path)
+            case ".tsv":
+                return pd.read_csv(path, sep="\t")
+            case ".json":
+                return pd.read_json(path)
+            case _:
+                raise ValueError(f"Unsupported extension: {path.suffix}")
+    return generate_synthetic(rows=rows, cols=cols, pattern=pattern)
 
-        suffix = path.suffix.lower()
-        if suffix == ".csv":
-            return pd.read_csv(path)
-        if suffix == ".tsv":
-            return pd.read_csv(path, sep="\t")
-        if suffix == ".json":
-            return pd.read_json(path)
-        raise ValueError(f"Unsupported file extension: {suffix}")
 
-    return generate_synthetic(rows=rows, cols=cols, pattern=pattern, seed=seed)
+def _generate_linear(rows: int, cols: int, rng: np.random.Generator) -> pd.DataFrame:
+    idx = np.arange(rows)
+    data = np.empty((rows, cols))
+    for c in range(cols):
+        start = rng.uniform(-500, 500) + rng.normal(0, 50)
+        step = rng.normal(loc=0.0, scale=rng.uniform(1.0, 20.0))
+        trend_perturbation = np.cumsum(rng.normal(0, 0.5, size=rows))  # медленный дрейф
+        noise = rng.normal(0, rng.uniform(1.0, 10.0), size=rows)
+        data[:, c] = start + step * idx + trend_perturbation + noise
+        data[:, c] = np.clip(data[:, c], -1_000, 1_000)
+    return pd.DataFrame(data, columns=[f"col_{i + 1}" for i in range(cols)])
+
+
+def _generate_sine(rows: int, cols: int, rng: np.random.Generator) -> pd.DataFrame:
+    idx = np.arange(rows)
+    data = np.empty((rows, cols))
+    for c in range(cols):
+        amplitude = rng.uniform(0.5, 5.0) * rng.lognormal(0, 0.3)
+        cycles = rng.uniform(0.1, 6.0) * rng.beta(2.0, 5.0)
+        frequency = 2.0 * np.pi * cycles / rows
+        phase = rng.uniform(-np.pi, 3 * np.pi) + rng.normal(0, 0.2)
+        noise = rng.normal(loc=0.0, scale=rng.uniform(0.1, 1.5), size=rows)
+        envelope = 1 + rng.normal(0, 0.2, size=rows) * rng.lognormal(0, 0.2, size=rows)
+        data[:, c] = envelope * amplitude * np.sin(frequency * idx + phase) + noise
+    return pd.DataFrame(data, columns=[f"col_{i + 1}" for i in range(cols)])
+
+
+def _generate_gaussian(rows: int, cols: int, rng: np.random.Generator) -> pd.DataFrame:
+    means = rng.normal(loc=0.0, scale=10.0, size=cols) + rng.uniform(-20, 20, size=cols)
+    stds = rng.lognormal(mean=0.0, sigma=0.5, size=cols) + rng.uniform(0.1, 1.5, size=cols)
+    data = np.column_stack([rng.normal(loc=mu, scale=std, size=rows) for mu, std in zip(means, stds)])
+    return pd.DataFrame(data, columns=[f"col_{i + 1}" for i in range(cols)])
 
 
 def generate_synthetic(
     *,
     rows: int | None = None,
     cols: int | None = None,
-    pattern: Literal["linear", "sin", "random"] = "linear",
-    seed: int = 1488,
+    pattern: PatternStr = "linear",
 ) -> pd.DataFrame:
-    """Generate deterministic synthetic numeric data."""
-
+    """
+    Создать таблицу по паттерну с каждый раз разными значениями.
+    Patterns:
+    - linear: (j+1)*(i+1)+noise
+    - sine: sin(2π*(i+1)/(j+1))+noise
+    - gaussian: N(0,1)
+    """
+    # Валидация размерностей
+    if rows is not None and rows < 0:
+        raise ValueError("rows must be non-negative")
+    if cols is not None and cols < 0:
+        raise ValueError("cols must be non-negative")
     rows = max(1, min(int(rows or 1000), 1000))
     cols = max(1, min(int(cols or 5), 10))
 
-    rng = np.random.default_rng(seed)
-    index = np.arange(rows)
-
-    if pattern == "linear":
-        data = np.vstack([(j + 1) * (index + 1) for j in range(cols)]).T
-    elif pattern == "sin":
-        data = np.vstack([
-            np.sin(2 * np.pi * (index + 1) / (j + 1)) for j in range(cols)
-        ]).T
-    elif pattern == "random":
-        data = rng.random((rows, cols))
+    rng = np.random.default_rng()
+    pat = pattern.lower()
+    if pat == "linear":
+        return _generate_linear(rows, cols, rng)
+    elif pat == "sine":
+        return _generate_sine(rows, cols, rng)
+    elif pat == "gaussian":
+        return _generate_gaussian(rows, cols, rng)
     else:
         raise ValueError(f"Unknown pattern '{pattern}'")
-
-    columns = [f"col_{j+1}" for j in range(cols)]
-    return pd.DataFrame(data, columns=columns)
 
 
 def get_preview(
@@ -70,18 +107,16 @@ def get_preview(
     *,
     method: Literal["head", "tail", "sample"] = "head",
     n: int = 10,
-    seed: int = 1488,
+    seed: int | None = None,
 ) -> pd.DataFrame:
-    """Return a lightweight preview of *df* without altering the original."""
-
+    """Вернуть небольшой срез *df*, не изменяя оригинал."""
     if n <= 0:
         raise ValueError("n must be positive")
-
     if method == "head":
         return df.head(n)
     if method == "tail":
         return df.tail(n)
     if method == "sample":
-        return df.sample(n=min(n, len(df)), random_state=seed)
-
+        random_state = seed if seed is not None else random.randint(0, 2**32 - 1)
+        return df.sample(n=min(n, len(df)), random_state=random_state)
     raise ValueError(f"Unknown preview method '{method}'")
