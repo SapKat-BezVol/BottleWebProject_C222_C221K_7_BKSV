@@ -37,6 +37,9 @@
   <ItemGroup>
     <Compile Include="app.py" />
     <Compile Include="routes.py" />
+    <Compile Include="services\plot_generator.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="services\table_generator.py">
       <SubType>Code</SubType>
     </Compile>
