@@ -20,4 +20,4 @@ def make_prediction(model: LinearRegression, features: list[float]) -> float:
 def prepare_demo_data() -> pd.DataFrame:
     """Creates a demo dataframe if there is no uploaded data"""
     data = np.random.rand(100, 3) * 100
-    return pd.DataFrame(data, columns=[f'Признак_{i+1}' for i in range(3)])
+    return pd.DataFrame(data, columns=[f'РџСЂРёР·РЅР°Рє_{i+1}' for i in range(3)])

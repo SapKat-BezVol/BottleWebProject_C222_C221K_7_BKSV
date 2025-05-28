@@ -105,14 +105,18 @@ def generate_plot_route() -> str:
 def predict_page():
     """Рендер страницы предсказания"""
     global generated_df
+    
+    # Если данных нет, создаём демо-датафрейм с 3 признаками
     if generated_df is None:
-        # Если данных нет, создаем демо-датафрейм
         data = np.random.rand(100, 3) * 100
         generated_df = pd.DataFrame(data, columns=[f'Признак_{i+1}' for i in range(3)])
     
+    # Вычисляем количество признаков (все колонки кроме последней - целевой)
+    num_features = len(generated_df.columns) - 1
+    
     return dict(
         year=datetime.now().year,
-        num_features=len(generated_df.columns)-1
+        num_features=num_features  # Передаём в шаблон
     )
 
 @route("/make_prediction", method="POST")
