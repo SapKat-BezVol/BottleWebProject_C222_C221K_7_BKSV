@@ -1,36 +1,56 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
+     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }} - Элементы машинного обучения и анализа данных</title>
-    <link rel="stylesheet" type="text/css" href="/static/content/bootstrap.min.css" />
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <!-- Стили сайта -->
     <link rel="stylesheet" type="text/css" href="/static/content/site.css" />
+
+    <!-- Скрипты -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- (необязательно, только если используешь) -->
     <script src="/static/scripts/modernizr-2.6.2.js"></script>
     <script src="/static/scripts/jquery-1.10.2.js"></script>
-    <script src="/static/scripts/bootstrap.js"></script>
-    <script src="/static/scripts/respond.js"></script>
+    <link rel="stylesheet" href="/static/content/custom-navbar.css" />
+
+
 </head>
 
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a href="/" class="navbar-brand">Элементы машинного обучения и анализа данных</a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a href="/home">Главная</a></li>
-                    <li><a href="/about">О команде</a></li>
-                </ul>
-            </div>
+    
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand custom-brand" href="/">Элементы машинного обучения и анализа данных</a>
+    
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Переключить навигацию">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-3">
+            <li class="nav-item">
+              <a class="nav-link" href="/home">Главная</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/about">О команде</a>
+            </li>
+          </ul>
         </div>
-    </div>
+      </div>
+    </nav>
+
+
+
 
     <div class="container body-content">
         <h1>{{ title }}</h1>
