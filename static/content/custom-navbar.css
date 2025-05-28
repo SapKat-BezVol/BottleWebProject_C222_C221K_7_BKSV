@@ -1,0 +1,8 @@
+.custom-brand {
+    color: #6c757d !important; /* Bootstrap gray (text-secondary) */
+    transition: color 0.3s ease;
+}
+
+    .custom-brand:hover {
+        color: #ffffff !important;
+    }
