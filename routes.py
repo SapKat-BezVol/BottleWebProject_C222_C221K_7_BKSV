@@ -7,6 +7,9 @@ import pandas as pd
 from services.correlation_generator import build_correlation_plot
 from services.table_generator import build_table, _parse_upload, render_page, load_data
 from services.plot_generator import build_plot_html
+import numpy as np
+from sklearn.linear_model import LinearRegression
+from services.prediction_service import train_model, make_prediction, prepare_demo_data
 
 # Глобальная переменная
 generated_df: pd.DataFrame | None = None
