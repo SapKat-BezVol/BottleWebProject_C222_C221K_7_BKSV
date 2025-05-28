@@ -4,7 +4,7 @@ from datetime import datetime
 from io import BytesIO
 from bottle import route, template, view, request, response
 import pandas as pd
-from services.correlation_generator import build_correlation_plot
+from services.correlation_generator import build_correlation_table,build_correlation_heatmap
 from services.table_generator import build_table, _parse_upload, render_page, load_data
 from services.plot_generator import build_plot_html
 import numpy as np
@@ -71,15 +71,19 @@ def generate_correlation_route() -> str:
     if generated_df is None:
         error_html = "<div class='alert alert-danger'>Сначала сгенерируйте или загрузите таблицу</div>"
         return render_page("", error_html)
+
     try:
-        html_snippet = build_correlation_plot(generated_df)
+        table_html = build_correlation_table(generated_df)
+        heatmap_html = build_correlation_heatmap(generated_df)
+        combined_html = table_html + heatmap_html
         error_html = None
     except Exception as exc:
-        html_snippet = None
+        combined_html = None
         error_html = f"<div class='alert alert-danger'>{exc}</div>"
 
     response.content_type = "text/html; charset=utf-8"
-    return render_page(html_snippet, error_html)
+    return render_page(combined_html, error_html)
+
 
 @route("/generate_plot", method="POST")
 def generate_plot_route() -> str:
