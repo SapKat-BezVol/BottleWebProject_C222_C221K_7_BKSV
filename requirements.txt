@@ -23,3 +23,4 @@ tomli==2.2.1
 typing_extensions==4.13.2
 tzdata==2025.2
 seaborn
+utils==1.0.2
