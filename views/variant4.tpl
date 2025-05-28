@@ -1,15 +1,22 @@
 % rebase('layoutvariant.tpl', title='Предсказание числа', year=year)
 
 <h2>Предсказание целевой переменной</h2>
-<p class="mb-3">Введите значения признаков для предсказания:</p>
+<p class="mb-3">
+Выберите целевой столбец и введите значения признаков для предсказания:
+</p>
 
-<form action="/predict" target="predictFrame" method="post" class="mb-3">
+<form action="/make_prediction" target="predictFrame" method="post" class="mb-3">
   <div class="form-group">
-    % for i in range(num_features):
-      <label for="feature_{{i}}">Признак {{i+1}}:</label>
-      <input type="number" step="any" class="form-control mb-2" id="feature_{{i}}" name="feature_{{i}}" required>
-    % end
+    <label for="target_col">Номер целевого столбца:</label>
+    <input type="number" class="form-control" id="target_col" name="target_col" required>
   </div>
+  
+  <div class="form-group">
+    <label for="features">Значения признаков (через пробел):</label>
+    <input type="text" class="form-control" id="features" name="features" placeholder="Например: 1.2 3.4 5.6" required>
+    <small class="form-text text-muted">Введите числа, разделенные пробелами</small>
+  </div>
+  
   <button type="submit" class="btn btn-primary">Сделать предсказание</button>
 </form>
 
