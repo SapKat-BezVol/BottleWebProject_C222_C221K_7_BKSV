@@ -97,6 +97,61 @@ def generate_plot_route() -> str:
     return render_page(html_snippet, error_html)
 
 
+@route('/predict', method=['GET', 'POST'])
+@view('predict')
+def predict_page():
+    """Рендер страницы предсказания"""
+    global generated_df
+    if generated_df is None:
+        # Если данных нет, создаем демо-датафрейм
+        data = np.random.rand(100, 3) * 100
+        generated_df = pd.DataFrame(data, columns=[f'Признак_{i+1}' for i in range(3)])
+    
+    return dict(
+        year=datetime.now().year,
+        num_features=len(generated_df.columns)-1
+    )
+
+@route("/make_prediction", method="POST")
+def make_prediction() -> str:
+    global generated_df
+    if generated_df is None:
+        error_html = "<div class='alert alert-danger'>Сначала сгенерируйте или загрузите таблицу</div>"
+        return render_page("", error_html)
+    
+    try:
+        # Получаем данные из формы
+        features = []
+        for i in range(len(generated_df.columns)-1):
+            val = request.forms.get(f"feature_{i}")
+            features.append(float(val))
+        
+        # Делаем предсказание
+        target_col = generated_df.columns[-1]
+        X = generated_df.drop(columns=[target_col])
+        y = generated_df[target_col]
+        
+        model = LinearRegression()
+        model.fit(X, y)
+        
+        prediction = model.predict([features])[0]
+        
+        # Формируем HTML с результатами
+        html_snippet = f"""
+        <div class="alert alert-success mt-3">
+            <h4>Результат предсказания</h4>
+            <p>Для признаков: {', '.join(map(str, features))}</p>
+            <p>Прогнозируемое значение '{target_col}': <strong>{prediction:.2f}</strong></p>
+        </div>
+        """
+        error_html = None
+    except Exception as exc:
+        html_snippet = ""
+        error_html = f"<div class='alert alert-danger'>Ошибка: {exc}</div>"
+    
+    response.content_type = "text/html; charset=utf-8"
+    return render_page(html_snippet, error_html)
+
 
 @route('/variant1', method='GET')
 @view('variant1')
