@@ -157,7 +157,18 @@ def make_prediction() -> str:
     
     response.content_type = "text/html; charset=utf-8"
     return render_page(html_snippet, error_html)
-
+@route('/variant1/generate_distributions', method='POST')
+def generate_distributions():
+    global generated_df
+    if generated_df is None:
+        return "<div class='alert alert-danger'>Сначала сгенерируйте или загрузите таблицу</div>"
+    
+    try:
+        from services.distrib_generator import generate_distribution_html
+        html = generate_distribution_html(generated_df)
+        return html
+    except Exception as e:
+        return f"<div class='alert alert-danger'>Ошибка: {str(e)}</div>"
 
 @route('/variant1', method='GET')
 @view('variant1')
