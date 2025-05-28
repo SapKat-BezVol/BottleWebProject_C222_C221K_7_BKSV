@@ -40,6 +40,9 @@
     <Compile Include="services\correlation_generator.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="services\distrib_generator.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="services\plot_generator.py">
       <SubType>Code</SubType>
     </Compile>
@@ -67,6 +70,9 @@
     <Content Include="requirements.txt" />
     <Content Include="static\content\bootstrap.css" />
     <Content Include="static\content\bootstrap.min.css" />
+    <Content Include="static\content\custom-navbar.css">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="static\content\site.css" />
     <Content Include="static\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="static\fonts\glyphicons-halflings-regular.svg" />
