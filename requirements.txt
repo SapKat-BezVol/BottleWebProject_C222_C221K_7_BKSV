@@ -24,3 +24,7 @@ typing_extensions==4.13.2
 tzdata==2025.2
 seaborn
 utils==1.0.2
+scikit-learn
+threadpoolctl
+scipy
+joblib
