@@ -1,16 +1,14 @@
 from __future__ import annotations
 import pathlib
 import random
-from typing import Literal
+from typing import Literal, Optional
 import numpy as np
 import pandas as pd
 
 __all__ = ["load_data", "generate_synthetic", "get_preview"]
 
-# ──────────────────────────────────────────────────────────────────────────────
 PatternStr = Literal["linear", "gaussian", "sine"]
 
-# ──────────────────────────────────────────────────────────────────────────────
 def load_data(
     source: str | pathlib.Path | None = None,
     *,
@@ -32,54 +30,81 @@ def load_data(
                 return pd.read_json(path)
             case _:
                 raise ValueError(f"Unsupported extension: {path.suffix}")
-    return generate_synthetic(rows=rows, cols=cols, pattern=pattern)
+    return generate_synthetic(rows=rows, cols=cols, pattern=pattern, seed=seed)
+
 
 def _generate_linear(rows: int, cols: int, rng: np.random.Generator) -> pd.DataFrame:
-    idx = np.arange(rows)
-    data = np.empty((rows, cols))
-    for c in range(cols):
-        start = rng.uniform(-100, 100)
-        step = rng.uniform(-10, 10)
-        data[:, c] = start + step * idx
-    return pd.DataFrame(data, columns=[f"col_{i + 1}" for i in range(cols)])
+    """
+    Линейная матрица: (i+1)*(j+1) с аддитивным гауссовским шумом.
+    """
+    i = np.arange(rows)[:, None]
+    j = np.arange(1, cols + 1)[None, :]
+    base = (i + 1) * j
+    noise_scale = rng.uniform(0.0, 10.0)
+    noise = rng.normal(loc=0.0, scale=noise_scale, size=(rows, cols))
+    data = base + noise
+    return pd.DataFrame(data, columns=[f"col_{k}" for k in range(1, cols + 1)])
 
-def _generate_sine(rows: int, cols: int, rng: np.random.Generator) -> pd.DataFrame:
+
+def _generate_sine(
+    rows: int,
+    cols: int,
+    rng: np.random.Generator,
+    noise_scale: Optional[float] = None
+) -> pd.DataFrame:
     idx = np.arange(rows)
-    data = np.empty((rows, cols))
+    data = np.empty((rows, cols), dtype=float)
+    if noise_scale is None:
+        noise_scale = rng.uniform(0.0, 0.10)
     for c in range(cols):
+        # базовые параметры синусоиды
         amplitude = rng.uniform(0.5, 5.0)
-        cycles = rng.uniform(0.25, 4.0)
-        frequency = 2.0 * np.pi * cycles / rows
-        phase = rng.uniform(0, 2.0 * np.pi)
-        data[:, c] = amplitude * np.sin(frequency * idx + phase)
-    return pd.DataFrame(data, columns=[f"col_{i + 1}" for i in range(cols)])
+        cycles    = rng.uniform(0.25, 4.0)
+        freq      = 2.0 * np.pi * cycles / rows
+        phase     = rng.uniform(0, 2.0 * np.pi)
+
+        # чистая синусоида
+        clean = amplitude * np.sin(freq * idx + phase)
+        # шум: нормальное распределение с σ = noise_scale * amplitude
+        noise = rng.normal(loc=0.0, scale=noise_scale * amplitude, size=rows)
+
+        data[:, c] = clean + noise
+
+    cols_names = [f"col_{i+1}" for i in range(cols)]
+    return pd.DataFrame(data, columns=cols_names)
 
 def _generate_gaussian(rows: int, cols: int, rng: np.random.Generator) -> pd.DataFrame:
-    data = rng.normal(loc=0.0, scale=1.0, size=(rows, cols))
-    return pd.DataFrame(data, columns=[f"col_{i + 1}" for i in range(cols)])
+    """
+    Гауссовский шум: N(0, scale) с оптимизированной дисперсией.
+    """
+    noise_scale = 1.5
+    data = rng.normal(loc=0.0, scale=noise_scale, size=(rows, cols))
+    return pd.DataFrame(data, columns=[f"col_{k}" for k in range(1, cols + 1)])
+
 
 def generate_synthetic(
     *,
     rows: int | None = None,
     cols: int | None = None,
     pattern: PatternStr = "linear",
+    seed: int | None = None,
 ) -> pd.DataFrame:
     """
-    Создать таблицу по паттерну с каждый раз разными значениями.
+    Создать таблицу по паттерну с оптимизированным постоянным шумом.
     Patterns:
-    - linear: (j+1)*(i+1)+noise
-    - sine: sin(2π*(i+1)/(j+1))+noise
-    - gaussian: N(0,1)
+    - linear: (i+1)*(j+1) + N(0,2.0)
+    - sine: 2*sin(2π*i/rows + φ) + N(0,0.2)
+    - gaussian: N(0,1.5)
     """
-    # Валидация размерностей
     if rows is not None and rows < 0:
         raise ValueError("rows must be non-negative")
     if cols is not None and cols < 0:
         raise ValueError("cols must be non-negative")
+
     rows = max(1, min(int(rows or 1000), 1000))
     cols = max(1, min(int(cols or 5), 10))
 
-    rng = np.random.default_rng()
+    rng = np.random.default_rng(seed)
     pat = pattern.lower()
     if pat == "linear":
         return _generate_linear(rows, cols, rng)
@@ -98,7 +123,7 @@ def get_preview(
     n: int = 10,
     seed: int | None = None,
 ) -> pd.DataFrame:
-    """Вернуть небольшой срез *df*, не изменяя оригинал."""
+    """Вернуть небольшой срез df, не изменяя оригинал."""
     if n <= 0:
         raise ValueError("n must be positive")
     if method == "head":

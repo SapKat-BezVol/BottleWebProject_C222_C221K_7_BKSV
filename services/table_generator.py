@@ -70,7 +70,7 @@ def build_table(
 
         # Преобразуем DataFrame в HTML-таблицу с Bootstrap-классами
         table_html = df.to_html(
-            classes="table table-striped table-bordered",  # Стиль таблицы
+            classes="table table-bordered table-striped",
             index=False,  # Не отображать индекс
             border=0,
             max_rows=None,
@@ -79,7 +79,7 @@ def build_table(
         return table_html, None, df  # Возвращаем HTML и DataFrame
 
     except Exception as exc:
-        error_html = f"<div class='alert alert-danger'>{exc}</div>"  # Оборачиваем ошибку в Bootstrap-алерт
+        error_html = f"<div class='alert alert-danger'>{exc}</div>"
         return None, error_html, None  # Возвращаем ошибку
 
 
@@ -99,6 +99,6 @@ def render_page(table_html: Optional[str], error_html: Optional[str]) -> str:
         "<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css'>"
         "<style>.table-scroll{max-height:80vh;overflow:auto;}</style>"
         "</head><body>"
-        f"<div class='table-scroll table-responsive'>{table_html or error_html or ''}</div>"
+        f"<div class='table table-bordered table-striped'>{table_html or error_html or ''}</div>"
         "</body></html>"
     )

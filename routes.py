@@ -49,11 +49,6 @@ def generate_table():
 
         if error_html:
             return error_html
-        print("DEBUG build_table df.head():")
-        print(df.head())
-
-        print("DEBUG build_table df.describe():")
-        print(df.describe())
 
         generated_df = df
         return html_table

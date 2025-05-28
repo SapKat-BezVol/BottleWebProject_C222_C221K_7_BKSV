@@ -46,20 +46,23 @@ def _build_histograms(df: pd.DataFrame) -> List[Tuple[str, str]]:
         plt.close(fig)  # закрываем фигуру для освобождения памяти
     return images
 
-# Построение box-plot для каждого числового столбца
+# Построение box-plot для всех числовых столбцов на одном поле
 def _build_boxplots(df: pd.DataFrame) -> List[Tuple[str, str]]:
-    """Строит box-plot (ящик с усами) для каждого числового столбца датафрейма."""
-    images: List[Tuple[str, str]] = []
+    """Строит единый box-plot (ящик с усами) для всех числовых столбцов на одном поле."""
     numeric = df.select_dtypes(include="number")
     if numeric.empty:
         raise ValueError("Нет числовых столбцов для box-plots.")
-    for col in numeric.columns:
-        fig = plt.figure(figsize=(6, 4))
-        numeric[col].plot.box(vert=True)  # box-plot вертикально
-        plt.title(f"Boxplot of {col}")
-        images.append((col, _fig_to_base64(fig)))  # сохраняем картинку
-        plt.close(fig)
-    return images
+    # Создаем один общий график для всех столбцов
+    fig = plt.figure(figsize=(8, 6))
+    ax = fig.add_subplot(1, 1, 1)
+    numeric.plot.box(ax=ax, vert=True)
+    plt.title("Boxplots всех числовых столбцов")
+    plt.xlabel("Столбцы")
+    plt.ylabel("Значения")
+    # Кодируем в base64
+    b64 = _fig_to_base64(fig)
+    plt.close(fig)
+    return [("boxplots", b64)]
 
 # Построение scatter matrix — матрицы диаграмм рассеяния
 def _build_scatter_matrix(df: pd.DataFrame) -> List[Tuple[str, str]]:
@@ -71,14 +74,14 @@ def _build_scatter_matrix(df: pd.DataFrame) -> List[Tuple[str, str]]:
     fig = axes[0, 0].get_figure()  # получаем общую фигуру
     b64 = _fig_to_base64(fig)  # кодируем изображение
     plt.close(fig)
-    return [("scatter_matrix", b64)]  # возвращаем список с одной картинкой
+    return [("scatter_matrix", b64)]
 
 # Основная функция: создает HTML с графиками по типу
 def build_plot_html(df: pd.DataFrame, plot_type: str) -> str:
     """
     Возвращает HTML-фрагмент с изображениями заданного типа:
       - "hist"    → гистограммы для каждого числового столбца
-      - "box"     → box-plots для каждого числового столбца
+      - "box"     → единый box-plot для всех числовых столбцов
       - "scatter" → scatter matrix для всех числовых столбцов
     """
     # Сопоставляем тип графика с соответствующей функцией построения и заголовком
