@@ -40,6 +40,9 @@
     <Compile Include="services\correlation_generator.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="services\distrib_generator.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="services\plot_generator.py">
       <SubType>Code</SubType>
     </Compile>
