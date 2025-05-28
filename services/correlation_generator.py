@@ -2,14 +2,21 @@
 
 import base64
 import io
-from typing import Optional
-
+import pandas as pd
 import matplotlib
 matplotlib.use("Agg")
-
 import matplotlib.pyplot as plt
-import pandas as pd
 import seaborn as sns
+
+
+def build_correlation_table(df: pd.DataFrame) -> str:
+    """Возвращает HTML таблицу с корреляционной матрицей."""
+    corr_matrix = df.corr(numeric_only=True)
+    # Округляем для удобства отображения
+    corr_rounded = corr_matrix.round(2)
+    # Сгенерировать HTML с видимыми границами таблицы
+    html_table = corr_rounded.to_html(classes="table table-bordered table-striped", border=1)
+    return f"<h3 class='mt-3'>Correlation Matrix</h3>{html_table}"
 
 
 def _fig_to_base64(fig: plt.Figure) -> str:
@@ -19,10 +26,9 @@ def _fig_to_base64(fig: plt.Figure) -> str:
     return base64.b64encode(buf.read()).decode("ascii")
 
 
-def build_correlation_plot(df: pd.DataFrame) -> str:
+def build_correlation_heatmap(df: pd.DataFrame) -> str:
+    """Возвращает HTML с изображением тепловой карты корреляций в base64."""
     corr_matrix = df.corr(numeric_only=True)
-    print("DEBUG corr_matrix:")
-    print(corr_matrix)
 
     fig, ax = plt.subplots(figsize=(8, 6))
     sns.heatmap(corr_matrix, annot=True, cmap="coolwarm", fmt=".2f", ax=ax)
