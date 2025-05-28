@@ -53,6 +53,9 @@
     <Compile Include="utils\data_loader.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="utils\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="data\" />
