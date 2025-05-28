@@ -1,4 +1,4 @@
-from __future__ import annotations
+ï»¿from __future__ import annotations
 import numpy as np
 import pandas as pd
 from sklearn.linear_model import LinearRegression
@@ -20,4 +20,4 @@ def make_prediction(model: LinearRegression, features: list[float]) -> float:
 def prepare_demo_data() -> pd.DataFrame:
     """Creates a demo dataframe if there is no uploaded data"""
     data = np.random.rand(100, 3) * 100
-    return pd.DataFrame(data, columns=[f'Ïğèçíàê_{i+1}' for i in range(3)])
+    return pd.DataFrame(data, columns=[f'ĞŸÑ€Ğ¸Ğ·Ğ½Ğ°Ğº_{i+1}' for i in range(3)])
