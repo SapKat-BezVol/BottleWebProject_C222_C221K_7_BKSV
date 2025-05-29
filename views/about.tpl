@@ -27,9 +27,37 @@
 </ol>
 
 <h3>Личный вклад участников</h3>
-<ul>
-  <li><strong>Безруких Алексей Петрович</strong> — разработка генератора данных, реализация проверки нормальности распределения и расчёта статистических характеристик.</li>
-  <li><strong>Катаван Максим Андреевич</strong> — исследование корреляций, построение тепловых карт и аналитические выводы.</li>
-  <li><strong>Сапрыкин Семён Максимович</strong> — визуализация данных (гистограммы, box‑plot, scatter matrix) и выявление аномалий.</li>
-  <li><strong>Володин Андрей Алексеевич</strong> — интеграция моделей машинного обучения.</li>
-</ul>
+<div class="team-members">
+  <div style="display:flex; align-items:center; margin-bottom: 1.5em;">
+    <img src="/static/images/team/bezrukih.png" alt="Безруких Алексей Петрович" 
+         style="width:100px; height:100px; object-fit:cover; border-radius:8px; margin-right:15px;">
+    <div>
+      <strong>Безруких Алексей Петрович</strong><br>
+      разработка генератора данных, реализация проверки нормальности распределения и расчёта статистических характеристик.
+    </div>
+  </div>
+  <div style="display:flex; align-items:center; margin-bottom: 1.5em;">
+    <img src="/static/images/team/katavan.png" alt="Катаван Максим Андреевич" 
+         style="width:100px; height:100px; object-fit:cover; border-radius:8px; margin-right:15px;">
+    <div>
+      <strong>Катаван Максим Андреевич</strong><br>
+      исследование корреляций, построение тепловых карт и аналитические выводы.
+    </div>
+  </div>
+  <div style="display:flex; align-items:center; margin-bottom: 1.5em;">
+    <img src="/static/images/team/saprykin.png" alt="Сапрыкин Семён Максимович" 
+         style="width:100px; height:100px; object-fit:cover; border-radius:8px; margin-right:15px;">
+    <div>
+      <strong>Сапрыкин Семён Максимович</strong><br>
+      визуализация данных (гистограммы, box‑plot, scatter matrix) и выявление аномалий.
+    </div>
+  </div>
+  <div style="display:flex; align-items:center; margin-bottom: 1.5em;">
+    <img src="/static/images/team/volodin.png" alt="Володин Андрей Алексеевич" 
+         style="width:100px; height:100px; object-fit:cover; border-radius:8px; margin-right:15px;">
+    <div>
+      <strong>Володин Андрей Алексеевич</strong><br>
+      интеграция моделей машинного обучения.
+    </div>
+  </div>
+</div>
