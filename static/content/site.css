@@ -7,6 +7,11 @@ body {
     padding-left: 15px;
     padding-right: 15px;
 }
+.no-borders table,
+.no-borders th,
+.no-borders td {
+    border: none !important;
+}
 
 input,
 select,
@@ -66,6 +71,9 @@ input[type="checkbox"].input-validation-error {
 
 .upload-fields {
     margin: 1rem 0;
+}
+table, th, td {
+    border: none !important;
 }
 
 .table-frame {

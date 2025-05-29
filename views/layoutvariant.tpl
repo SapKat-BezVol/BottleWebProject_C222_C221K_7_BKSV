@@ -17,14 +17,6 @@
     <script src="/static/scripts/modernizr-2.6.2.js"></script>
     <script src="/static/scripts/jquery-1.10.2.js"></script>
 
-    <style>
-      iframe.table-frame {
-        width: 100%;
-        min-height: 500px;
-        border: 1px solid #ccc;
-        margin-top: 20px;
-      }
-    </style>
 </head>
 
 <body>

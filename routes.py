@@ -54,7 +54,8 @@ def show_sample():
         else:
             return "<div class='alert alert-danger'>Некорректный режим отображения</div>"
 
-        sample_html = sample_df.to_html(classes='table table-striped table-bordered', index=False)
+        sample_html = sample_df.to_html(classes='', index=False, border=0)
+
         return f"<h5>Отображаемые данные ({mode}, {n} записей):</h5>{sample_html}"
 
     except Exception as e:
