@@ -11,7 +11,7 @@ iniconfig==2.1.0
 kiwisolver==1.4.8
 packaging==25.0
 pillow==11.2.1
-pip==21.2.3
+pip==23.3
 pluggy==1.5.0
 pyparsing==3.2.3
 pytest==8.3.5
