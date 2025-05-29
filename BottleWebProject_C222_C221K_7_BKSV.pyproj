@@ -50,6 +50,7 @@
     <Compile Include="services\table_generator.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="services\__init__.py" />
     <Compile Include="utils\data_loader.py">
       <SubType>Code</SubType>
     </Compile>
