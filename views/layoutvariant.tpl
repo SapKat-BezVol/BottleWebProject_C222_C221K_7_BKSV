@@ -84,7 +84,7 @@
         <!-- Добавленная форма показа части данных -->
         <div class="mb-4 border rounded p-3 bg-light">
           <h5>Показать часть данных:</h5>
-          <form action="/variant2/show_sample" method="post" target="tableFrame" class="d-flex flex-wrap gap-3 align-items-end">
+          <form action="/show_sample" method="post" target="tableFrame" class="d-flex flex-wrap gap-3 align-items-end">
             <div>
               <label for="n" class="form-label">Сколько записей:</label>
               <input type="number" name="n" id="n" value="5" min="1" max="100" class="form-control">
