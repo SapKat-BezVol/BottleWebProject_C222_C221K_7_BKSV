@@ -50,16 +50,22 @@ def analyze_distributions(df: pd.DataFrame) -> dict:
         stats_dict['outliers_count'] = len(outliers)
         stats_dict['outliers_percent'] = len(outliers)/len(col_data)*100
         
-        # Гистограмма с KDE
+        # Построение гистограммы с KDE
         plt.figure(figsize=(10, 6))
-        sns.histplot(col_data, kde=True, stat='density')
+        # Добавим label к histplot (например, 'Data distribution')
+        sns.histplot(col_data, kde=True, stat='density', label='Распределение данных')
         plt.title(f'Распределение {col}')
+        
         if is_normal:
-            plt.axvline(stats_dict['mean'], color='r', linestyle='--', label='Mean')
+            plt.axvline(stats_dict['mean'], color='r', linestyle='--', label='Среднее')
             x = np.linspace(col_data.min(), col_data.max(), 100)
             plt.plot(x, stats.norm.pdf(x, stats_dict['mean'], stats_dict['std']), 
-                    'r-', lw=2, label='Normal dist')
-        plt.legend()
+                     'r-', lw=2, label='Нормальное распределение')
+            plt.legend()  # Легенда только если нормальное распределение
+        else:
+            # Легенду можно тоже добавить, если нужно:
+            plt.legend()  # Легенда с label='Распределение данных' для KDE-гистограммы
+        
         plot_b64 = _fig_to_base64(plt.gcf())
         plt.close()
         
@@ -69,6 +75,7 @@ def analyze_distributions(df: pd.DataFrame) -> dict:
         }
     
     return results
+
 
 def generate_distribution_html(df: pd.DataFrame) -> str:
     """Генерирует HTML с анализом распределений."""
