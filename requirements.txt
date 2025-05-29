@@ -22,10 +22,10 @@ six==1.17.0
 tomli==2.2.1
 typing_extensions==4.13.2
 tzdata==2025.2
-seaborn
+seaborn==0.13.2
 utils==1.0.2
-scikit-learn
-threadpoolctl
-scipy
-joblib
-sklearn
+scikit-learn==1.6.1
+threadpoolctl==3.6.0
+scipy==1.15.3
+joblib==1.5.1
+sklearn==0.0
