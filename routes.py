@@ -34,6 +34,33 @@ def about():
         year=datetime.now().year
     )
 
+@route('/variant2/show_sample', method='POST')
+def show_sample():
+    global generated_df
+    if generated_df is None:
+        return "<div class='alert alert-danger'>Сначала сгенерируйте или загрузите таблицу</div>"
+
+    try:
+        n = int(request.forms.get('n', 5))
+        n = max(1, min(n, len(generated_df)))  # Ограничиваем n размером df
+        mode = request.forms.get('mode', 'head')
+
+        if mode == 'head':
+            sample_df = generated_df.head(n)
+        elif mode == 'tail':
+            sample_df = generated_df.tail(n)
+        elif mode == 'random':
+            sample_df = generated_df.sample(n)
+        else:
+            return "<div class='alert alert-danger'>Некорректный режим отображения</div>"
+
+        sample_html = sample_df.to_html(classes='table table-striped table-bordered', index=False)
+        return f"<h5>Отображаемые данные ({mode}, {n} записей):</h5>{sample_html}"
+
+    except Exception as e:
+        return f"<div class='alert alert-danger'>Ошибка: {e}</div>"
+
+
 
 @route('/generate_table', method='POST')
 def generate_table():
