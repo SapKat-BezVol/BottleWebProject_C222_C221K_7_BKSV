@@ -10,9 +10,12 @@ from services.plot_generator import build_plot_html
 import numpy as np
 from sklearn.linear_model import LinearRegression
 from services.prediction_service import build_prediction_numbers
+from bottle import static_file
 
 # Глобальная переменная
 generated_df: pd.DataFrame | None = None
+
+
 
 @route('/')
 @route('/home')

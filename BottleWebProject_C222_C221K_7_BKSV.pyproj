@@ -95,6 +95,9 @@
     <Content Include="static\scripts\modernizr-2.6.2.js" />
     <Content Include="static\scripts\respond.js" />
     <Content Include="static\scripts\respond.min.js" />
+    <Content Include="static\scripts\variant2.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="static\scripts\_references.js" />
     <Content Include="views\about.tpl" />
     <Content Include="views\index.tpl" />

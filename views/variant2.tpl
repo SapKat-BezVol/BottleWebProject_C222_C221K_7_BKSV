@@ -1,5 +1,5 @@
 % rebase('layoutvariant.tpl', title='Вариант 2 — Корреляции и тепловая карта', year=year)
-
+<script src="/static/scripts/variant2.js"></script>
 <h2>Построить корреляционную матрицу и тепловую карту</h2>
 <p class="mb-3">
   Нажмите кнопку, чтобы построить <strong>таблицу коэффициентов корреляции</strong> и <strong>тепловую карту</strong> по уже сгенерированной таблице.
