@@ -4,7 +4,7 @@ from datetime import datetime
 from io import BytesIO
 from bottle import route, template, view, request, response
 import pandas as pd
-from services.correlation_generator import build_correlation_table,build_correlation_heatmap
+from services.correlation_generator import build_correlation_table,build_correlation_heatmap, analyze_correlations
 from services.table_generator import build_table, _parse_upload, render_page, load_data
 from services.plot_generator import build_plot_html
 import numpy as np
@@ -122,12 +122,14 @@ def generate_table():
             return error_html
 
         generated_df = df
-        return html_table
+        # Вместо вывода таблицы возвращаем простое сообщение
+        return "<p class='text-success'>Таблица сгенерировалась.</p>"
 
     except Exception as e:
         import traceback
         traceback.print_exc()
         return f"<p class='text-danger'>Внутренняя ошибка сервера: {e}</p>"
+
 
 
 
@@ -141,7 +143,8 @@ def generate_correlation_route() -> str:
     try:
         table_html = build_correlation_table(generated_df)
         heatmap_html = build_correlation_heatmap(generated_df)
-        combined_html = table_html + heatmap_html
+        analysis_html = analyze_correlations(generated_df)
+        combined_html = table_html + heatmap_html + analysis_html
         error_html = None
     except Exception as exc:
         combined_html = None
@@ -149,6 +152,8 @@ def generate_correlation_route() -> str:
 
     response.content_type = "text/html; charset=utf-8"
     return render_page(combined_html, error_html)
+
+
 
 
 @route("/generate_plot", method="POST")
