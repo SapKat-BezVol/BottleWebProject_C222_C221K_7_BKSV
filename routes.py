@@ -34,7 +34,7 @@ def about():
         year=datetime.now().year
     )
 
-@route('/variant2/show_sample', method='POST')
+@route('/show_sample', method='POST')
 def show_sample():
     global generated_df
     if generated_df is None:
