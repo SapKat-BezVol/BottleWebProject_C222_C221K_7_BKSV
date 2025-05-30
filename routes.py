@@ -150,6 +150,16 @@ def generate_correlation_route() -> str:
         return render_page("", error_html)
 
     try:
+        numeric_df = generated_df.select_dtypes(include='number')
+        if numeric_df.shape[1] < 2:
+            raise ValueError("Недостаточно числовых столбцов для анализа корреляций (нужно минимум 2).")
+
+        corr_matrix = numeric_df.corr()
+
+        # Проверка, что корреляционная матрица квадратная
+        if corr_matrix.shape[0] != corr_matrix.shape[1]:
+            raise ValueError("Ошибка: матрица корреляций не квадратная. Проверьте данные.")
+
         table_html = build_correlation_table(generated_df)
         heatmap_html = build_correlation_heatmap(generated_df)
         analysis_html = analyze_correlations(generated_df)
@@ -161,7 +171,6 @@ def generate_correlation_route() -> str:
 
     response.content_type = "text/html; charset=utf-8"
     return render_page(combined_html, error_html)
-
 
 
 
