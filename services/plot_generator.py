@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
-
-import base64
-import io
+import base64, io
 from typing import Dict, List, Tuple
 
 import matplotlib
@@ -14,15 +12,14 @@ from pandas.plotting import scatter_matrix
 
 __all__ = ["build_plot_html"]
 
-
+# ---------- вспомогательные функции ----------
 def _fig_to_base64(fig: plt.Figure) -> str:
     buf = io.BytesIO()
     fig.savefig(buf, format="png", bbox_inches="tight")
     buf.seek(0)
     return base64.b64encode(buf.read()).decode("ascii")
 
-
-_HIST_DESCRIPTIONS: Dict[str, str] = {
+_HIST_DESCRIPTIONS: Dict[str, str] = {  # ...
     "count": "Количество наблюдений",
     "mean": "Среднее арифметическое",
     "median": "Медиана (50-й перцентиль)",
@@ -30,7 +27,6 @@ _HIST_DESCRIPTIONS: Dict[str, str] = {
     "min": "Минимальное значение",
     "max": "Максимальное значение",
 }
-
 
 def _basic_hist_stats(series: pd.Series) -> Dict[str, float]:
     return {
@@ -42,9 +38,7 @@ def _basic_hist_stats(series: pd.Series) -> Dict[str, float]:
         "max": series.max(),
     }
 
-
 def _hist_stats_table(stats: Dict[str, float]) -> str:
-    """Трёхколоночная таблица для гистограмм."""
     rows = []
     for key, val in stats.items():
         descr = _HIST_DESCRIPTIONS.get(key, key)
@@ -56,37 +50,27 @@ def _hist_stats_table(stats: Dict[str, float]) -> str:
         "<tbody>" + "\n".join(rows) + "</tbody></table>"
     )
 
-
 def _box_stats_table(stats: Dict[str, Dict[str, float]]) -> str:
-    """Таблица, где каждая строка — отдельный столбец с квартилями и выбросами."""
     header = (
-        "<tr>"
-        "<th>Столбец</th><th>Минимум</th><th>Q1 (25 %)</th>"
+        "<tr><th>Столбец</th><th>Минимум</th><th>Q1 (25 %)</th>"
         "<th>Медиана</th><th>Q3 (75 %)</th><th>Максимум</th>"
-        "<th>IQR</th><th>Выбросы&nbsp;%</th>"
-        "</tr>"
+        "<th>IQR</th><th>Выбросы %</th></tr>"
     )
     body_rows = []
     for col, st in stats.items():
         body_rows.append(
             "<tr>"
-            f"<td>{col}</td>"
-            f"<td>{st['min']:.4f}</td>"
-            f"<td>{st['q1']:.4f}</td>"
-            f"<td>{st['median']:.4f}</td>"
-            f"<td>{st['q3']:.4f}</td>"
-            f"<td>{st['max']:.4f}</td>"
-            f"<td>{st['iqr']:.4f}</td>"
-            f"<td>{st['outliers_percent']:.2f}</td>"
-            "</tr>"
+            f"<td>{col}</td><td>{st['min']:.4f}</td><td>{st['q1']:.4f}</td>"
+            f"<td>{st['median']:.4f}</td><td>{st['q3']:.4f}</td>"
+            f"<td>{st['max']:.4f}</td><td>{st['iqr']:.4f}</td>"
+            f"<td>{st['outliers_percent']:.2f}</td></tr>"
         )
     return (
         "<table class='table table-bordered table-sm table-scroll'>"
-        "<thead>" + header + "</thead>"
-        "<tbody>" + "\n".join(body_rows) + "</tbody></table>"
+        "<thead>" + header + "</thead><tbody>" + "\n".join(body_rows) + "</tbody></table>"
     )
 
-
+# ---------- построение графиков ----------
 def _build_histograms(df: pd.DataFrame) -> List[Tuple[str, str, str]]:
     numeric = df.select_dtypes(include="number")
     if numeric.empty:
@@ -101,11 +85,8 @@ def _build_histograms(df: pd.DataFrame) -> List[Tuple[str, str, str]]:
         plt.legend()
         img64 = _fig_to_base64(fig)
         plt.close(fig)
-
-        stats_html = _hist_stats_table(_basic_hist_stats(numeric[col]))
-        outs.append((col, img64, stats_html))
+        outs.append((col, img64, _hist_stats_table(_basic_hist_stats(numeric[col]))))
     return outs
-
 
 def _build_boxplots(df: pd.DataFrame) -> List[Tuple[str, str, str]]:
     numeric = df.select_dtypes(include="number")
@@ -118,65 +99,41 @@ def _build_boxplots(df: pd.DataFrame) -> List[Tuple[str, str, str]]:
     plt.ylabel("Значения")
     img64 = _fig_to_base64(fig)
     plt.close(fig)
-
     stats: Dict[str, Dict[str, float]] = {}
     for col in numeric.columns:
         col_data = numeric[col].dropna()
         q1, q3 = col_data.quantile([0.25, 0.75])
         iqr = q3 - q1
-        outliers = col_data[(col_data < q1 - 1.5 * iqr) | (col_data > q3 + 1.5 * iqr)]
+        outliers = col_data[(col_data < q1 - 1.5*iqr) | (col_data > q3 + 1.5*iqr)]
         stats[col] = {
-            "min": col_data.min(),
-            "q1": q1,
-            "median": col_data.median(),
-            "q3": q3,
-            "max": col_data.max(),
-            "iqr": iqr,
+            "min": col_data.min(), "q1": q1, "median": col_data.median(),
+            "q3": q3, "max": col_data.max(), "iqr": iqr,
             "outliers_percent": len(outliers) / len(col_data) * 100,
         }
-    stats_html = _box_stats_table(stats)
-    return [("Box-plot", img64, stats_html)]
-
+    return [("Box-plot", img64, _box_stats_table(stats))]
 
 def _build_scatter_matrix(df: pd.DataFrame) -> List[Tuple[str, str, str]]:
-    """Создаёт scatter‑matrix и отображает коэффициенты корреляции на внедиагональных графиках."""
     numeric = df.select_dtypes(include="number")
     if numeric.shape[1] < 2:
         raise ValueError("Для scatter-matrix нужно минимум два числовых столбца.")
-
-    # Построение матрицы рассеяния
     axes = scatter_matrix(numeric, figsize=(8, 8), diagonal="hist")
-
-    # Вычисляем корреляции
     corr = numeric.corr().values
     cols = numeric.columns
-
-    # Аннотация коэффициентов корреляции
-    n = len(cols)
-    for i in range(n):
-        for j in range(n):
+    for i in range(len(cols)):
+        for j in range(len(cols)):
             if i == j:
-                continue  # диагональ (гистограммы)
-            ax = axes[i, j]
-            coeff = corr[i, j]
-            # Размещаем текст в правом верхнем углу, чтобы не заслонять точки
-            ax.annotate(
-                f"ρ = {coeff:.2f}",
-                xy=(0.95, 0.85),
-                xycoords="axes fraction",
-                ha="right",
-                va="center",
-                fontsize=8,
-                fontweight="bold",
+                continue
+            axes[i, j].annotate(
+                f"ρ = {corr[i, j]:.2f}", xy=(0.95, 0.85),
+                xycoords="axes fraction", ha="right", va="center",
+                fontsize=8, fontweight="bold",
                 bbox=dict(boxstyle="round,pad=0.2", fc="white", ec="none", alpha=0.7),
             )
-
-    fig = axes[0, 0].get_figure()
-    img64 = _fig_to_base64(fig)
-    plt.close(fig)
+    img64 = _fig_to_base64(axes[0, 0].get_figure())
+    plt.close(axes[0, 0].get_figure())
     return [("Scatter-matrix", img64, "")]
 
-
+# ---------- главный генератор HTML ----------
 def build_plot_html(df: pd.DataFrame, plot_type: str) -> str:
     builders = {
         "hist": (_build_histograms, "Гистограммы"),
@@ -188,26 +145,43 @@ def build_plot_html(df: pd.DataFrame, plot_type: str) -> str:
 
     build_func, title = builders[plot_type]
     items = build_func(df)
+    html_parts: List[str] = [
+    "<style>html,body{margin:0;padding:0;overflow:hidden}</style>",
+    f"<h3 class='mt-3 mb-4'>{title}</h3>"
+]
 
-    html_parts: List[str] = [f"<h3 class='mt-3 mb-4'>{title}</h3>"]
+
     for label, img64, stats_html in items:
         card_title = label if plot_type == "hist" else title
-        stats_block = (
-            f"<div class='col-md-6'>{stats_html}</div>" if stats_html else ""
-        )
-        html_parts.append(
-            f"""
-            <div class='card mb-4'>
-              <div class='card-body'>
-                <div class='row'>
-                  <div class='col-md-{"6" if stats_block else "12"}'>
-                    <img class='img-fluid' src='data:image/png;base64,{img64}' alt='{card_title}'>
+        if plot_type == "box":
+            # Диаграмма сверху, таблица снизу
+            html_parts.append(
+                f"""
+                <div class='card mb-4'>
+                  <div class='card-body text-center'>
+                    <img class='img-fluid d-block mx-auto'
+                         src='data:image/png;base64,{img64}' alt='{card_title}'>
+                    <div class='mt-3'>{stats_html}</div>
                   </div>
-                  {stats_block}
                 </div>
-              </div>
-            </div>
-            """
-        )
-
+                """
+            )
+        else:
+            # Диаграмма слева, статистика справа
+            stats_block = f"<div class='col-md-6'>{stats_html}</div>" if stats_html else ""
+            html_parts.append(
+                f"""
+                <div class='card mb-4'>
+                  <div class='card-body'>
+                    <div class='row justify-content-center'>
+                      <div class='col-md-6 text-center'>
+                        <img class='img-fluid d-block mx-auto'
+                             src='data:image/png;base64,{img64}' alt='{card_title}'>
+                      </div>
+                      {stats_block}
+                    </div>
+                  </div>
+                </div>
+                """
+            )
     return "\n".join(html_parts)
