@@ -54,6 +54,9 @@
     <Compile Include="tests\test_correlation_generator.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="tests\test_distrib_generator.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="tests\__init__.py">
       <SubType>Code</SubType>
     </Compile>
