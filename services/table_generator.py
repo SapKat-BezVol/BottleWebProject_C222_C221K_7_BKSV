@@ -70,7 +70,7 @@ def build_table(
 
         # Преобразуем DataFrame в HTML-таблицу с Bootstrap-классами
         table_html = df.to_html(
-            classes="table table-bordered table-striped",
+            classes="table table-bordered table-hover table-striped w-100",
             index=False,  # Не отображать индекс
             border=0,
             max_rows=None,
@@ -85,7 +85,7 @@ def build_table(
 
 def render_page(table_html: Optional[str], error_html: Optional[str]) -> str:
     """
-    Оборачивает результат (таблицу или ошибку) в простую HTML-страницу с Bootstrap.
+    Оборачивает результат (таблицу или ошибку) в полноценную HTML-страницу с улучшенным стилем.
 
     Параметры:
         table_html: HTML-код таблицы (если есть)
@@ -95,10 +95,36 @@ def render_page(table_html: Optional[str], error_html: Optional[str]) -> str:
         Полноценный HTML-документ для отображения в браузере
     """
     return (
-        "<!DOCTYPE html><html><head><meta charset='utf-8'>"
-        "<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css'>"
-        "<style>.table-scroll{max-height:80vh;overflow:auto;}</style>"
-        "</head><body>"
-        f"<div class='table table-bordered table-striped'>{table_html or error_html or ''}</div>"
-        "</body></html>"
+        F"""
+        <!DOCTYPE html>
+        <html lang="ru">
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+            <style>
+                body {{
+                    margin: 0;
+                    padding: 1rem;
+                    box-sizing: border-box;
+                    font-family: sans-serif;
+                }}
+                .table-responsive {{
+                    overflow-x: auto;
+                    white-space: nowrap;
+                }}
+                table {{
+                    width: 100% !important;
+                    table-layout: auto;
+                }}
+            </style>
+        </head>
+        <body>
+            <div class="container-fluid">
+                {f'<div class="table-responsive">{table_html}</div>' if table_html else error_html or ''}
+            </div>
+        </body>
+        </html>
+        """
     )
+

@@ -7,6 +7,8 @@
     <link rel="stylesheet" type="text/css" href="/static/content/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="/static/content/site.css" />
     <script src="/static/scripts/modernizr-2.6.2.js"></script>
+    <link rel="icon" type="image/png" href="/static/images/fav_icon.png">
+
 </head>
 
 <body>

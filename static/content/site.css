@@ -76,8 +76,20 @@ table, th, td {
     border: none !important;
 }
 
+.table {
+    width: 100% !important;
+    table-layout: auto;
+}
+
 .table-frame {
     width: 100%;
-    height: 85vh;
-    border: none;
+    height: 600px;
+    border: 1px solid #ccc;
+}
+
+/* Для body внутри iframe (если шаблон позволяет) */
+body {
+    margin: 0;
+    padding: 1rem;
+    box-sizing: border-box;
 }
