@@ -73,7 +73,7 @@ def analyze_correlations(df: pd.DataFrame) -> str:
     if high_corr_pairs:
         html += """
         <div class="list-group-item list-group-item-success">
-          <h6>🟢 Сильная положительная корреляция:</h6><ul class="mb-0">
+          <h6>Сильная положительная корреляция:</h6><ul class="mb-0">
         """
         for a, b, val in high_corr_pairs:
             html += f"<li> <strong>{a}</strong> и <strong>{b}</strong>: r = {val:.2f}</li>"
@@ -91,7 +91,7 @@ def analyze_correlations(df: pd.DataFrame) -> str:
     if low_corr_pairs:
         html += """
         <div class="list-group-item list-group-item-warning">
-          <h6>🟡 Слабая или отсутствующая корреляция:</h6><ul class="mb-0">
+          <h6>Слабая или отсутствующая корреляция:</h6><ul class="mb-0">
         """
         for a, b, val in low_corr_pairs[:5]:  # максимум 5 пар
             html += f"<li> <strong>{a}</strong> и <strong>{b}</strong>: r = {val:.2f}</li>"
