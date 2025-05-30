@@ -277,7 +277,7 @@
     </div>
 
     <!-- Вариант 3 -->
-    <div role="tabpanel" class="tab-pane fade in active" id="variant3">
+    <div role="tabpanel" class="tab-pane fade" id="variant3">
         <div class="row">
             <div class="col-md-12">
 
