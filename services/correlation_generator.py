@@ -66,7 +66,7 @@ def analyze_correlations(df: pd.DataFrame) -> str:
 
     html = """
     <div class="mt-4">
-      <h4>🔍 Автоматические выводы по корреляции</h4>
+      <h4>Выводы по корреляции</h4>
       <div class="list-group">
     """
 
@@ -76,16 +76,16 @@ def analyze_correlations(df: pd.DataFrame) -> str:
           <h6>🟢 Сильная положительная корреляция:</h6><ul class="mb-0">
         """
         for a, b, val in high_corr_pairs:
-            html += f"<li>📈 <strong>{a}</strong> и <strong>{b}</strong>: r = {val:.2f}</li>"
+            html += f"<li> <strong>{a}</strong> и <strong>{b}</strong>: r = {val:.2f}</li>"
         html += "</ul></div>"
 
     if negative_corr_pairs:
         html += """
         <div class="list-group-item list-group-item-danger">
-          <h6>🔴 Сильная отрицательная корреляция:</h6><ul class="mb-0">
+          <h6>Сильная отрицательная корреляция:</h6><ul class="mb-0">
         """
         for a, b, val in negative_corr_pairs:
-            html += f"<li>📉 <strong>{a}</strong> и <strong>{b}</strong>: r = {val:.2f}</li>"
+            html += f"<li> <strong>{a}</strong> и <strong>{b}</strong>: r = {val:.2f}</li>"
         html += "</ul></div>"
 
     if low_corr_pairs:
@@ -94,7 +94,7 @@ def analyze_correlations(df: pd.DataFrame) -> str:
           <h6>🟡 Слабая или отсутствующая корреляция:</h6><ul class="mb-0">
         """
         for a, b, val in low_corr_pairs[:5]:  # максимум 5 пар
-            html += f"<li>📊 <strong>{a}</strong> и <strong>{b}</strong>: r = {val:.2f}</li>"
+            html += f"<li> <strong>{a}</strong> и <strong>{b}</strong>: r = {val:.2f}</li>"
         html += "</ul></div>"
 
     if not (high_corr_pairs or negative_corr_pairs or low_corr_pairs):
