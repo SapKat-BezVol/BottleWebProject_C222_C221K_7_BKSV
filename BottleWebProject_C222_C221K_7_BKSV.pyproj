@@ -46,8 +46,8 @@
     <Compile Include="services\plot_generator.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="services\prediction_service.py" />
-    <Compile Include="services\table_generator.py">
+    <Compile Include="services\prediction_generator.py" />
+    <Compile Include="utils\table_maker.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="services\__init__.py" />

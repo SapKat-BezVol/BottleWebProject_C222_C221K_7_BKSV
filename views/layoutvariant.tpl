@@ -65,7 +65,7 @@
             <label for="csv_file" class="form-label">CSV/TSV/JSON файл</label>
             <input type="file" class="form-control" id="csv_file" name="csv_file">
           </div>
-          <button type="submit" class="btn btn-primary mt-3">Отобразить</button>
+          <button type="submit" class="btn btn-primary mt-3">Продолжить</button>
         </form>
         <div class="mb-4 border rounded p-3 bg-light">
           <h5>Показать часть данных:</h5>
