@@ -92,3 +92,16 @@ body {
     padding: 1rem;
     box-sizing: border-box;
 }
+
+.generate-fields,
+.upload-fields {
+    display: none !important;
+}
+/* отображается, когда выбран режим генерации */
+#modeGenerate:checked ~ .generate-fields {
+    display: flex !important;
+}
+/* отображается, когда выбран режим загрузки */
+#modeUpload:checked ~ .upload-fields {
+    display: block !important;
+}
