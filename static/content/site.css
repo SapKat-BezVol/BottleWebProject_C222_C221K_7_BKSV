@@ -87,7 +87,6 @@ table, th, td {
     border: 1px solid #ccc;
 }
 
-/* Для body внутри iframe (если шаблон позволяет) */
 body {
     margin: 0;
     padding: 1rem;

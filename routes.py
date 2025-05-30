@@ -101,34 +101,50 @@ def show_sample():
         """
 
 
-
-
 @route('/generate_table', method='POST')
 def generate_table():
+    """
+    Возвращает *только* сообщение об успехе – таблица не выводится,
+    но сохраняется в глобальной переменной generated_df.
+    """
     global generated_df
     try:
         mode = request.forms.get('mode')
 
         if mode == 'upload':
             upload_file = request.files.get('csv_file')
-            html_table, error_html, df = build_table(mode, upload_file)
+            _, error_html, df = build_table(mode, upload_file)
         else:
             rows = int(request.forms.get('rows', 100))
             cols = int(request.forms.get('cols', 5))
             pattern = request.forms.get('pattern', 'linear')
-            html_table, error_html, df = build_table(mode, None, rows, cols, pattern)
+            _, error_html, df = build_table(mode, None, rows, cols, pattern)
 
         if error_html:
             return error_html
 
         generated_df = df
-        return html_table
+        success_msg = (
+            "Файл успешно загружен и таблица построена."
+            if mode == 'upload'
+            else "Таблица успешно сгенерирована."
+        )
+        return (
+            f"<!DOCTYPE html><html><head>"
+            f"<link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>"
+            f"</head><body><div class='alert alert-success'>{success_msg}</div></body></html>"
+        )
 
     except Exception as e:
         import traceback
         traceback.print_exc()
-        return f"<p class='text-danger'>Внутренняя ошибка сервера: {e}</p>"
-
+        return (
+            "<!DOCTYPE html><html><head>"
+            "<link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>"
+            "</head><body>"
+            f"<div class='alert alert-danger'>Внутренняя ошибка сервера: {e}</div>"
+            "</body></html>"
+        )
 
 
 @route("/generate_correlation", method="POST")
