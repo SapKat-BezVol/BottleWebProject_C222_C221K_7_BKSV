@@ -14,43 +14,48 @@ from pandas.plotting import scatter_matrix
 
 __all__ = ["build_plot_html"]
 
+
 def _fig_to_base64(fig: plt.Figure) -> str:
     buf = io.BytesIO()
     fig.savefig(buf, format="png", bbox_inches="tight")
     buf.seek(0)
     return base64.b64encode(buf.read()).decode("ascii")
 
+
 _HIST_DESCRIPTIONS: Dict[str, str] = {
-    "count":   "Количество наблюдений",
-    "mean":    "Среднее арифметическое",
-    "median":  "Медиана (50-й перцентиль)",
-    "std":     "Стандартное отклонение",
-    "min":     "Минимальное значение",
-    "max":     "Максимальное значение",
+    "count": "Количество наблюдений",
+    "mean": "Среднее арифметическое",
+    "median": "Медиана (50-й перцентиль)",
+    "std": "Стандартное отклонение",
+    "min": "Минимальное значение",
+    "max": "Максимальное значение",
 }
+
 
 def _basic_hist_stats(series: pd.Series) -> Dict[str, float]:
     return {
         "count": series.count(),
-        "mean":  series.mean(),
+        "mean": series.mean(),
         "median": series.median(),
-        "std":   series.std(),
-        "min":   series.min(),
-        "max":   series.max(),
+        "std": series.std(),
+        "min": series.min(),
+        "max": series.max(),
     }
+
 
 def _hist_stats_table(stats: Dict[str, float]) -> str:
     """Трёхколоночная таблица для гистограмм."""
     rows = []
     for key, val in stats.items():
         descr = _HIST_DESCRIPTIONS.get(key, key)
-        num   = f"{val:.4f}" if isinstance(val, (int, float, np.floating)) else val
+        num = f"{val:.4f}" if isinstance(val, (int, float, np.floating)) else val
         rows.append(f"<tr><td>{key}</td><td>{descr}</td><td>{num}</td></tr>")
     return (
         "<table class='table table-bordered table-sm'>"
         "<thead><tr><th>Код</th><th>Описание</th><th>Значение</th></tr></thead>"
         "<tbody>" + "\n".join(rows) + "</tbody></table>"
     )
+
 
 def _box_stats_table(stats: Dict[str, Dict[str, float]]) -> str:
     """Таблица, где каждая строка — отдельный столбец с квартилями и выбросами."""
@@ -81,6 +86,7 @@ def _box_stats_table(stats: Dict[str, Dict[str, float]]) -> str:
         "<tbody>" + "\n".join(body_rows) + "</tbody></table>"
     )
 
+
 def _build_histograms(df: pd.DataFrame) -> List[Tuple[str, str, str]]:
     numeric = df.select_dtypes(include="number")
     if numeric.empty:
@@ -90,7 +96,8 @@ def _build_histograms(df: pd.DataFrame) -> List[Tuple[str, str, str]]:
         fig = plt.figure(figsize=(6, 4))
         numeric[col].hist(bins="auto", density=True, label="Распределение данных")
         plt.title(f"Гистограмма • {col}")
-        plt.xlabel(col); plt.ylabel("Плотность")
+        plt.xlabel(col)
+        plt.ylabel("Плотность")
         plt.legend()
         img64 = _fig_to_base64(fig)
         plt.close(fig)
@@ -99,6 +106,7 @@ def _build_histograms(df: pd.DataFrame) -> List[Tuple[str, str, str]]:
         outs.append((col, img64, stats_html))
     return outs
 
+
 def _build_boxplots(df: pd.DataFrame) -> List[Tuple[str, str, str]]:
     numeric = df.select_dtypes(include="number")
     if numeric.empty:
@@ -106,7 +114,8 @@ def _build_boxplots(df: pd.DataFrame) -> List[Tuple[str, str, str]]:
     fig = plt.figure(figsize=(8, 6))
     numeric.plot.box(ax=fig.add_subplot(1, 1, 1), vert=True)
     plt.title("Box-plot всех числовых столбцов")
-    plt.xlabel("Столбцы"); plt.ylabel("Значения")
+    plt.xlabel("Столбцы")
+    plt.ylabel("Значения")
     img64 = _fig_to_base64(fig)
     plt.close(fig)
 
@@ -117,31 +126,61 @@ def _build_boxplots(df: pd.DataFrame) -> List[Tuple[str, str, str]]:
         iqr = q3 - q1
         outliers = col_data[(col_data < q1 - 1.5 * iqr) | (col_data > q3 + 1.5 * iqr)]
         stats[col] = {
-            "min":  col_data.min(),
-            "q1":   q1,
+            "min": col_data.min(),
+            "q1": q1,
             "median": col_data.median(),
-            "q3":   q3,
-            "max":  col_data.max(),
-            "iqr":  iqr,
+            "q3": q3,
+            "max": col_data.max(),
+            "iqr": iqr,
             "outliers_percent": len(outliers) / len(col_data) * 100,
         }
     stats_html = _box_stats_table(stats)
     return [("Box-plot", img64, stats_html)]
 
+
 def _build_scatter_matrix(df: pd.DataFrame) -> List[Tuple[str, str, str]]:
+    """Создаёт scatter‑matrix и отображает коэффициенты корреляции на внедиагональных графиках."""
     numeric = df.select_dtypes(include="number")
     if numeric.shape[1] < 2:
         raise ValueError("Для scatter-matrix нужно минимум два числовых столбца.")
+
+    # Построение матрицы рассеяния
     axes = scatter_matrix(numeric, figsize=(8, 8), diagonal="hist")
+
+    # Вычисляем корреляции
+    corr = numeric.corr().values
+    cols = numeric.columns
+
+    # Аннотация коэффициентов корреляции
+    n = len(cols)
+    for i in range(n):
+        for j in range(n):
+            if i == j:
+                continue  # диагональ (гистограммы)
+            ax = axes[i, j]
+            coeff = corr[i, j]
+            # Размещаем текст в правом верхнем углу, чтобы не заслонять точки
+            ax.annotate(
+                f"ρ = {coeff:.2f}",
+                xy=(0.95, 0.85),
+                xycoords="axes fraction",
+                ha="right",
+                va="center",
+                fontsize=8,
+                fontweight="bold",
+                bbox=dict(boxstyle="round,pad=0.2", fc="white", ec="none", alpha=0.7),
+            )
+
     fig = axes[0, 0].get_figure()
     img64 = _fig_to_base64(fig)
     plt.close(fig)
     return [("Scatter-matrix", img64, "")]
 
+
 def build_plot_html(df: pd.DataFrame, plot_type: str) -> str:
     builders = {
-        "hist":    (_build_histograms, "Гистограммы"),
-        "box":     (_build_boxplots,   "Box-plot"),
+        "hist": (_build_histograms, "Гистограммы"),
+        "box": (_build_boxplots, "Box-plot"),
         "scatter": (_build_scatter_matrix, "Scatter-matrix"),
     }
     if plot_type not in builders:
@@ -154,8 +193,7 @@ def build_plot_html(df: pd.DataFrame, plot_type: str) -> str:
     for label, img64, stats_html in items:
         card_title = label if plot_type == "hist" else title
         stats_block = (
-            f"<div class='col-md-6'>{stats_html}</div>"
-            if stats_html else ""
+            f"<div class='col-md-6'>{stats_html}</div>" if stats_html else ""
         )
         html_parts.append(
             f"""

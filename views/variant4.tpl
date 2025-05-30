@@ -1,4 +1,4 @@
-% rebase('layoutvariant.tpl', title='Предсказание числа', year=year)
+% rebase('layoutvariant.tpl', title='Вариант 4 - Предсказание числа', year=year)
 
 <h2>Предсказание целевой переменной</h2>
 <p class="mb-3">
