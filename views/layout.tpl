@@ -35,7 +35,7 @@
         </div>
     </div>
 
-    <div class="container body-content">
+    <div class="container body-content" style="padding-top: 40px;">
         {{!base}}
         <hr />
         <footer>

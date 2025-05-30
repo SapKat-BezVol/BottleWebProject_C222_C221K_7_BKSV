@@ -13,7 +13,7 @@
     <link rel="icon" type="image/png" href="/static/images/favicon.png">
 </head>
 
-<body style="padding-top: 80px;">
+<body style="padding-top: 40px;">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
         <a class="navbar-brand custom-brand" href="/">Элементы машинного обучения и анализа данных</a>
@@ -33,7 +33,7 @@
         </div>
       </div>
     </nav>
-    <div class="container body-content" style="padding-top: 80px;">
+    <div class="container body-content" style="padding-top: 40px;">
         <h1>{{ title }}</h1>
         <p>Выберите способ создания таблицы, затем нажмите «Отобразить» — обновится только таблица ниже.</p>
         <form action="/generate_table" target="tableFrame" method="post" enctype="multipart/form-data" class="mb-4">
