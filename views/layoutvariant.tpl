@@ -13,16 +13,14 @@
     <link rel="icon" type="image/png" href="/static/images/favicon.png">
 </head>
 
-<body>
+<body style="padding-top: 80px;">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
         <a class="navbar-brand custom-brand" href="/">Элементы машинного обучения и анализа данных</a>
-
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
           aria-controls="navbarNav" aria-expanded="false" aria-label="Переключить навигацию">
           <span class="navbar-toggler-icon"></span>
         </button>
-
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-3">
             <li class="nav-item">
@@ -35,12 +33,9 @@
         </div>
       </div>
     </nav>
-
     <div class="container body-content" style="padding-top: 80px;">
         <h1>{{ title }}</h1>
         <p>Выберите способ создания таблицы, затем нажмите «Отобразить» — обновится только таблица ниже.</p>
-
-        <!-- Основная форма генерации или загрузки данных -->
         <form action="/generate_table" target="tableFrame" method="post" enctype="multipart/form-data" class="mb-4">
           <input class="form-check-input" type="radio" name="mode" id="modeGenerate" value="generate" checked>
           <label class="form-check-label me-3" for="modeGenerate">Сгенерировать</label>
@@ -66,16 +61,12 @@
               </select>
             </div>
           </div>
-
           <div class="upload-fields mt-3">
             <label for="csv_file" class="form-label">CSV/TSV/JSON файл</label>
             <input type="file" class="form-control" id="csv_file" name="csv_file">
           </div>
-
           <button type="submit" class="btn btn-primary mt-3">Отобразить</button>
         </form>
-
-        <!-- Добавленная форма показа части данных -->
         <div class="mb-4 border rounded p-3 bg-light">
           <h5>Показать часть данных:</h5>
           <form action="/show_sample" method="post" target="tableFrame" class="d-flex flex-wrap gap-3 align-items-end">
@@ -96,13 +87,9 @@
             </div>
           </form>
         </div>
-
-        <!-- Результат таблицы -->
         <iframe id="tableFrame" name="tableFrame" class="table-frame" title="Таблица"></iframe>
-
         {{!base}}
-
-        <hr />
+        <hr/>
         <footer>
             <p>&copy; {{ year }} - SapKat&BezVol ©</p>
         </footer>

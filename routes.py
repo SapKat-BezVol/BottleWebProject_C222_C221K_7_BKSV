@@ -12,10 +12,7 @@ from sklearn.linear_model import LinearRegression
 from services.prediction_service import build_prediction_numbers
 from bottle import static_file
 
-# Глобальная переменная
 generated_df: pd.DataFrame | None = None
-
-
 
 @route('/')
 @route('/home')
@@ -61,11 +58,7 @@ def show_sample():
             <div class='alert alert-danger'>Некорректный режим отображения</div>
             </body></html>
             """
-
-        # Генерация таблицы с Bootstrap-классами
         sample_html = sample_df.to_html(classes='table table-bordered table-hover table-striped w-100', index=False, border=0)
-
-        # Оборачиваем в HTML-документ для iframe
         return f"""
         <!DOCTYPE html>
         <html lang="ru">
@@ -124,7 +117,6 @@ def generate_table():
             return error_html
 
         generated_df = df
-        # Вместо вывода таблицы возвращаем простое сообщение
         return "<p class='text-success'>Таблица сгенерировалась.</p>"
         success_msg = (
             "Файл успешно загружен и таблица построена."
