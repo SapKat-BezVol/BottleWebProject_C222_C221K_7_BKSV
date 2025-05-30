@@ -17,6 +17,8 @@
     <script src="/static/scripts/modernizr-2.6.2.js"></script>
     <script src="/static/scripts/jquery-1.10.2.js"></script>
 
+    <!-- Иконка -->
+    <link rel="icon" type="image/png" href="/static/images/fav_icon.png">
 </head>
 
 <body>
@@ -104,7 +106,7 @@
         </div>
 
         <!-- Результат таблицы -->
-        <iframe id="tableFrame" name="tableFrame" class="table-frame" title="Таблица"></iframe>
+        <iframe id="tableFrame" name="tableFrame" class="table table-bordered table-hover table-striped w-100" title="Таблица"></iframe>
 
         {{!base}}
 

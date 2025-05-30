@@ -38,11 +38,15 @@ def about():
 def show_sample():
     global generated_df
     if generated_df is None:
-        return "<div class='alert alert-danger'>Сначала сгенерируйте или загрузите таблицу</div>"
+        return """
+        <html><body>
+        <div class='alert alert-danger'>Сначала сгенерируйте или загрузите таблицу</div>
+        </body></html>
+        """
 
     try:
         n = int(request.forms.get('n', 5))
-        n = max(1, min(n, len(generated_df)))  # Ограничиваем n размером df
+        n = max(1, min(n, len(generated_df)))
         mode = request.forms.get('mode', 'head')
 
         if mode == 'head':
@@ -52,14 +56,50 @@ def show_sample():
         elif mode == 'random':
             sample_df = generated_df.sample(n)
         else:
-            return "<div class='alert alert-danger'>Некорректный режим отображения</div>"
+            return """
+            <html><body>
+            <div class='alert alert-danger'>Некорректный режим отображения</div>
+            </body></html>
+            """
 
-        sample_html = sample_df.to_html(classes='', index=False, border=0)
+        # Генерация таблицы с Bootstrap-классами
+        sample_html = sample_df.to_html(classes='table table-bordered table-hover table-striped w-100', index=False, border=0)
 
-        return f"<h5>Отображаемые данные ({mode}, {n} записей):</h5>{sample_html}"
+        # Оборачиваем в HTML-документ для iframe
+        return f"""
+        <!DOCTYPE html>
+        <html lang="ru">
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+            <style>
+                body {{
+                    margin: 0;
+                    padding: 1rem;
+                    box-sizing: border-box;
+                }}
+                table {{
+                    width: 100% !important;
+                    table-layout: auto;
+                }}
+            </style>
+        </head>
+        <body>
+            <h5>Отображаемые данные ({mode}, {n} записей):</h5>
+            {sample_html}
+        </body>
+        </html>
+        """
 
     except Exception as e:
-        return f"<div class='alert alert-danger'>Ошибка: {e}</div>"
+        return f"""
+        <!DOCTYPE html>
+        <html><body>
+        <div class='alert alert-danger'>Ошибка: {e}</div>
+        </body></html>
+        """
+
 
 
 
