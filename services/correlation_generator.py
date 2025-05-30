@@ -40,3 +40,69 @@ def build_correlation_heatmap(df: pd.DataFrame) -> str:
         "<h3 class='mt-3'>Correlation Heatmap</h3>"
         f"<img class='img-fluid' src='data:image/png;base64,{b64}' alt='heatmap'>"
     )
+
+
+def analyze_correlations(df: pd.DataFrame) -> str:
+    """
+    Возвращает HTML с автоматическими выводами по корреляционной матрице.
+    Выделяет пары с сильной положительной, сильной отрицательной и слабой корреляцией.
+    """
+    corr = df.corr(numeric_only=True)
+    high_corr_pairs = []
+    negative_corr_pairs = []
+    low_corr_pairs = []
+
+    for i in range(len(corr.columns)):
+        for j in range(i + 1, len(corr.columns)):
+            a, b = corr.columns[i], corr.columns[j]
+            val = corr.iloc[i, j]
+
+            if abs(val) > 0.8:
+                high_corr_pairs.append((a, b, val))
+            elif val < -0.5:
+                negative_corr_pairs.append((a, b, val))
+            elif abs(val) < 0.2:
+                low_corr_pairs.append((a, b, val))
+
+    html = """
+    <div class="mt-4">
+      <h4>🔍 Автоматические выводы по корреляции</h4>
+      <div class="list-group">
+    """
+
+    if high_corr_pairs:
+        html += """
+        <div class="list-group-item list-group-item-success">
+          <h6>🟢 Сильная положительная корреляция:</h6><ul class="mb-0">
+        """
+        for a, b, val in high_corr_pairs:
+            html += f"<li>📈 <strong>{a}</strong> и <strong>{b}</strong>: r = {val:.2f}</li>"
+        html += "</ul></div>"
+
+    if negative_corr_pairs:
+        html += """
+        <div class="list-group-item list-group-item-danger">
+          <h6>🔴 Сильная отрицательная корреляция:</h6><ul class="mb-0">
+        """
+        for a, b, val in negative_corr_pairs:
+            html += f"<li>📉 <strong>{a}</strong> и <strong>{b}</strong>: r = {val:.2f}</li>"
+        html += "</ul></div>"
+
+    if low_corr_pairs:
+        html += """
+        <div class="list-group-item list-group-item-warning">
+          <h6>🟡 Слабая или отсутствующая корреляция:</h6><ul class="mb-0">
+        """
+        for a, b, val in low_corr_pairs[:5]:  # максимум 5 пар
+            html += f"<li>📊 <strong>{a}</strong> и <strong>{b}</strong>: r = {val:.2f}</li>"
+        html += "</ul></div>"
+
+    if not (high_corr_pairs or negative_corr_pairs or low_corr_pairs):
+        html += """
+        <div class="list-group-item list-group-item-secondary">
+          <em>Значимых корреляций не обнаружено.</em>
+        </div>
+        """
+
+    html += "</div></div>"
+    return html
