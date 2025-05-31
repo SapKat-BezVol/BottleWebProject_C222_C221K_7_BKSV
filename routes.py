@@ -209,7 +209,7 @@ def make_prediction_route() -> str:
     return render_page(prediction_html, error_html)
 
 
-@route('/variant1/generate_distributions', method='POST')
+@route('/generate_distributions', method='POST')
 def generate_distributions():
     global generated_df
     if generated_df is None:
@@ -222,18 +222,23 @@ def generate_distributions():
     except Exception as e:
         return f"<div class='alert alert-danger'>Ошибка: {str(e)}</div>"
 
+
 @route('/variant1', method='GET')
 @view('variant1')
 def variant1_page():
     """Рендер страницы для первого варианта."""
-    return dict(year=datetime.now().year)
+    return dict(
+            year=datetime.now().year
+    )
+
 
 @route('/variant2', method=['GET', 'POST'])
 @view('variant2')
 def variant2():
+    """Рендер страницы для второго варианта."""
     return dict(
             year=datetime.now().year
-        )
+    )
 
 
 @route('/variant3')
@@ -243,6 +248,7 @@ def about():
     return dict(
         year=datetime.now().year
     )
+
 
 @route('/variant4')
 @view('variant4')
