@@ -186,7 +186,7 @@
                </div>
             </div>
             <div class="text-left mt-4">
-               <a class="btn btn-primary btn-lg" href="/variant1">Начать анализ &raquo;</a>
+               <a class="custom-btn" href="/variant1">Начать анализ &raquo;</a>
             </div>
          </div>
       </div>
@@ -282,7 +282,9 @@
             </ul>
             </p>
             <p>Теперь вы можете понимать и интерпретировать результаты тепловой карты с полным осознанием статистического смысла!</p>
-            <p><a class="btn btn-primary btn-lg" href="/variant2">Перейти к анализу &raquo;</a></p>
+            <p>
+                <a class="custom-btn" href="/variant2">Перейти к анализу &raquo;</a>
+            </p>
          </div>
       </div>
    </div>
@@ -560,7 +562,7 @@
                </div>
             </section>
             <div class="text-left mt-3">
-               <a class="btn btn-primary btn-lg" href="/variant3">Перейти к графикам &raquo;</a>
+               <a class="custom-btn" href="/variant3">Перейти к графикам &raquo;</a>
             </div>
          </div>
       </div>
@@ -704,7 +706,7 @@
                   <li><strong>Ошибки преобразования</strong> - введены нечисловые значения или пустые поля</li>
                </ul>
             </div>
-            <p><a class="btn btn-primary btn-lg" href="/variant4">Начать прогнозирование &raquo;</a></p>
+            <button class="btn btn-primary custom-btn" onclick="location.href='/variant4'" style="font-size: 1.5rem;">Начать прогнозирование &raquo;</button>
          </div>
       </div>
    </div>
