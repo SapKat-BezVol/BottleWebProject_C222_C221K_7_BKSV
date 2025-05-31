@@ -1,15 +1,17 @@
 body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+    margin: 0;
+    padding: 1rem 0 20px 0;
+    box-sizing: border-box;
 }
 
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding: 0 15px;
 }
+
 .no-borders table,
 .no-borders th,
-.no-borders td {
+.no-borders td,
+table, th, td {
     border: none !important;
 }
 
@@ -19,11 +21,13 @@ textarea {
     max-width: 280px;
 }
 
-.field-validation-error {
+.field-validation-error,
+.validation-summary-errors {
     color: #b94a48;
 }
 
-.field-validation-valid {
+.field-validation-valid,
+.validation-summary-valid {
     display: none;
 }
 
@@ -32,48 +36,23 @@ input.input-validation-error {
 }
 
 input[type="checkbox"].input-validation-error {
-    border: 0 none;
+    border: none;
 }
 
-.validation-summary-errors {
-    color: #b94a48;
-}
-
-.validation-summary-valid {
-    display: none;
-}
-
-.upload-fields {
-    display: none;
-}
-
-#modeGenerate:checked ~ .generate-fields {
-    display: flex;
-}
-
-#modeGenerate:checked ~ .upload-fields {
-    display: none;
-}
-
-#modeUpload:checked ~ .generate-fields {
-    display: none;
-}
-
-#modeUpload:checked ~ .upload-fields {
-    display: block;
-}
-
+.upload-fields,
 .generate-fields {
     margin: 1rem 0;
+    display: none !important;
     gap: 1rem;
     flex-wrap: wrap;
 }
 
-.upload-fields {
-    margin: 1rem 0;
+#modeGenerate:checked ~ .generate-fields {
+    display: flex !important;
 }
-table, th, td {
-    border: none !important;
+
+#modeUpload:checked ~ .upload-fields {
+    display: block !important;
 }
 
 .table {
@@ -88,49 +67,30 @@ table, th, td {
     border: none;
 }
 
-body {
-    margin: 0;
-    padding: 1rem;
-    box-sizing: border-box;
-}
-
-.generate-fields,
-.upload-fields {
-    display: none !important;
-}
-/* отображается, когда выбран режим генерации */
-#modeGenerate:checked ~ .generate-fields {
-    display: flex !important;
-}
-/* отображается, когда выбран режим загрузки */
-#modeUpload:checked ~ .upload-fields {
-    display: block !important;
-}
-
 .custom-btn {
     display: inline-block;
     color: #fff;
-    background-color: #2062b8; /* или #0d6efd как у Bootstrap 5 primary */
+    background-color: #2062b8;
     border: none;
     border-radius: 0.3rem;
-    padding: 0.6em 1.7em; /* размер текста больше стандартного Bootstrap */
+    padding: 0.6em 1.7em;
     font-weight: 500;
     line-height: 1.2;
     text-align: center;
     text-decoration: none;
-    transition: background 0.15s;
+    transition: background 0.15s ease-in-out;
     box-shadow: 0 2px 8px rgba(33, 90, 193, 0.08);
     cursor: pointer;
 }
 
-    .custom-btn:hover, .custom-btn:focus {
-        background-color: #174486; /* темнее для наведения */
+    .custom-btn:hover,
+    .custom-btn:focus {
+        background-color: #174486;
         color: #fff;
         text-decoration: none;
+        outline: none;
     }
-}
 
 h4 {
-    margin-top: 1rem;
-    margin-bottom: 2rem;
+    margin: 1rem 0 2rem 0;
 }
