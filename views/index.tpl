@@ -25,158 +25,186 @@
 <div class="tab-content" style="margin-left: 20px; margin-right: 20px">
     <!-- Вариант 1 -->
     <div role="tabpanel" class="tab-pane fade in active" id="variant1">
-        <div class="row">
-            <div class="col-md-12">
-                <h2>Вариант 1: Анализ распределений и статистик</h2>
-                <p class="lead">Комплексный анализ распределений данных с проверкой на нормальность и выявлением аномалий</p>
-                <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Описание решения</h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h4>Основные этапы анализа:</h4>
-                                <ol>
-                                    <li>
-                                        <strong>Визуализация распределений</strong>
-                                        <ul>
-                                            <li>Гистограммы с кривыми плотности</li>
-                                            <li>Ящики с усами (boxplot)</li>
-                                            <li>Сравнение с нормальным распределением</li>
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Вариант 1: Анализ распределений и статистик</h2>
+            <p class="lead">Комплексный анализ распределений данных с проверкой на нормальность и выявлением аномалий</p>
+            
+            <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+            
+            <div class="panel" style="border: none; box-shadow: none;">
+                <div class="panel-heading" style="border: none; background: none; padding-left: 0;">
+                    <h3 class="panel-title">Описание решения</h3>
+                </div>
+                <div class="panel-body" style="padding-left: 0; padding-right: 0;">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4>Основные этапы анализа:</h4>
+                            <ol>
+                                <li><strong>Визуализация распределений</strong>
+                                    <ul>
+                                        <li>Гистограммы с кривыми плотности</li>
+                                        <li>Ящики с усами (boxplot)</li>
+                                        <li>Сравнение с нормальным распределением</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Проверка на нормальность</strong>
+                                    <ul>
+                                        <li>Тест Шапиро-Уилка</li>
+                                        <li>Анализ асимметрии и эксцесса</li>
+                                        <li>Q-Q графики</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </div>
+                        <div class="col-md-6">
+                            <div style="background: none; border: none; box-shadow: none;">
+                                <h4>Пример гистограммы с пояснениями</h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <img src="/static/images/primeri/gistogramma.png" class="img-responsive" alt="Гистограмма">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <ul class="list-unstyled">
+                                            <li><strong>Форма:</strong> Симметричность</li>
+                                            <li><strong>Мода:</strong> Пик распределения</li>
+                                            <li><strong>Хвосты:</strong> Плавное затухание</li>
+                                            <li><strong>Выбросы:</strong> Отсутствуют</li>
+                                            <li><strong>Нормальность:</strong> p-value > 0.05</li>
                                         </ul>
-                                    </li>
-                                    <li>
-                                        <strong>Проверка на нормальность</strong>
-                                        <ul>
-                                            <li>Тест Шапиро-Уилка</li>
-                                            <li>Анализ асимметрии и эксцесса</li>
-                                            <li>Q-Q графики</li>
-                                        </ul>
-                                    </li>
-                                </ol>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="well">
-                                    <h4>Пример гистограммы с пояснениями</h4>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <img src="/static/images/primeri/gistogramma.png" class="img-responsive" alt="Гистограмма">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <ul class="list-unstyled">
-                                                <li><strong>Форма:</strong> Симметричность</li>
-                                                <li><strong>Мода:</strong> Пик распределения</li>
-                                                <li><strong>Хвосты:</strong> Плавное затухание</li>
-                                                <li><strong>Выбросы:</strong> Отсутствуют</li>
-                                                <li><strong>Нормальность:</strong> p-value > 0.05</li>
-                                            </ul>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <h4>Математическое обоснование:</h4>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h5>1. Основные статистические характеристики:</h5>
-                                <p><strong>Среднее значение:</strong></p>
-                                <p>\[ \bar{x} = \frac{1}{n}\sum_{i=1}^{n}x_i \]</p>
-                                <p class="small">где \( \bar{x} \) - среднее, \( n \) - количество наблюдений, \( x_i \) - отдельные значения</p>
-                                <p><strong>Дисперсия:</strong></p>
-                                <p>\[ s^2 = \frac{1}{n-1}\sum_{i=1}^{n}(x_i - \bar{x})^2 \]</p>
-                                <p class="small">где \( s^2 \) - дисперсия, мера разброса данных</p>
-                            </div>
-                            <div class="col-md-6">
-                                <h5>2. Коэффициенты формы:</h5>
-                                <p><strong>Асимметрия:</strong></p>
-                                <p>\[ \gamma_1 = \frac{\frac{1}{n}\sum_{i=1}^{n}(x_i - \bar{x})^3}{s^3} \]</p>
-                                <p class="small">\( \gamma_1 > 0 \) - правосторонняя асимметрия, \( \gamma_1 < 0 \) - левосторонняя</p>
-                                <p><strong>Эксцесс:</strong></p>
-                                <p>\[ \gamma_2 = \frac{\frac{1}{n}\sum_{i=1}^{n}(x_i - \bar{x})^4}{s^4} - 3 \]</p>
-                                <p class="small">\( \gamma_2 > 0 \) - островершинное, \( \gamma_2 < 0 \) - плосковершинное</p>
-                            </div>
+                    </div>
+
+                    <h4>Математическое обоснование:</h4>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>1. Основные статистические характеристики:</h5>
+                            <p><strong>Среднее значение:</strong></p>
+                            <p>\[ \bar{x} = \frac{1}{n}\sum_{i=1}^{n}x_i \]</p>
+                            <p class="small">где \( \bar{x} \) - среднее, \( n \) - количество наблюдений, \( x_i \) - отдельные значения</p>
+                            
+                            <p><strong>Дисперсия:</strong></p>
+                            <p>\[ s^2 = \frac{1}{n-1}\sum_{i=1}^{n}(x_i - \bar{x})^2 \]</p>
+                            <p class="small">где \( s^2 \) - дисперсия, мера разброса данных</p>
                         </div>
-                        <div class="row mt-3">
-                            <div class="col-md-6">
-                                <h5>3. Тест Шапиро-Уилка:</h5>
-                                <p>\[ W = \frac{(\sum_{i=1}^{n}a_i x_{(i)})^2}{\sum_{i=1}^{n}(x_i - \bar{x})^2} \]</p>
-                                <p class="small">где \( W \) - статистика теста (0-1), \( a_i \) - константы, \( x_{(i)} \) - упорядоченные значения</p>
-                            </div>
-                            <div class="col-md-6">
-                                <h5>4. Метод IQR для выбросов:</h5>
-                                <p>\[ \text{IQR} = Q_3 - Q_1 \]</p>
-                                <p>\[ \text{Выбросы} = \begin{cases} 
-                                    x < Q_1 - 1.5 \times IQR \\
-                                    x > Q_3 + 1.5 \times IQR 
-                                    \end{cases} \]
-                                </p>
-                                <p class="small">где \( Q_1 \) - 25-й перцентиль, \( Q_3 \) - 75-й перцентиль</p>
-                            </div>
-                        </div>
-                        <h4 class="mt-4">Критерии нормальности:</h4>
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr class="active">
-                                        <th>Параметр</th>
-                                        <th>Нормальное</th>
-                                        <th>Ненормальное</th>
-                                        <th>Интерпретация</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Асимметрия (\( \gamma_1 \))</td>
-                                        <td>\( |\gamma_1| \leq 0.5 \)</td>
-                                        <td>\( |\gamma_1| > 0.5 \)</td>
-                                        <td>Симметричность распределения</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Эксцесс (\( \gamma_2 \))</td>
-                                        <td>\( |\gamma_2| \leq 0.5 \)</td>
-                                        <td>\( |\gamma_2| > 0.5 \)</td>
-                                        <td>"Острота" пика распределения</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Тест Шапиро-Уилка (p-value)</td>
-                                        <td>> 0.05</td>
-                                        <td>≤ 0.05</td>
-                                        <td>Статистическая значимость отклонения от нормальности</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="alert alert-info mt-4">
-                            <h4>Рекомендации по анализу:</h4>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <strong>Для нормальных данных:</strong>
-                                    <ul>
-                                        <li>t-тесты и ANOVA</li>
-                                        <li>Линейная регрессия</li>
-                                        <li>Доверительные интервалы</li>
-                                    </ul>
-                                </div>
-                                <div class="col-md-6">
-                                    <strong>Для ненормальных данных:</strong>
-                                    <ul>
-                                        <li>U-тест Манна-Уитни</li>
-                                        <li>Преобразование Бокса-Кокса</li>
-                                        <li>Робастные методы</li>
-                                    </ul>
-                                </div>
-                            </div>
+                        <div class="col-md-6">
+                            <h5>2. Коэффициенты формы:</h5>
+                            <p><strong>Асимметрия:</strong></p>
+                            <p>\[ \gamma_1 = \frac{\frac{1}{n}\sum_{i=1}^{n}(x_i - \bar{x})^3}{s^3} \]</p>
+                            <p class="small">\( \gamma_1 > 0 \) - правосторонняя асимметрия, \( \gamma_1 < 0 \) - левосторонняя</p>
+                            
+                            <p><strong>Эксцесс:</strong></p>
+                            <p>\[ \gamma_2 = \frac{\frac{1}{n}\sum_{i=1}^{n}(x_i - \bar{x})^4}{s^4} - 3 \]</p>
+                            <p class="small">\( \gamma_2 > 0 \) - островершинное, \( \gamma_2 < 0 \) - плосковершинное</p>
                         </div>
                     </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <h5>3. Тест Шапиро-Уилка:</h5>
+                            <p>\[ W = \frac{(\sum_{i=1}^{n}a_i x_{(i)})^2}{\sum_{i=1}^{n}(x_i - \bar{x})^2} \]</p>
+                            <p class="small">где \( W \) - статистика теста (0-1), \( a_i \) - константы, \( x_{(i)} \) - упорядоченные значения</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>4. Метод IQR для выбросов:</h5>
+                            <p>\[ \text{IQR} = Q_3 - Q_1 \]</p>
+                            <p>\[ \text{Выбросы} = \begin{cases} 
+                            x < Q_1 - 1.5 \times IQR \\
+                            x > Q_3 + 1.5 \times IQR 
+                            \end{cases} \]</p>
+                            <p class="small">где \( Q_1 \) - 25-й перцентиль, \( Q_3 \) - 75-й перцентиль</p>
+                        </div>
+                    </div>
+
+                    <h4 class="mt-4">Критерии нормальности:</h4>
+                    <div class="table-responsive">
+                        <table class="table" style="border: none;">
+                            <thead>
+                                <tr style="background-color: #f8f9fa;">
+                                    <th style="border: none;">Параметр</th>
+                                    <th style="border: none;">Нормальное</th>
+                                    <th style="border: none;">Ненормальное</th>
+                                    <th style="border: none;">Интерпретация</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="border: none;">Асимметрия (\( \gamma_1 \))</td>
+                                    <td style="border: none;">\( |\gamma_1| \leq 0.5 \)</td>
+                                    <td style="border: none;">\( |\gamma_1| > 0.5 \)</td>
+                                    <td style="border: none;">Симметричность распределения</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: none;">Эксцесс (\( \gamma_2 \))</td>
+                                    <td style="border: none;">\( |\gamma_2| \leq 0.5 \)</td>
+                                    <td style="border: none;">\( |\gamma_2| > 0.5 \)</td>
+                                    <td style="border: none;">"Острота" пика распределения</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: none;">Тест Шапиро-Уилка (p-value)</td>
+                                    <td style="border: none;">> 0.05</td>
+                                    <td style="border: none;">≤ 0.05</td>
+                                    <td style="border: none;">Статистическая значимость отклонения от нормальности</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="alert alert-info mt-4" style="border: none;">
+            <h4>Общие рекомендации по анализу данных:</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <strong>1. Подготовка данных:</strong>
+                    <ul>
+                        <li>Всегда начинайте с визуального анализа распределений</li>
+                        <li>Проверяйте данные на наличие пропущенных значений</li>
+                        <li>Исследуйте выбросы - могут ли они быть ошибками измерений?</li>
+                        <li>Рассмотрите возможность логарифмического преобразования для правосторонних асимметричных данных</li>
+                    </ul>
+            
+                    <strong>2. Для нормальных распределений (p-value > 0.05):</strong>
+                    <ul>
+                        <li><u>Параметрические тесты:</u> t-тест, ANOVA</li>
+                        <li><u>Методы:</u> Линейная регрессия, доверительные интервалы</li>
+                        <li><u>Преимущество:</u> Большая мощность тестов при меньшем объеме выборки</li>
+                    </ul>
                 </div>
-                <div class="text-left mt-4">
-                    <a class="btn btn-primary btn-lg" href="/variant1">Начать анализ &raquo;</a>
+        
+                <div class="col-md-6">
+                    <strong>3. Для ненормальных распределений (p-value ≤ 0.05):</strong>
+                    <ul>
+                        <li><u>Непараметрические тесты:</u> U-тест Манна-Уитни, критерий Краскела-Уоллиса</li>
+                        <li><u>Методы:</u> Робастная регрессия, ранговые преобразования</li>
+                        <li><u>Альтернативы:</u> Преобразование Бокса-Кокса, обрезанные средние</li>
+                    </ul>
+            
+                    <strong>4. Интерпретация результатов:</strong>
+                    <ul>
+                        <li>Всегда учитывайте размер эффекта, а не только p-value</li>
+                        <li>Для небольших выборок (n < 30) используйте непараметрические методы</li>
+                        <li>При неоднозначных результатах теста на нормальность дублируйте анализ обоими методами</li>
+                    </ul>
                 </div>
+            </div>
+    
+            <div class="mt-3 p-3 rounded" style="background-color: #f8f9fa;">
+                <strong>Важно!</strong> Нормальность распределения проверяйте только для остатков в регрессионных моделях. 
+                Для больших выборок (n > 500) тесты на нормальность могут давать значимые результаты даже при небольших отклонениях от нормальности.
+            </div>
+        </div>
+                </div>
+            </div>
+            
+            <div class="text-left mt-4">
+                <a class="btn btn-primary btn-lg" href="/variant1">Начать анализ &raquo;</a>
             </div>
         </div>
     </div>
+</div>
     <!-- Вариант 2 -->
     <div role="tabpanel" class="tab-pane fade" id="variant2">
         <div class="row">
