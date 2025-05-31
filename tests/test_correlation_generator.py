@@ -1,6 +1,4 @@
 ﻿import unittest
-import sys
-import os
 import pandas as pd
 from services.correlation_generator import (
     build_correlation_table,
