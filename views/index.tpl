@@ -25,7 +25,7 @@
 </ul>
 
 <!-- Содержимое вкладок -->
-<div class="tab-content" style="margin-top: 20px;">
+<div class="tab-content" style="margin-left: 20px; margin-right: 20px">
     <!-- Вариант 1 -->
     <div role="tabpanel" class="tab-pane fade in active" id="variant1">
     <div class="row">
