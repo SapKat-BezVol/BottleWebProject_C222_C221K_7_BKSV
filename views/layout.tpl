@@ -4,6 +4,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{{ title }} - Элементы машинного обучения и анализа данных</title>
+
         <link rel="stylesheet" type="text/css" href="/static/content/bootstrap.min.css" />
         <link rel="stylesheet" type="text/css" href="/static/content/site.css" />
         <link rel="icon" type="image/png" href="/static/images/favicon.png">
