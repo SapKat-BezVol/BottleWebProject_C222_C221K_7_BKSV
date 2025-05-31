@@ -1,15 +1,15 @@
 from __future__ import annotations
 
+import pandas as pd
+import numpy as np
 from datetime import datetime
 from io import BytesIO
 from bottle import route, template, view, request, response
-import pandas as pd
-import numpy as np
+from sklearn.linear_model import LinearRegression
 
 from utils.table_maker import build_table, _parse_upload, render_page, load_data
 from services.correlation_generator import build_correlation_table,build_correlation_heatmap, analyze_correlations
 from services.plot_generator import build_plot_html
-from sklearn.linear_model import LinearRegression
 from services.prediction_generator import build_prediction_numbers
 
 generated_df: pd.DataFrame | None = None
@@ -156,7 +156,6 @@ def generate_correlation_route() -> str:
 
         corr_matrix = numeric_df.corr()
 
-        # Проверка, что корреляционная матрица квадратная
         if corr_matrix.shape[0] != corr_matrix.shape[1]:
             raise ValueError("Ошибка: матрица корреляций не квадратная. Проверьте данные.")
 
