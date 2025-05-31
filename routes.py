@@ -97,8 +97,8 @@ def show_sample():
 @route('/generate_table', method='POST')
 def generate_table():
     """
-    Возвращает *только* сообщение об успехе – таблица не выводится,
-    но сохраняется в глобальной переменной generated_df.
+    Возвращает *только* сообщение об успехе (Bootstrap alert-info) —
+    таблица не выводится, но сохраняется в глобальной переменной generated_df.
     """
     global generated_df
     try:
@@ -107,38 +107,41 @@ def generate_table():
         if mode == 'upload':
             upload_file = request.files.get('csv_file')
             _, error_html, df = build_table(mode, upload_file)
+            success_msg = "Файл успешно загружен и таблица построена."
         else:
-            rows = int(request.forms.get('rows', 100))
-            cols = int(request.forms.get('cols', 5))
+            rows    = int(request.forms.get('rows', 100))
+            cols    = int(request.forms.get('cols', 5))
             pattern = request.forms.get('pattern', 'linear')
             _, error_html, df = build_table(mode, None, rows, cols, pattern)
+            success_msg = "Таблица успешно сгенерирована."
 
-        if error_html:
+        if error_html:                       # ошибка при построении таблицы
             return error_html
 
-        generated_df = df
-        return "<p class='text-success'>Таблица обработана.</p>"
-        success_msg = (
-            "Файл успешно загружен и таблица построена."
-            if mode == 'upload'
-            else "Таблица успешно сгенерирована."
-        )
+        generated_df = df                   # сохраняем глобально
         return (
-            f"<!DOCTYPE html><html><head>"
-            f"<link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>"
-            f"</head><body><div class='alert alert-success'>{success_msg}</div></body></html>"
+            "<!DOCTYPE html><html><head>"
+            "<meta charset='utf-8'>"
+            "<link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>"
+            "<style>html,body{margin:0;padding:0;overflow:hidden}</style>"
+            "</head><body>"
+            f"<div class='alert alert-info mb-0'>{success_msg}</div>"
+            "</body></html>"
         )
+
 
     except Exception as e:
         import traceback
         traceback.print_exc()
         return (
             "<!DOCTYPE html><html><head>"
+            "<meta charset='utf-8'>"
             "<link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>"
             "</head><body>"
             f"<div class='alert alert-danger'>Внутренняя ошибка сервера: {e}</div>"
             "</body></html>"
         )
+
 
 
 
