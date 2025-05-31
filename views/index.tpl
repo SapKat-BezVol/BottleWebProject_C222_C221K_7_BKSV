@@ -35,11 +35,11 @@
             
             <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
             
-            <div class="panel panel-default">
-                <div class="panel-heading">
+            <div class="panel" style="border: none; box-shadow: none;">
+                <div class="panel-heading" style="border: none; background: none; padding-left: 0;">
                     <h3 class="panel-title">Описание решения</h3>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body" style="padding-left: 0; padding-right: 0;">
                     <div class="row">
                         <div class="col-md-6">
                             <h4>Основные этапы анализа:</h4>
@@ -61,7 +61,7 @@
                             </ol>
                         </div>
                         <div class="col-md-6">
-                            <div class="well">
+                            <div style="background: none; border: none; box-shadow: none;">
                                 <h4>Пример гистограммы с пояснениями</h4>
                                 <div class="row">
                                     <div class="col-md-6">
@@ -125,59 +125,80 @@
 
                     <h4 class="mt-4">Критерии нормальности:</h4>
                     <div class="table-responsive">
-                        <table class="table table-bordered">
+                        <table class="table" style="border: none;">
                             <thead>
-                                <tr class="active">
-                                    <th>Параметр</th>
-                                    <th>Нормальное</th>
-                                    <th>Ненормальное</th>
-                                    <th>Интерпретация</th>
+                                <tr style="background-color: #f8f9fa;">
+                                    <th style="border: none;">Параметр</th>
+                                    <th style="border: none;">Нормальное</th>
+                                    <th style="border: none;">Ненормальное</th>
+                                    <th style="border: none;">Интерпретация</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Асимметрия (\( \gamma_1 \))</td>
-                                    <td>\( |\gamma_1| \leq 0.5 \)</td>
-                                    <td>\( |\gamma_1| > 0.5 \)</td>
-                                    <td>Симметричность распределения</td>
+                                    <td style="border: none;">Асимметрия (\( \gamma_1 \))</td>
+                                    <td style="border: none;">\( |\gamma_1| \leq 0.5 \)</td>
+                                    <td style="border: none;">\( |\gamma_1| > 0.5 \)</td>
+                                    <td style="border: none;">Симметричность распределения</td>
                                 </tr>
                                 <tr>
-                                    <td>Эксцесс (\( \gamma_2 \))</td>
-                                    <td>\( |\gamma_2| \leq 0.5 \)</td>
-                                    <td>\( |\gamma_2| > 0.5 \)</td>
-                                    <td>"Острота" пика распределения</td>
+                                    <td style="border: none;">Эксцесс (\( \gamma_2 \))</td>
+                                    <td style="border: none;">\( |\gamma_2| \leq 0.5 \)</td>
+                                    <td style="border: none;">\( |\gamma_2| > 0.5 \)</td>
+                                    <td style="border: none;">"Острота" пика распределения</td>
                                 </tr>
                                 <tr>
-                                    <td>Тест Шапиро-Уилка (p-value)</td>
-                                    <td>> 0.05</td>
-                                    <td>≤ 0.05</td>
-                                    <td>Статистическая значимость отклонения от нормальности</td>
+                                    <td style="border: none;">Тест Шапиро-Уилка (p-value)</td>
+                                    <td style="border: none;">> 0.05</td>
+                                    <td style="border: none;">≤ 0.05</td>
+                                    <td style="border: none;">Статистическая значимость отклонения от нормальности</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
 
-                    <div class="alert alert-info mt-4">
-                        <h4>Рекомендации по анализу:</h4>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <strong>Для нормальных данных:</strong>
-                                <ul>
-                                    <li>t-тесты и ANOVA</li>
-                                    <li>Линейная регрессия</li>
-                                    <li>Доверительные интервалы</li>
-                                </ul>
-                            </div>
-                            <div class="col-md-6">
-                                <strong>Для ненормальных данных:</strong>
-                                <ul>
-                                    <li>U-тест Манна-Уитни</li>
-                                    <li>Преобразование Бокса-Кокса</li>
-                                    <li>Робастные методы</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="alert alert-info mt-4" style="border: none;">
+            <h4>Общие рекомендации по анализу данных:</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <strong>1. Подготовка данных:</strong>
+                    <ul>
+                        <li>Всегда начинайте с визуального анализа распределений</li>
+                        <li>Проверяйте данные на наличие пропущенных значений</li>
+                        <li>Исследуйте выбросы - могут ли они быть ошибками измерений?</li>
+                        <li>Рассмотрите возможность логарифмического преобразования для правосторонних асимметричных данных</li>
+                    </ul>
+            
+                    <strong>2. Для нормальных распределений (p-value > 0.05):</strong>
+                    <ul>
+                        <li><u>Параметрические тесты:</u> t-тест, ANOVA</li>
+                        <li><u>Методы:</u> Линейная регрессия, доверительные интервалы</li>
+                        <li><u>Преимущество:</u> Большая мощность тестов при меньшем объеме выборки</li>
+                    </ul>
+                </div>
+        
+                <div class="col-md-6">
+                    <strong>3. Для ненормальных распределений (p-value ≤ 0.05):</strong>
+                    <ul>
+                        <li><u>Непараметрические тесты:</u> U-тест Манна-Уитни, критерий Краскела-Уоллиса</li>
+                        <li><u>Методы:</u> Робастная регрессия, ранговые преобразования</li>
+                        <li><u>Альтернативы:</u> Преобразование Бокса-Кокса, обрезанные средние</li>
+                    </ul>
+            
+                    <strong>4. Интерпретация результатов:</strong>
+                    <ul>
+                        <li>Всегда учитывайте размер эффекта, а не только p-value</li>
+                        <li>Для небольших выборок (n < 30) используйте непараметрические методы</li>
+                        <li>При неоднозначных результатах теста на нормальность дублируйте анализ обоими методами</li>
+                    </ul>
+                </div>
+            </div>
+    
+            <div class="mt-3 p-3 rounded" style="background-color: #f8f9fa;">
+                <strong>Важно!</strong> Нормальность распределения проверяйте только для остатков в регрессионных моделях. 
+                Для больших выборок (n > 500) тесты на нормальность могут давать значимые результаты даже при небольших отклонениях от нормальности.
+            </div>
+        </div>
                 </div>
             </div>
             
