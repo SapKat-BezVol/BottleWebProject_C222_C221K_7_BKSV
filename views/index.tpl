@@ -735,7 +735,9 @@
                   <li><strong>Ошибки преобразования</strong> - введены нечисловые значения или пустые поля</li>
                </ul>
             </div>
-            <button class="btn btn-primary custom-btn" onclick="location.href='/variant4'" style="font-size: 1.5rem;">Начать прогнозирование &raquo;</button>
+            <div class="text-left mt-3">
+               <a class="custom-btn" href="/variant4">Начать прогнозирование &raquo;</a>
+            </div>
          </div>
       </div>
    </div>
