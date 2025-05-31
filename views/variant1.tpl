@@ -11,7 +11,7 @@
                 <li>Сгенерируйте или загрузите таблицу на главной странице</li>
                 <li>Нажмите кнопку ниже для анализа распределений</li>
             </ol>
-            <button id="analyzeBtn" class="btn btn-primary">Анализировать распределения</button>
+            <button id="analyzeBtn" class="btn btn-success">Анализировать распределения</button>
         </div>
     </div>
     <div id="distributionsResult"></div>
