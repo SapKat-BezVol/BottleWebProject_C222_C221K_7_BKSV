@@ -268,7 +268,7 @@
                 </ul>
                 </p>
                 <p>Теперь вы можете понимать и интерпретировать результаты тепловой карты с полным осознанием статистического смысла!</p>
-                <p><a class="btn btn-primary" href="/variant2">Перейти к анализу &raquo;</a></p>
+                <p><a class="btn btn-primary btn-lg" href="/variant2">Перейти к анализу &raquo;</a></p>
             </div>
         </div>
     </div>
