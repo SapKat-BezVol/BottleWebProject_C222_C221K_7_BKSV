@@ -2,11 +2,10 @@ import unittest
 import pandas as pd
 import numpy as np
 from io import StringIO
-from your_module import analyze_distributions, generate_distribution_html
 
 class TestDistributionAnalysis(unittest.TestCase):
     def setUp(self):
-        # Тестовые данные
+        # РўРµСЃС‚РѕРІС‹Рµ РґР°РЅРЅС‹Рµ
         self.normal_data = pd.DataFrame({
             'normal_col': np.random.normal(0, 1, 100)
         })
@@ -28,61 +27,61 @@ class TestDistributionAnalysis(unittest.TestCase):
         })
 
     def test_normal_distribution(self):
-        """Тест анализа нормального распределения"""
+        """РўРµСЃС‚ Р°РЅР°Р»РёР·Р° РЅРѕСЂРјР°Р»СЊРЅРѕРіРѕ СЂР°СЃРїСЂРµРґРµР»РµРЅРёСЏ"""
         result = analyze_distributions(self.normal_data)
         
         self.assertIn('normal_col', result)
         stats = result['normal_col']['stats']
         
-        # Проверка основных статистик
+        # РџСЂРѕРІРµСЂРєР° РѕСЃРЅРѕРІРЅС‹С… СЃС‚Р°С‚РёСЃС‚РёРє
         self.assertAlmostEqual(stats['mean'], 0, delta=0.5)
         self.assertAlmostEqual(stats['median'], 0, delta=0.5)
         self.assertAlmostEqual(stats['std'], 1, delta=0.5)
         
-        # Проверка нормальности
+        # РџСЂРѕРІРµСЂРєР° РЅРѕСЂРјР°Р»СЊРЅРѕСЃС‚Рё
         self.assertTrue(stats['is_normal'])
         self.assertGreater(stats['shapiro_p'], 0.05)
         
-        # Проверка выбросов
+        # РџСЂРѕРІРµСЂРєР° РІС‹Р±СЂРѕСЃРѕРІ
         self.assertEqual(stats['outliers_count'], 0)
 
     def test_skewed_distribution(self):
-        """Тест анализа скошенного распределения"""
+        """РўРµСЃС‚ Р°РЅР°Р»РёР·Р° СЃРєРѕС€РµРЅРЅРѕРіРѕ СЂР°СЃРїСЂРµРґРµР»РµРЅРёСЏ"""
         result = analyze_distributions(self.skewed_data)
         
         self.assertIn('skewed_col', result)
         stats = result['skewed_col']['stats']
         
-        # Проверка нормальности
+        # РџСЂРѕРІРµСЂРєР° РЅРѕСЂРјР°Р»СЊРЅРѕСЃС‚Рё
         self.assertFalse(stats['is_normal'])
         if stats['shapiro_p'] is not None:
             self.assertLessEqual(stats['shapiro_p'], 0.05)
         
-        # Проверка асимметрии
+        # РџСЂРѕРІРµСЂРєР° Р°СЃРёРјРјРµС‚СЂРёРё
         self.assertGreater(stats['skewness'], 0.5)
 
     def test_empty_dataframe(self):
-        """Тест с пустым DataFrame"""
+        """РўРµСЃС‚ СЃ РїСѓСЃС‚С‹Рј DataFrame"""
         result = analyze_distributions(self.empty_df)
         self.assertEqual(result, {})
 
     def test_mixed_data_types(self):
-        """Тест с DataFrame, содержащим разные типы данных"""
+        """РўРµСЃС‚ СЃ DataFrame, СЃРѕРґРµСЂР¶Р°С‰РёРј СЂР°Р·РЅС‹Рµ С‚РёРїС‹ РґР°РЅРЅС‹С…"""
         result = analyze_distributions(self.mixed_df)
         
-        # Проверяем, что анализировались только числовые столбцы
+        # РџСЂРѕРІРµСЂСЏРµРј, С‡С‚Рѕ Р°РЅР°Р»РёР·РёСЂРѕРІР°Р»РёСЃСЊ С‚РѕР»СЊРєРѕ С‡РёСЃР»РѕРІС‹Рµ СЃС‚РѕР»Р±С†С‹
         self.assertIn('numeric1', result)
         self.assertIn('numeric2', result)
         self.assertNotIn('text_col', result)
         
-        # Проверка статистик для numeric1
+        # РџСЂРѕРІРµСЂРєР° СЃС‚Р°С‚РёСЃС‚РёРє РґР»СЏ numeric1
         stats1 = result['numeric1']['stats']
         self.assertEqual(stats1['mean'], 3)
         self.assertEqual(stats1['median'], 3)
         self.assertEqual(stats1['outliers_count'], 0)
 
     def test_outlier_detection(self):
-        """Тест обнаружения выбросов"""
+        """РўРµСЃС‚ РѕР±РЅР°СЂСѓР¶РµРЅРёСЏ РІС‹Р±СЂРѕСЃРѕРІ"""
         result = analyze_distributions(self.with_outliers)
         stats = result['outlier_col']['stats']
         
@@ -90,26 +89,26 @@ class TestDistributionAnalysis(unittest.TestCase):
         self.assertAlmostEqual(stats['outliers_percent'], 16.67, delta=0.01)
 
     def test_generate_html_normal(self):
-        """Тест генерации HTML для нормального распределения"""
+        """РўРµСЃС‚ РіРµРЅРµСЂР°С†РёРё HTML РґР»СЏ РЅРѕСЂРјР°Р»СЊРЅРѕРіРѕ СЂР°СЃРїСЂРµРґРµР»РµРЅРёСЏ"""
         html = generate_distribution_html(self.normal_data)
         self.assertIn('normal_col', html)
         self.assertIn('data:image/png;base64', html)
-        self.assertIn('Нормальное распределение?', html)
-        self.assertIn('Да', html)
+        self.assertIn('РќРѕСЂРјР°Р»СЊРЅРѕРµ СЂР°СЃРїСЂРµРґРµР»РµРЅРёРµ?', html)
+        self.assertIn('Р”Р°', html)
 
     def test_generate_html_skewed(self):
-        """Тест генерации HTML для скошенного распределения"""
+        """РўРµСЃС‚ РіРµРЅРµСЂР°С†РёРё HTML РґР»СЏ СЃРєРѕС€РµРЅРЅРѕРіРѕ СЂР°СЃРїСЂРµРґРµР»РµРЅРёСЏ"""
         html = generate_distribution_html(self.skewed_data)
         self.assertIn('skewed_col', html)
-        self.assertIn('Нет', html)
+        self.assertIn('РќРµС‚', html)
 
     def test_generate_html_empty(self):
-        """Тест генерации HTML для пустого DataFrame"""
+        """РўРµСЃС‚ РіРµРЅРµСЂР°С†РёРё HTML РґР»СЏ РїСѓСЃС‚РѕРіРѕ DataFrame"""
         html = generate_distribution_html(self.empty_df)
-        self.assertIn('Нет числовых столбцов для анализа', html)
+        self.assertIn('РќРµС‚ С‡РёСЃР»РѕРІС‹С… СЃС‚РѕР»Р±С†РѕРІ РґР»СЏ Р°РЅР°Р»РёР·Р°', html)
 
     def test_generate_html_with_outliers(self):
-        """Тест генерации HTML с выбросами"""
+        """РўРµСЃС‚ РіРµРЅРµСЂР°С†РёРё HTML СЃ РІС‹Р±СЂРѕСЃР°РјРё"""
         html = generate_distribution_html(self.with_outliers)
         self.assertIn('outlier_col', html)
         self.assertIn('16.67%', html)
