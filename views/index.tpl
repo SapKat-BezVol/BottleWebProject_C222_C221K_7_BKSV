@@ -277,70 +277,70 @@
         <div class="row">
             <div class="col-md-12">
                 <h2>Вариант 3: Графики и scatter-matrix</h2>
-                <p class="lead">Визуализация распределений и зависимостей: гистограммы, ящичковые диаграммы и scatter-matrix</p>
+                <p class="lead">Визуализация распределений и&nbsp;зависимостей: гистограммы, ящичковые диаграммы и&nbsp;scatter-matrix</p>
                 <!-- =====  Описание предметной области  ===== -->
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Описание предметной области</h3>
-                    </div>
-                    <div class="panel-body">
-                        <p>Раздел посвящён визуализации табличных данных, содержащих <strong>1–10 числовых признаков</strong> и до <strong>1000 наблюдений</strong>. Используются три базовых графика разведочного анализа:</p>
-                        <ul class="mb-0">
+                <section class="row mb-3 d-flex flex-wrap">
+                    <div class="col-md-12">
+                        <h3>Описание предметной области</h3>
+                        <p class="mb-0">
+                            Раздел посвящён визуализации табличных данных, содержащих <strong>1–10 числовых признаков</strong> и&nbsp;до <strong>1000 наблюдений</strong>. Используются три базовых графика разведочного анализа:
+                        </p>
+                        <ul class="mb-1">
                             <li><strong>Гистограмма</strong> — отображает распределение одного признака, помогает выявить форму, асимметрию, мультимодальность и&nbsp;выбросы.</li>
                             <li><strong>Box-plot</strong> — показывает медиану, квартили, межквартильный размах и&nbsp;выбросы; удобен для сравнения групп.</li>
                             <li><strong>Scatter-matrix</strong> — обзор всех парных корреляций между признаками, обнаружение кластеров.</li>
                         </ul>
-                        <p class="mt-2">Каждый график строится <em>по всей выборке</em>, вне зависимости от того, сколько строк видно на экране; это обеспечивает корректную статистическую интерпретацию.</p>
+                        <p class="mt-1">
+                            Каждый график строится <em>по всей выборке</em>, вне зависимости от того, сколько строк видно на&nbsp;экране; это обеспечивает корректную статистическую интерпретацию.
+                        </p>
                     </div>
-                </div>
+                </section>
                 <!-- =====  Теория и примеры  ===== -->
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Теория и примеры</h3>
+                <section class="row mb-3 d-flex flex-wrap">
+                    <!-- Этапы визуализации -->
+                    <div class="col-md-6">
+                        <h3>Теория и примеры</h3>
+                        <h4>Основные этапы визуализации</h4>
+                        <ul class="mb-1">
+                            <li><strong>Гистограмма</strong>: выбор числа бинов <span class="text-muted">(Стерджесс)</span>, подсчёт частот, маркировка выбросов.</li>
+                            <li><strong>Box-plot</strong>: расчёт квартилей, усов Тьюки (<span class="text-muted">1.5&nbsp;IQR</span>), выделение выбросов.</li>
+                            <li><strong>Scatter-matrix</strong>: p×p-сетка парных scatter-plot; диагональ — гистограммы/KDE.</li>
+                        </ul>
+                        <ul class="list-unstyled">
+                            <li><strong>Размер выборки:</strong> N&nbsp;≤&nbsp;1000</li>
+                            <li><strong>Пропуски:</strong> игнорируются</li>
+                            <li><strong>Масштаб:</strong> log-шкала при сильной асимметрии</li>
+                        </ul>
                     </div>
-                    <div class="panel-body">
-                        <div class="row">
-                            <!-- Этапы визуализации -->
-                            <div class="col-md-6">
-                                <h4>Основные этапы визуализации</h4>
-                                <ul>
-                                    <li><strong>Гистограмма</strong>: выбор числа бинов <span class="text-muted">(Стерджесс)</span>, подсчёт частот, маркировка выбросов.</li>
-                                    <li><strong>Box-plot</strong>: расчёт квартилей, усов Тьюки (<span class="text-muted">1.5&nbsp;IQR</span>), выделение выбросов.</li>
-                                    <li><strong>Scatter-matrix</strong>: p×p-сетка парных scatter-plot; диагональ — гистограммы/KDE.</li>
-                                </ul>
-                                <ul class="list-unstyled">
-                                    <li><strong>Размер выборки:</strong> N&nbsp;≤&nbsp;1000</li>
-                                    <li><strong>Пропуски:</strong> игнорируются</li>
-                                    <li><strong>Масштаб:</strong> log-шкала при сильной асимметрии</li>
-                                </ul>
+                    <!-- Миниатюры -->
+                    <div class="col-md-6 text-center">
+                        <h4 class="hidden-md hidden-lg">&nbsp;</h4>
+                        <div class="row d-flex flex-wrap">
+                            <div class="col-xs-4">
+                                <img src="/static/images/primeri/gistogramma.png" class="img-thumbnail" style="max-width:100%;" alt="Гистограмма">
+                                <p class="small mt-1">Гистограмма</p>
                             </div>
-                            <!-- Миниатюры -->
-                            <div class="col-md-6 text-center">
-                                <h4>Примеры визуализаций</h4>
-                                <div class="row">
-                                    <div class="col-xs-4">
-                                        <img src="/static/images/primeri/gistogramma.png" class="img-thumbnail" style="max-width:100%;" alt="Гистограмма">
-                                        <p class="small mt-1">Гистограмма</p>
-                                    </div>
-                                    <div class="col-xs-4">
-                                        <img src="/static/images/primeri/boxplot.png" class="img-thumbnail" style="max-width:100%;" alt="Box-plot">
-                                        <p class="small mt-1">Box-plot</p>
-                                    </div>
-                                    <div class="col-xs-4">
-                                        <img src="/static/images/primeri/scattermatrix.png" class="img-thumbnail" style="max-width:100%;" alt="Scatter-matrix">
-                                        <p class="small mt-1">Scatter-matrix</p>
-                                    </div>
-                                </div>
+                            <div class="col-xs-4">
+                                <img src="/static/images/primeri/boxplot.png" class="img-thumbnail" style="max-width:100%;" alt="Box-plot">
+                                <p class="small mt-1">Box-plot</p>
+                            </div>
+                            <div class="col-xs-4">
+                                <img src="/static/images/primeri/scattermatrix.png" class="img-thumbnail" style="max-width:100%;" alt="Scatter-matrix">
+                                <p class="small mt-1">Scatter-matrix</p>
                             </div>
                         </div>
-                        <!-- ==== Гистограмма ==== -->
-                        <h3 class="mt-4">1. Гистограмма</h3>
+                    </div>
+                </section>
+                <!-- ==== Гистограмма ==== -->
+                <section class="row mb-3">
+                    <div class="col-md-12">
+                        <h3>1. Гистограмма</h3>
                         <h4>Назначение</h4>
                         <p>Оценивает форму распределения: асимметрию, мультимодальность, выбросы; даёт быструю оценку центра и&nbsp;разброса.</p>
                         <h4>Структура данных</h4>
                         <p>Одноколонный массив <code>N</code> чисел. Гистограмма строится по <strong>всем</strong> наблюдениям.</p>
                         <h4>Алгоритм</h4>
-                        <ul>
+                        <ul class="mb-1">
                             <li>Диапазон: <code>min(x)</code>, <code>max(x)</code>.</li>
                             <li>Число бинов (Стерджесс): \[ k = \lceil \log_{2}N + 1 \rceil \]</li>
                             <li>Ширина бина: \[ h = \frac{\max(x)-\min(x)}{k} \]</li>
@@ -352,15 +352,19 @@
                             <li>Выбросы попадают в крайние интервалы.</li>
                             <li>При длинных хвостах — log-шкала.</li>
                         </ul>
-                        <p><em>Оптимальная ширина KDE (Silverman):</em> \[ h_{opt}=0.9\,\min\!\left(s,\frac{\text{IQR}}{1.34}\right) N^{-1/5} \]</p>
-                        <!-- ==== Box-plot ==== -->
-                        <h3 class="mt-4">2. Box-plot</h3>
+                        <p class="mt-1"><em>Оптимальная ширина KDE (Silverman):</em> \[ h_{opt}=0.9\,\min\!\left(s,\frac{\text{IQR}}{1.34}\right) N^{-1/5} \]</p>
+                    </div>
+                </section>
+                <!-- ==== Box-plot ==== -->
+                <section class="row mb-3">
+                    <div class="col-md-12">
+                        <h3>2. Box-plot</h3>
                         <h4>Назначение</h4>
                         <p>Компактно показывает медиану, IQR и&nbsp;выбросы; удобен для сравнения групп.</p>
                         <h4>Структура данных</h4>
                         <p>Одна или несколько выборок чисел; каждая выборка — отдельный ящик.</p>
                         <h4>Алгоритм</h4>
-                        <ul>
+                        <ul class="mb-1">
                             <li>Сортировка выборки.</li>
                             <li>Квартильные статистики: \(Q_1, Q_2, Q_3, IQR = Q_3-Q_1\).</li>
                             <li>Усы Тьюки: \[ L = Q_1 - 1.5\,IQR,\; U = Q_3 + 1.5\,IQR \]</li>
@@ -372,14 +376,18 @@
                             <li>Лог-шкала при сильной асимметрии.</li>
                             <li>При «длинных усах» можно использовать 3&nbsp;IQR.</li>
                         </ul>
-                        <!-- ==== Scatter-matrix ==== -->
-                        <h3 class="mt-4">3. Scatter-matrix</h3>
+                    </div>
+                </section>
+                <!-- ==== Scatter-matrix ==== -->
+                <section class="row mb-3">
+                    <div class="col-md-12">
+                        <h3>3. Scatter-matrix</h3>
                         <h4>Назначение</h4>
                         <p>Показывает все парные зависимости между \(p\) признаками (\(2\le p\le10\)); помогает выявлять корреляции, кластеры и&nbsp;выбросы.</p>
                         <h4>Структура данных</h4>
                         <p>Таблица \(N\times p\). Ячейка (i, j) содержит точки \((X_j,X_i)\); диагональ — гистограммы или KDE.</p>
                         <h4>Алгоритм</h4>
-                        <ul>
+                        <ul class="mb-1">
                             <li>Выбор переменных.</li>
                             <li>Создание сетки \(p\times p\).</li>
                             <li>\(i\neq j\): scatter-plot; \(i=j\): гистограмма/KDE.</li>
@@ -392,18 +400,22 @@
                         </ul>
                         <h4>Особенности</h4>
                         <ul>
-                            <li>Записи с NaN в паре \((X_i,X_j)\) исключаются из этой диаграммы.</li>
+                            <li>Записи с NaN в паре \((X_i,X_j)\) исключаются из&nbsp;этой диаграммы.</li>
                             <li>Лог-шкала для широких диапазонов.</li>
                             <li>Число диаграмм растёт как \(p^2\); оптимально \(p\le10\).</li>
                         </ul>
-                        <p><em>t-статистика корреляции:</em> \[
+                        <p class="mt-1"><em>t-статистика корреляции:</em> \[
                             t = r_{ij}\sqrt{\frac{N-2}{1-r_{ij}^2}},\quad t\sim t_{N-2}
                             \]
                         </p>
-                        <!-- ==== Сводка рекомендаций ==== -->
-                        <h3 class="mt-4">4. Сводка рекомендаций</h3>
+                    </div>
+                </section>
+                <!-- ==== Сводка рекомендаций ==== -->
+                <section class="row mb-3">
+                    <div class="col-md-12">
+                        <h3>4. Сводка рекомендаций</h3>
                         <div class="table-responsive">
-                            <table class="table table-bordered">
+                            <table class="table table-bordered mb-1">
                                 <thead>
                                     <tr class="active">
                                         <th>Диаграмма</th>
@@ -430,33 +442,35 @@
                                 </tbody>
                             </table>
                         </div>
-                        <!-- ==== Практические советы ==== -->
-                        <div class="alert alert-info mt-4">
-                            <h4>Практические советы</h4>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <strong>Большие выборки (N&gt;500):</strong>
-                                    <ul>
-                                        <li>Прозрачность точек (α-blend)</li>
-                                        <li>Hex-bin или 2D-KDE для плотных scatter-plot</li>
-                                        <li>Сократите число бинов в гистограмме</li>
-                                    </ul>
-                                </div>
-                                <div class="col-md-6">
-                                    <strong>Смешанные масштабы:</strong>
-                                    <ul>
-                                        <li>Стандартизация перед scatter-matrix</li>
-                                        <li>Лог-шкала для длиннохвостых положительных распределений</li>
-                                    </ul>
-                                </div>
-                            </div>
+                    </div>
+                </section>
+                <!-- ==== Практические советы ==== -->
+                <section class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="alert alert-info mb-0">
+                            <h4 class="mt-0">Практические советы</h4>
+                            <strong>Большие выборки (N&gt;500):</strong>
+                            <ul class="mb-1">
+                                <li>Прозрачность точек (α-blend)</li>
+                                <li>Hex-bin или 2D-KDE для плотных scatter-plot</li>
+                                <li>Сократите число бинов в&nbsp;гистограмме</li>
+                            </ul>
                         </div>
                     </div>
-                    <!-- /.panel-body -->
-                </div>
-                <!-- /.panel -->
-                <div class="text-left mt-4">
-                    <a class="btn btn-primary btn-lg" href="/variant3">Перейти к графикам &raquo;</a>
+                    <div class="col-md-6">
+                        <div class="alert alert-info mb-0">
+                            <h4 class="hidden-md hidden-lg mt-0">&nbsp;</h4>
+                            <strong>Смешанные масштабы:</strong>
+                            <ul class="mb-1">
+                                <li>Стандартизация перед scatter-matrix</li>
+                                <li>Лог-шкала для длиннохвостых положительных распределений</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+                <!-- Кнопка перехода -->
+                <div class="text-left mt-3">
+                    <a class="btn btn-primary btn-lg" href="/variant3">Перейти к&nbsp;графикам &raquo;</a>
                 </div>
             </div>
         </div>
