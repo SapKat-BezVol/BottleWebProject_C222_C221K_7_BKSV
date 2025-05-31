@@ -1,15 +1,15 @@
 from __future__ import annotations
 
+import pandas as pd
+import numpy as np
 from datetime import datetime
 from io import BytesIO
 from bottle import route, template, view, request, response
-import pandas as pd
-import numpy as np
+from sklearn.linear_model import LinearRegression
 
 from utils.table_maker import build_table, _parse_upload, render_page, load_data
 from services.correlation_generator import build_correlation_table,build_correlation_heatmap, analyze_correlations
 from services.plot_generator import build_plot_html
-from sklearn.linear_model import LinearRegression
 from services.prediction_generator import build_prediction_numbers
 
 generated_df: pd.DataFrame | None = None
@@ -156,7 +156,6 @@ def generate_correlation_route() -> str:
 
         corr_matrix = numeric_df.corr()
 
-        # Проверка, что корреляционная матрица квадратная
         if corr_matrix.shape[0] != corr_matrix.shape[1]:
             raise ValueError("Ошибка: матрица корреляций не квадратная. Проверьте данные.")
 
@@ -210,7 +209,7 @@ def make_prediction_route() -> str:
     return render_page(prediction_html, error_html)
 
 
-@route('/variant1/generate_distributions', method='POST')
+@route('/generate_distributions', method='POST')
 def generate_distributions():
     global generated_df
     if generated_df is None:
@@ -223,18 +222,23 @@ def generate_distributions():
     except Exception as e:
         return f"<div class='alert alert-danger'>Ошибка: {str(e)}</div>"
 
+
 @route('/variant1', method='GET')
 @view('variant1')
 def variant1_page():
     """Рендер страницы для первого варианта."""
-    return dict(year=datetime.now().year)
+    return dict(
+            year=datetime.now().year
+    )
+
 
 @route('/variant2', method=['GET', 'POST'])
 @view('variant2')
 def variant2():
+    """Рендер страницы для второго варианта."""
     return dict(
             year=datetime.now().year
-        )
+    )
 
 
 @route('/variant3')
@@ -244,6 +248,7 @@ def about():
     return dict(
         year=datetime.now().year
     )
+
 
 @route('/variant4')
 @view('variant4')

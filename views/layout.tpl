@@ -6,15 +6,16 @@
     <title>{{ title }} - Элементы машинного обучения и анализа данных</title>
     <link rel="stylesheet" type="text/css" href="/static/content/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="/static/content/site.css" />
+    <link rel="icon" type="image/png" href="/static/images/favicon.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QA0sXmbaR5U/SmE6iHqI8ZQbB3O8RJZmyURWhD0eSV6Bq6DQJtAhV72x4bCT4g4n" crossorigin="anonymous">
     <script src="/static/scripts/modernizr-2.6.2.js"></script>
-    <link rel="icon" type="image/png" href="/static/images/fav_icon.png">
+    <script src="/static/scripts/jquery-1.10.2.js"></script>
+    <script src="/static/scripts/bootstrap.js"></script>
+    <script src="/static/scripts/respond.js"></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async
-        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-    </script>
-
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoYz1Cbo4nFU9JOp6drFJzifR0hEWEY2zFZwzK3FM6Ydzh3" crossorigin="anonymous"></script>
 </head>
-
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
@@ -34,7 +35,6 @@
             </div>
         </div>
     </div>
-
     <div class="container body-content" style="padding-top: 40px;">
         {{!base}}
         <hr />
@@ -42,10 +42,5 @@
             <p>&copy; {{ year }} - SapKat&BezVol ©</p>
         </footer>
     </div>
-
-    <script src="/static/scripts/jquery-1.10.2.js"></script>
-    <script src="/static/scripts/bootstrap.js"></script>
-    <script src="/static/scripts/respond.js"></script>
-
 </body>
 </html>
