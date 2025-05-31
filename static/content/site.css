@@ -107,6 +107,29 @@ body {
     display: block !important;
 }
 
+.custom-btn {
+    display: inline-block;
+    color: #fff;
+    background-color: #2062b8; /* или #0d6efd как у Bootstrap 5 primary */
+    border: none;
+    border-radius: 0.3rem;
+    padding: 0.6em 1.7em; /* размер текста больше стандартного Bootstrap */
+    font-weight: 500;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.15s;
+    box-shadow: 0 2px 8px rgba(33, 90, 193, 0.08);
+    cursor: pointer;
+}
+
+    .custom-btn:hover, .custom-btn:focus {
+        background-color: #174486; /* темнее для наведения */
+        color: #fff;
+        text-decoration: none;
+    }
+}
+
 h4 {
     margin-top: 1rem;
     margin-bottom: 2rem;

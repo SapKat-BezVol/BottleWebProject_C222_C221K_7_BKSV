@@ -6,13 +6,15 @@
 <form action="/make_prediction" target="predictFrame" method="post" class="mb-3">
     <div class="form-group">
         <label for="target_col">Номер целевого столбца:</label>
-        <input type="number" class="form-control" id="target_col" name="target_col" required>
+        <input type="number" class="form-control" id="target_col" name="target_col" style="width: 80px;" required>
     </div>
     <div class="form-group">
         <label for="features">Значения признаков (через пробел):</label>
         <input type="text" class="form-control" id="features" name="features" placeholder="Например: 1.2 3.4 5.6" required>
-        <small class="form-text text-muted">Введите числа, разделенные пробелами</small>
+        
     </div>
-    <button type="submit" class="btn btn-primary">Сделать предсказание</button>
+    <div style="margin-top: 30px;">
+        <button type="submit" class="btn btn-primary btn-lg">Сделать предсказание</button>
+    </div>
 </form>
 <iframe id="predictFrame" name="predictFrame" class="table-frame w-100 border" style="min-height:200px" title="Результат предсказания"></iframe>
