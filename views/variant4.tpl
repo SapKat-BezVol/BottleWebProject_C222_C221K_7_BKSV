@@ -13,8 +13,6 @@
         <input type="text" class="form-control" id="features" name="features" placeholder="Например: 1.2 3.4 5.6" required>
         
     </div>
-    <div style="margin-top: 30px;">
-        <button type="submit" class="btn btn-success">Сделать предсказание</button>
-    </div>
+    <button type="submit" style="margin-top: 30px;" class="btn btn-primary">Сделать предсказание</button>
 </form>
-<iframe id="predictFrame" name="predictFrame" class="table-frame w-100 border" style="min-height:200px" title="Результат предсказания"></iframe>
+<iframe id="predictFrame" name="predictFrame"  title="Результат предсказания"></iframe>
