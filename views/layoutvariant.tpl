@@ -24,7 +24,6 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                <ul class="navbar-nav ms-3">
-                  <li class="nav-item"><a class="nav-link" href="/home">Главная</a></li>
                   <li class="nav-item"><a class="nav-link" href="/about">О команде</a></li>
                </ul>
             </div>
