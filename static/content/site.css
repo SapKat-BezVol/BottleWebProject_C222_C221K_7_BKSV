@@ -70,7 +70,7 @@ input[type="checkbox"].input-validation-error {
 .custom-btn {
     display: inline-block;
     color: #fff;
-    background-color: #0d6efd; /* или #0d6efd как у Bootstrap 5 primary */
+    background-color: #0d6efd;
     border: none;
     border-radius: 0.3rem;
     padding: 0.6em 1.7em;

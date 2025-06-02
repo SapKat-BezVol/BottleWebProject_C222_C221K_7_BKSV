@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
-import base64, io
+import base64, io, os, uuid
 from typing import Dict, List, Tuple
 
 import matplotlib
@@ -19,7 +19,15 @@ def _fig_to_base64(fig: plt.Figure) -> str:
     buf.seek(0)
     return base64.b64encode(buf.read()).decode("ascii")
 
-_HIST_DESCRIPTIONS: Dict[str, str] = {  # ...
+def _save_html_file(content: str, base_name: str) -> None:
+    os.makedirs("data/variant3", exist_ok=True)
+    uid = uuid.uuid4().hex[:8]
+    filename = f"{base_name}_{uid}.html"
+    filepath = os.path.join("data/variant3", filename)
+    with open(filepath, "w", encoding="utf-8") as f:
+        f.write(content)
+
+_HIST_DESCRIPTIONS: Dict[str, str] = {
     "count": "Количество наблюдений",
     "mean": "Среднее арифметическое",
     "median": "Медиана (50-й перцентиль)",
@@ -85,7 +93,17 @@ def _build_histograms(df: pd.DataFrame) -> List[Tuple[str, str, str]]:
         plt.legend()
         img64 = _fig_to_base64(fig)
         plt.close(fig)
-        outs.append((col, img64, _hist_stats_table(_basic_hist_stats(numeric[col]))))
+
+        stats_html = _hist_stats_table(_basic_hist_stats(numeric[col]))
+
+        html = f"""
+        <html><head><meta charset="utf-8"><title>Гистограмма: {col}</title></head><body>
+        <h3>Гистограмма: {col}</h3>
+        <img src="data:image/png;base64,{img64}" alt="Гистограмма: {col}">
+        <hr>{stats_html}</body></html>
+        """
+        _save_html_file(html, f"histogram_{col}")
+        outs.append((col, img64, stats_html))
     return outs
 
 def _build_boxplots(df: pd.DataFrame) -> List[Tuple[str, str, str]]:
@@ -99,6 +117,7 @@ def _build_boxplots(df: pd.DataFrame) -> List[Tuple[str, str, str]]:
     plt.ylabel("Значения")
     img64 = _fig_to_base64(fig)
     plt.close(fig)
+
     stats: Dict[str, Dict[str, float]] = {}
     for col in numeric.columns:
         col_data = numeric[col].dropna()
@@ -110,7 +129,17 @@ def _build_boxplots(df: pd.DataFrame) -> List[Tuple[str, str, str]]:
             "q3": q3, "max": col_data.max(), "iqr": iqr,
             "outliers_percent": len(outliers) / len(col_data) * 100,
         }
-    return [("Box-plot", img64, _box_stats_table(stats))]
+
+    stats_html = _box_stats_table(stats)
+
+    html = f"""
+    <html><head><meta charset="utf-8"><title>Box-plot</title></head><body>
+    <h3>Box-plot всех числовых столбцов</h3>
+    <img src="data:image/png;base64,{img64}" alt="Box-plot">
+    <hr>{stats_html}</body></html>
+    """
+    _save_html_file(html, "boxplot_all_columns")
+    return [("Box-plot", img64, stats_html)]
 
 def _build_scatter_matrix(df: pd.DataFrame) -> List[Tuple[str, str, str]]:
     numeric = df.select_dtypes(include="number")
@@ -131,6 +160,14 @@ def _build_scatter_matrix(df: pd.DataFrame) -> List[Tuple[str, str, str]]:
             )
     img64 = _fig_to_base64(axes[0, 0].get_figure())
     plt.close(axes[0, 0].get_figure())
+
+    html = f"""
+    <html><head><meta charset="utf-8"><title>Scatter Matrix</title></head><body>
+    <h3>Scatter-matrix для числовых признаков</h3>
+    <img src="data:image/png;base64,{img64}" alt="Scatter-matrix">
+    </body></html>
+    """
+    _save_html_file(html, "scatter_matrix")
     return [("Scatter-matrix", img64, "")]
 
 # ---------- главный генератор HTML ----------
@@ -146,15 +183,13 @@ def build_plot_html(df: pd.DataFrame, plot_type: str) -> str:
     build_func, title = builders[plot_type]
     items = build_func(df)
     html_parts: List[str] = [
-    "<style>html,body{margin:0;padding:0;overflow:hidden}</style>",
-    f"<h3 class='mt-3 mb-4'>{title}</h3>"
-]
-
+        "<style>html,body{margin:0;padding:0;overflow:hidden}</style>",
+        f"<h3 class='mt-3 mb-4'>{title}</h3>"
+    ]
 
     for label, img64, stats_html in items:
         card_title = label if plot_type == "hist" else title
         if plot_type == "box":
-            # Диаграмма сверху, таблица снизу
             html_parts.append(
                 f"""
                 <div class='card mb-4'>
@@ -167,7 +202,6 @@ def build_plot_html(df: pd.DataFrame, plot_type: str) -> str:
                 """
             )
         else:
-            # Диаграмма слева, статистика справа
             stats_block = f"<div class='col-md-6'>{stats_html}</div>" if stats_html else ""
             html_parts.append(
                 f"""
@@ -184,4 +218,5 @@ def build_plot_html(df: pd.DataFrame, plot_type: str) -> str:
                 </div>
                 """
             )
+
     return "\n".join(html_parts)
