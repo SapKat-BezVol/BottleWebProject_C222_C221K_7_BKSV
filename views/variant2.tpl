@@ -4,10 +4,9 @@
 <p class="mb-3">
     Нажмите кнопку, чтобы построить <strong>таблицу коэффициентов корреляции</strong> и <strong>тепловую карту</strong> по уже сгенерированной таблице.
 </p>
-<form action="/generate_correlation" target="corrFrame" method="post" class="mb-3">
-    <button type="submit" class="btn btn-success btn-lg">
-        Выполнить анализ
-    </button>
+<form method="post" action="/generate_correlation" target="corrFrame" enctype="multipart/form-data">
+    <!-- поля формы -->
+    <button type="submit" class="btn btn-primary">Сгенерировать</button>
 </form>
 <div class="alert alert-info">
     <h4 class="mb-2">Что показывает матрица корреляций?</h4>
@@ -15,4 +14,15 @@
         Если таблица содержит <strong>5 числовых столбцов</strong>, то и матрица, и тепловая карта будут размером <strong>5×5</strong> — они отображают взаимосвязи между признаками.
     </p>
 </div>
-<iframe id="corrFrame" name="corrFrame" class="table-frame w-100 border" style="min-height:520px" title="Корреляции"></iframe>
+<div class="container-fluid my-4">
+    <iframe
+        name="corrFrame"
+        id="corrFrame"
+        class="w-100 border rounded shadow-sm"
+        style="min-height: 700px; height: 100%; border: 1px solid #ccc;"
+        frameborder="0"
+        allowfullscreen
+    ></iframe>
+</div>
+
+
