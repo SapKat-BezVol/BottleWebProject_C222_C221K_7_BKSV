@@ -45,8 +45,8 @@ class TestCorrelationGenerator(unittest.TestCase):
         expectations = {
             "positive_correlation": ["Сильная положительная корреляция"],
             "negative_correlation": ["Сильная отрицательная корреляция"],
-            "no_correlation": ["Нет сильных корреляций"],
-            "constant_column": ["Нет сильных корреляций"],
+            "no_correlation": ["Значимых корреляций не обнаружено."],
+            "constant_column": ["Значимых корреляций не обнаружено."],
             "mixed": ["Сильная положительная корреляция"]
         }
 
@@ -63,3 +63,5 @@ class TestCorrelationGenerator(unittest.TestCase):
                 self.assertIn("<img", heatmap_html)
                 self.assertIn("base64", heatmap_html)
 
+if __name__ == "__main__":
+    unittest.main()
