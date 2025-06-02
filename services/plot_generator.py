@@ -218,4 +218,5 @@ def build_plot_html(df: pd.DataFrame, plot_type: str) -> str:
                 </div>
                 """
             )
+
     return "\n".join(html_parts)
