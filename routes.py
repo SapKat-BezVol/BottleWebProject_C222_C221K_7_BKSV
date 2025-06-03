@@ -134,6 +134,8 @@ def generate_table():
 
 
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         import logging
         logging.error("An error occurred in generate_table", exc_info=True)
         return (
