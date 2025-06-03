@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const plotFrame = document.getElementById('plotFrame');
     const plotSpinner = document.getElementById('plotSpinner');
     if (!plotForm || !plotFrame || !plotSpinner) return;
-
     plotForm.addEventListener('submit', function (event) {
         event.preventDefault();
         plotSpinner.innerHTML = '<div class="spinner-border" role="status"><span class="visually-hidden">Загрузка...</span></div>';
