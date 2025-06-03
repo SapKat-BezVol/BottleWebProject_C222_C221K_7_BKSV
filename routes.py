@@ -36,7 +36,11 @@ from services.correlation_generator import (
     save_correlation_report,
 )
 from services.plot_generator import build_plot_html
-from services.prediction_generator import build_prediction_numbers
+from services.prediction_generator import (
+    build_prediction_numbers,
+    build_prediction_numbers_,
+    save_data_with_prediction
+)
 
 
 # Глобальная переменная, содержащая текущую рабочую таблицу.
@@ -318,7 +322,7 @@ def make_prediction_route() -> str:
     Returns:
         str: HTML‑фрагмент с числовым прогнозом либо описанием ошибки.
     """
-    global generated_df
+    global generated_df  # pylint: disable=global-statement
 
     if generated_df is None:
         error_html = '<div class="alert alert-danger">Сначала сгенерируйте или загрузите таблицу</div>'
@@ -327,11 +331,35 @@ def make_prediction_route() -> str:
     try:
         prediction_html = build_prediction_numbers(generated_df)
         error_html = None
-    except Exception as exc:
+    except Exception as exc:  # noqa: WPS440
         error_html = f'<div class="alert alert-danger">{exc}</div>'
 
     response.content_type = 'text/html; charset=utf-8'
     return render_page(prediction_html, error_html)
+
+
+
+@route("/save_prediction", method="POST")
+def save_prediction_route():
+    global generated_df
+
+    if generated_df is None:
+        return "<div class='alert alert-danger'>Нет данных для сохранения</div>"
+
+    try:
+        # Получаем данные из формы
+        target_col = int(request.forms.get('target_col')) - 1
+        features = [float(x) for x in request.forms.get('features').split()]
+
+        # Генерируем результат предсказания
+        prediction_text = build_prediction_numbers_(generated_df, target_col, features)
+
+        # Сохраняем всё
+        save_data_with_prediction(generated_df, prediction_text)
+
+        return "<div class='alert alert-success'>Данные и результат успешно сохранены</div>"
+    except Exception as e:
+        return f"<div class='alert alert-danger'>{str(e)}</div>"
 
 
 # ---------------------------------------------------------------------------
