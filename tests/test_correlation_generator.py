@@ -1,9 +1,9 @@
-﻿import unittest
+import unittest
 import pandas as pd
 from services.correlation_generator import (
     build_correlation_table,
     build_correlation_heatmap,
-    analyze_correlations
+    analyze_correlations,
 )
 
 class TestCorrelationGenerator(unittest.TestCase):

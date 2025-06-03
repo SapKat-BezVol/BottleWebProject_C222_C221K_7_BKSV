@@ -2,6 +2,10 @@ import unittest
 import pandas as pd
 import numpy as np
 from io import StringIO
+from services.distrib_generator import (
+    analyze_distributions,
+    generate_distribution_html,
+    )
 
 class TestDistributionAnalysis(unittest.TestCase):
     def setUp(self):
