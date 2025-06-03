@@ -5,6 +5,7 @@ import numpy as np
 from datetime import datetime
 from io import BytesIO
 from bottle import route, template, view, request, response
+import html
 from sklearn.linear_model import LinearRegression
 
 from utils.table_maker import build_table, _parse_upload, render_page, load_data
@@ -79,17 +80,19 @@ def show_sample():
             </style>
         </head>
         <body>
-            <h5>Отображаемые данные ({mode}, {n} записей):</h5>
+            <h5>Отображаемые данные ({html.escape(mode)}, {n} записей):</h5>
             {sample_html}
         </body>
         </html>
         """
 
     except Exception as e:
-        return f"""
+        import logging
+        logging.error("An error occurred in show_sample", exc_info=True)
+        return """
         <!DOCTYPE html>
         <html><body>
-        <div class='alert alert-danger'>Ошибка: {e}</div>
+        <div class='alert alert-danger'>Внутренняя ошибка сервера. Пожалуйста, попробуйте позже.</div>
         </body></html>
         """
 
@@ -131,14 +134,14 @@ def generate_table():
 
 
     except Exception as e:
-        import traceback
-        traceback.print_exc()
+        import logging
+        logging.error("An error occurred in generate_table", exc_info=True)
         return (
             "<!DOCTYPE html><html><head>"
             "<meta charset='utf-8'>"
             "<link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>"
             "</head><body>"
-            f"<div class='alert alert-danger'>Внутренняя ошибка сервера: {e}</div>"
+            "<div class='alert alert-danger'>Внутренняя ошибка сервера. Пожалуйста, попробуйте позже.</div>"
             "</body></html>"
         )
 
@@ -224,7 +227,9 @@ def generate_distributions():
         html = generate_distribution_html(generated_df)
         return html
     except Exception as e:
-        return f"<div class='alert alert-danger'>Ошибка: {str(e)}</div>"
+        import logging
+        logging.error("An error occurred while generating distributions", exc_info=True)
+        return "<div class='alert alert-danger'>Произошла внутренняя ошибка. Пожалуйста, попробуйте позже.</div>"
 
 
 @route('/variant1', method='GET')
