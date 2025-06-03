@@ -10,7 +10,7 @@ from sklearn.linear_model import LinearRegression
 from utils.table_maker import build_table, _parse_upload, render_page, load_data
 from services.correlation_generator import build_correlation_table,build_correlation_heatmap, analyze_correlations
 from services.plot_generator import build_plot_html
-from services.prediction_generator import build_prediction_numbers
+from services.prediction_generator import build_prediction_numbers, save_data_with_prediction, build_prediction_numbers_
 
 generated_df: pd.DataFrame | None = None
 
@@ -210,6 +210,29 @@ def make_prediction_route() -> str:
 
         response.content_type = "text/html; charset=utf-8"
     return render_page(prediction_html, error_html)
+
+
+@route("/save_prediction", method="POST")
+def save_prediction_route():
+    global generated_df
+
+    if generated_df is None:
+        return "<div class='alert alert-danger'>Нет данных для сохранения</div>"
+
+    try:
+        # Получаем данные из формы
+        target_col = int(request.forms.get('target_col')) - 1
+        features = [float(x) for x in request.forms.get('features').split()]
+
+        # Генерируем результат предсказания
+        prediction_text = build_prediction_numbers_(generated_df, target_col, features)
+
+        # Сохраняем всё
+        save_data_with_prediction(generated_df, prediction_text)
+
+        return "<div class='alert alert-success'>Данные и результат успешно сохранены</div>"
+    except Exception as e:
+        return f"<div class='alert alert-danger'>{str(e)}</div>"
 
 
 @route('/generate_distributions', method='POST')
