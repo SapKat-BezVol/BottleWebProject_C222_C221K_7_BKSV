@@ -1,0 +1,8 @@
+
+        <div class="alert alert-success">
+            <h4>Результат предсказания</h4>
+            <p><strong>Целевая переменная:</strong> col_1</p>
+            <p><strong>Введенные признаки:</strong> col_2: 1.00, col_3: 1.00, col_4: 1.00, col_5: 1.00</p>
+            <p><strong>Прогнозируемое значение:</strong> -0.4540</p>
+        </div>
+        
