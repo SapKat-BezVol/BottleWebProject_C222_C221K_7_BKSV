@@ -219,6 +219,9 @@ def make_prediction_route() -> str:
     return render_page(prediction_html, error_html)
 
 
+from datetime import datetime
+import os
+
 @route('/generate_distributions', method='POST')
 def generate_distributions():
     global generated_df
@@ -234,7 +237,11 @@ def generate_distributions():
         # Путь для сохранения
         save_dir = r"C:\Users\Alex\source\repos\BottleWebProject_C222_C221K_7_BKSV\data\variant1"
         os.makedirs(save_dir, exist_ok=True)
-        save_path = os.path.join(save_dir, "distribution_analysis.html")
+
+        # Формируем имя файла с текущей датой и временем
+        now_str = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"distribution_analysis_{now_str}.html"
+        save_path = os.path.join(save_dir, filename)
 
         # Сохраняем файл
         with open(save_path, 'w', encoding='utf-8') as f:
