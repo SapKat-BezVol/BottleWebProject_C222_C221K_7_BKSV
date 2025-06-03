@@ -8,7 +8,7 @@ from bottle import route, template, view, request, response
 from sklearn.linear_model import LinearRegression
 
 from utils.table_maker import build_table, _parse_upload, render_page, load_data
-from services.correlation_generator import build_correlation_table,build_correlation_heatmap, analyze_correlations
+from services.correlation_generator import build_correlation_table,build_correlation_heatmap, analyze_correlations, build_correlation_html, save_correlation_report
 from services.plot_generator import build_plot_html
 from services.prediction_generator import build_prediction_numbers
 
@@ -147,32 +147,33 @@ def generate_table():
 
 @route("/generate_correlation", method="POST")
 def generate_correlation_route() -> str:
-    global generated_df
-    if generated_df is None:
-        error_html = "<div class='alert alert-danger'>Сначала сгенерируйте или загрузите таблицу</div>"
-        return render_page("", error_html)
+   global generated_df
+   if generated_df is None:
+       error_html = "<div class='alert alert-danger'>Сначала сгенерируйте или загрузите таблицу</div>"
+       return render_page("", error_html)
 
-    try:
-        numeric_df = generated_df.select_dtypes(include='number')
-        if numeric_df.shape[1] < 2:
-            raise ValueError("Недостаточно числовых столбцов для анализа корреляций (нужно минимум 2).")
+   try:
+       numeric_df = generated_df.select_dtypes(include='number')
+       if numeric_df.shape[1] < 2:
+           raise ValueError("Недостаточно числовых столбцов для анализа корреляций (нужно минимум 2).")
+       corr_matrix = numeric_df.corr()
+       if corr_matrix.shape[0] != corr_matrix.shape[1]:
+           raise ValueError("Ошибка: матрица корреляций не квадратная. Проверьте данные.")
 
-        corr_matrix = numeric_df.corr()
+       full_html = build_correlation_html(generated_df)
+       filepath = save_correlation_report(full_html)
 
-        if corr_matrix.shape[0] != corr_matrix.shape[1]:
-            raise ValueError("Ошибка: матрица корреляций не квадратная. Проверьте данные.")
+       save_notice = f"<div class='alert alert-info'>Отчёт сохранён: <code>{filepath}</code></div>"
 
-        table_html = build_correlation_table(generated_df)
-        heatmap_html = build_correlation_heatmap(generated_df)
-        analysis_html = analyze_correlations(generated_df)
-        combined_html = table_html + heatmap_html + analysis_html
-        error_html = None
-    except Exception as exc:
-        combined_html = None
-        error_html = f"<div class='alert alert-danger'>{exc}</div>"
+       error_html = save_notice
+       combined_html = full_html
+   except Exception as exc:
+       combined_html = None
+       error_html = f"<div class='alert alert-danger'>{exc}</div>"
 
-    response.content_type = "text/html; charset=utf-8"
-    return render_page(combined_html, error_html)
+   response.content_type = "text/html; charset=utf-8"
+   return render_page(combined_html, error_html)
+
 
 
 
