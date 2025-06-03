@@ -132,13 +132,15 @@ def generate_table():
 
     except Exception as e:
         import traceback
+        # Log the stack trace for debugging purposes
         traceback.print_exc()
+        # Return a generic error message to the user
         return (
             "<!DOCTYPE html><html><head>"
             "<meta charset='utf-8'>"
             "<link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>"
             "</head><body>"
-            f"<div class='alert alert-danger'>Внутренняя ошибка сервера: {e}</div>"
+            "<div class='alert alert-danger'>Внутренняя ошибка сервера. Пожалуйста, попробуйте позже.</div>"
             "</body></html>"
         )
 
