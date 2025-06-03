@@ -86,10 +86,12 @@ def show_sample():
         """
 
     except Exception as e:
-        return f"""
+        import logging
+        logging.error("An error occurred in show_sample", exc_info=True)
+        return """
         <!DOCTYPE html>
         <html><body>
-        <div class='alert alert-danger'>Ошибка: {e}</div>
+        <div class='alert alert-danger'>Внутренняя ошибка сервера. Пожалуйста, попробуйте позже.</div>
         </body></html>
         """
 
@@ -131,14 +133,14 @@ def generate_table():
 
 
     except Exception as e:
-        import traceback
-        traceback.print_exc()
+        import logging
+        logging.error("An error occurred in generate_table", exc_info=True)
         return (
             "<!DOCTYPE html><html><head>"
             "<meta charset='utf-8'>"
             "<link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>"
             "</head><body>"
-            f"<div class='alert alert-danger'>Внутренняя ошибка сервера: {e}</div>"
+            "<div class='alert alert-danger'>Внутренняя ошибка сервера. Пожалуйста, попробуйте позже.</div>"
             "</body></html>"
         )
 
