@@ -1,7 +1,7 @@
 import unittest
 import pandas as pd
 import numpy as np
-from services.distrib_generator import analyze_distributions, generate_distribution_html
+from generators.distrib_generator import analyze_distributions, generate_distribution_html
 
 class TestDistribGenerator(unittest.TestCase):
     def setUp(self):

@@ -38,23 +38,35 @@
   <ItemGroup>
     <Compile Include="app.py" />
     <Compile Include="routes.py" />
-    <Compile Include="services\correlation_generator.py">
+    <Compile Include="generators\correlation_generator.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="services\distrib_generator.py">
+    <Compile Include="services\correlation_service.py" />
+    <Compile Include="services\distribution_service.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="services\plot_generator.py">
+    <Compile Include="generators\distrib_generator.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="services\prediction_generator.py" />
+    <Compile Include="generators\plot_generator.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="services\plot_service.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="generators\prediction_generator.py" />
+    <Compile Include="services\prediction_service.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="services\table_service.py" />
+    <Compile Include="services\__init__.py" />
     <Compile Include="tests\test_plot_generator.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="utils\table_maker.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="services\__init__.py" />
+    <Compile Include="generators\__init__.py" />
     <Compile Include="tests\test_correlation_generator.py">
       <SubType>Code</SubType>
     </Compile>
@@ -74,6 +86,7 @@
     <Folder Include="data\variant4\" />
     <Folder Include="data\variant3\" />
     <Folder Include="data\variant1\" />
+    <Folder Include="generators\" />
     <Folder Include="services\" />
     <Folder Include="tests\" />
     <Folder Include="utils\" />
