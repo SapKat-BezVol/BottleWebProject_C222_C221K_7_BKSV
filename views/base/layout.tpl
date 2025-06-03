@@ -38,7 +38,7 @@
             {{!base}}
             <hr />
             <footer>
-                <p>&copy; {{ year }} - SapKat&BezVol ©</p>
+                <p>&copy; {{ year }} - SapKat&BezVol</p>
             </footer>
         </div>
     </body>
