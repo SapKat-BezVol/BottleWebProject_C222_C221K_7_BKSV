@@ -740,3 +740,4 @@
       </div>
    </div>
 </div>
+<script src="/static/scripts/variant-tabs.js"></script>
