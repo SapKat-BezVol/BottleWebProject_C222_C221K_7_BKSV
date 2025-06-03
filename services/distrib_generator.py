@@ -1,6 +1,7 @@
 from __future__ import annotations
 import base64
 import io
+import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -8,25 +9,17 @@ import seaborn as sns
 from scipy import stats
 
 def _fig_to_base64(fig: plt.Figure) -> str:
-    """Конвертирует matplotlib figure в base64 строку."""
     buf = io.BytesIO()
     fig.savefig(buf, format='png', bbox_inches='tight')
     buf.seek(0)
     return base64.b64encode(buf.read()).decode('ascii')
 
 def analyze_distributions(df: pd.DataFrame) -> dict:
-    """
-    Анализирует распределения всех числовых столбцов.
-    Возвращает словарь с результатами анализа и графиками.
-    """
     results = {}
-    
     for col in df.select_dtypes(include=['number']).columns:
         col_data = df[col].dropna()
         if len(col_data) < 2:
             continue
-            
-        # Статистические характеристики
         stats_dict = {
             'mean': col_data.mean(),
             'median': col_data.median(),
@@ -35,60 +28,38 @@ def analyze_distributions(df: pd.DataFrame) -> dict:
             'kurtosis': col_data.kurtosis(),
             'shapiro_p': stats.shapiro(col_data)[1] if len(col_data) <= 5000 else None
         }
-        
-        # Проверка на нормальность
         is_normal = False
         if stats_dict['shapiro_p'] is not None:
             is_normal = stats_dict['shapiro_p'] > 0.05
         stats_dict['is_normal'] = is_normal
-        
-        # Поиск выбросов (метод IQR)
         q1 = col_data.quantile(0.25)
         q3 = col_data.quantile(0.75)
         iqr = q3 - q1
         outliers = col_data[(col_data < (q1 - 1.5*iqr)) | (col_data > (q3 + 1.5*iqr))]
         stats_dict['outliers_count'] = len(outliers)
-        stats_dict['outliers_percent'] = len(outliers)/len(col_data)*100
-        
-        # Построение гистограммы с KDE
+        stats_dict['outliers_percent'] = len(outliers) / len(col_data) * 100
         plt.figure(figsize=(10, 6))
-        # Добавим label к histplot (например, 'Data distribution')
         sns.histplot(col_data, kde=True, stat='density', label='Распределение данных')
         plt.title(f'Распределение {col}')
-        
         if is_normal:
             plt.axvline(stats_dict['mean'], color='r', linestyle='--', label='Среднее')
             x = np.linspace(col_data.min(), col_data.max(), 100)
-            plt.plot(x, stats.norm.pdf(x, stats_dict['mean'], stats_dict['std']), 
-                     'r-', lw=2, label='Нормальное распределение')
-            plt.legend()  # Легенда только если нормальное распределение
+            plt.plot(x, stats.norm.pdf(x, stats_dict['mean'], stats_dict['std']), 'r-', lw=2, label='Нормальное распределение')
+            plt.legend()
         else:
-            # Легенду можно тоже добавить, если нужно:
-            plt.legend()  # Легенда с label='Распределение данных' для KDE-гистограммы
-        
+            plt.legend()
         plot_b64 = _fig_to_base64(plt.gcf())
         plt.close()
-        
-        results[col] = {
-            'stats': stats_dict,
-            'plot': plot_b64
-        }
-    
+        results[col] = {'stats': stats_dict, 'plot': plot_b64}
     return results
 
-
 def generate_distribution_html(df: pd.DataFrame) -> str:
-    """Генерирует HTML с анализом распределений."""
     analysis = analyze_distributions(df)
-    
     if not analysis:
         return "<div class='alert alert-warning'>Нет числовых столбцов для анализа</div>"
-    
     html_parts = []
     for col, data in analysis.items():
         stats = data['stats']
-        
-        # Блок статистики
         stats_html = f"""
         <div class='card mb-4'>
             <div class='card-header'>
@@ -118,5 +89,4 @@ def generate_distribution_html(df: pd.DataFrame) -> str:
         </div>
         """
         html_parts.append(stats_html)
-    
     return "\n".join(html_parts)

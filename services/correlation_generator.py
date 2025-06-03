@@ -7,7 +7,8 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import seaborn as sns
-
+import os
+from datetime import datetime
 
 def build_correlation_table(df: pd.DataFrame) -> str:
     """Возвращает HTML таблицу с корреляционной матрицей."""
@@ -106,3 +107,49 @@ def analyze_correlations(df: pd.DataFrame) -> str:
 
     html += "</div></div>"
     return html
+
+def save_correlation_report(html: str, output_dir: str = "data/variant2") -> str:
+    """Сохраняет HTML-отчёт и возвращает путь к файлу."""
+    os.makedirs(output_dir, exist_ok=True)
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f"correlation_report_{timestamp}.html"
+    filepath = os.path.join(output_dir, filename)
+
+    with open(filepath, "w", encoding="utf-8") as f:
+        f.write(html)
+
+    return filepath
+
+
+def build_correlation_html(df: pd.DataFrame) -> str:
+    """Генерирует полный HTML с таблицей, тепловой картой и выводами."""
+    table_html = build_correlation_table(df)
+    heatmap_html = build_correlation_heatmap(df)
+    analysis_html = analyze_correlations(df)
+
+    return f"""
+        <!DOCTYPE html>
+        <html lang="ru">
+        <head>
+            <meta charset="UTF-8">
+            <title>Correlation Report</title>
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+            <style>
+                body {{ padding: 2rem; font-family: sans-serif; }}
+                h2, h3, h4 {{ margin-top: 2rem; }}
+                img {{ max-width: 100%; height: auto; }}
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h2 class="mb-4">Correlation Analysis Report</h2>
+                {table_html}
+                <hr class="my-4">
+                {heatmap_html}
+                <hr class="my-4">
+                {analysis_html}
+            </div>
+        </body>
+        </html>
+        """
+

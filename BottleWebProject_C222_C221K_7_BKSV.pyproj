@@ -70,9 +70,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="data\" />
+    <Folder Include="data\variant2\" />
     <Folder Include="data\variant4\" />
     <Folder Include="data\variant3\" />
-    <Folder Include="data\variant2\" />
     <Folder Include="data\variant1\" />
     <Folder Include="services\" />
     <Folder Include="tests\" />
