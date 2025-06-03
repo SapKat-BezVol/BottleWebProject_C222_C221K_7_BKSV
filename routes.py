@@ -5,6 +5,7 @@ import numpy as np
 from datetime import datetime
 from io import BytesIO
 from bottle import route, template, view, request, response
+import html
 from sklearn.linear_model import LinearRegression
 
 from utils.table_maker import build_table, _parse_upload, render_page, load_data
@@ -79,7 +80,7 @@ def show_sample():
             </style>
         </head>
         <body>
-            <h5>Отображаемые данные ({mode}, {n} записей):</h5>
+            <h5>Отображаемые данные ({html.escape(mode)}, {n} записей):</h5>
             {sample_html}
         </body>
         </html>
