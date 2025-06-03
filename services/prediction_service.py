@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 from typing import Tuple, List
+import html
 
 import pandas as pd
 
@@ -28,7 +29,7 @@ def build_prediction(df: pd.DataFrame) -> Tuple[str, str | None]:
         html_block = build_prediction_numbers(df)
         return html_block, None
     except Exception as exc:  # noqa: WPS440
-        return "", f"<div class='alert alert-danger'>{exc}</div>"
+        return "", f"<div class='alert alert-danger'>{html.escape(str(exc))}</div>"
 
 
 def save_prediction(

@@ -7,7 +7,9 @@ from __future__ import annotations
 import logging
 import traceback
 from datetime import datetime
-from typing import List
+from uuid import uuid4
+import html
+from typing import List, Dict
 
 import pandas as pd
 from bottle import request, response, route, view
@@ -21,9 +23,28 @@ from services.prediction_service import build_prediction, save_prediction
 from services.distribution_service import build_distribution_report
 
 # -----------------------------------------------------------------------------
-#   Глобальное хранилище текущего набора данных
+#   Хранилище наборов данных по идентификатору сессии
 # -----------------------------------------------------------------------------
-generated_df: pd.DataFrame | None = None
+session_store: Dict[str, pd.DataFrame] = {}
+
+
+def _get_session_id() -> str:
+    """Return a stable session identifier and set cookie if needed."""
+    sid = request.get_cookie("session_id")
+    if not sid:
+        sid = uuid4().hex
+        response.set_cookie("session_id", sid, path="/", httponly=True)
+    return sid
+
+
+def get_current_df() -> pd.DataFrame | None:
+    """Retrieve DataFrame stored for current session."""
+    return session_store.get(_get_session_id())
+
+
+def set_current_df(df: pd.DataFrame) -> None:
+    """Save DataFrame for current session."""
+    session_store[_get_session_id()] = df
 
 # -----------------------------------------------------------------------------
 #   Базовые статические страницы
@@ -49,9 +70,9 @@ def about() -> dict[str, int]:
 @route("/show_sample", method="POST")
 def show_sample() -> str:
     """Показать выборку строк из текущей таблицы."""
-    global generated_df  # noqa: WPS420
+    df = get_current_df()
 
-    if generated_df is None:
+    if df is None:
         return (
             "<div class='alert alert-danger'>Сначала сгенерируйте или загрузите "
             "таблицу</div>"
@@ -60,7 +81,7 @@ def show_sample() -> str:
     try:
         n = int(request.forms.get("n", 5))
         mode = request.forms.get("mode", "head")
-        return build_sample_html(generated_df, n, mode)
+        return build_sample_html(df, n, mode)
     except Exception:  # noqa: WPS440
         logging.error("Ошибка в show_sample", exc_info=True)
         return (
@@ -72,7 +93,6 @@ def show_sample() -> str:
 @route("/generate_table", method="POST")
 def generate_table_route() -> str:
     """Загрузить CSV либо сгенерировать случайную таблицу."""
-    global generated_df  # noqa: WPS420
 
     try:
         mode = request.forms.get("mode")
@@ -92,7 +112,7 @@ def generate_table_route() -> str:
             )
 
         if df is not None:
-            generated_df = df
+            set_current_df(df)
 
         # Минимальная страница-обёртка (загружается во <iframe>)
         return (
@@ -120,9 +140,9 @@ def generate_table_route() -> str:
 @route("/generate_correlation", method="POST")
 def generate_correlation_route() -> str:
     """Сформировать отчёт о корреляциях."""
-    global generated_df  # noqa: WPS420
+    df = get_current_df()
 
-    if generated_df is None:
+    if df is None:
         error_html = (
             "<div class='alert alert-danger'>Сначала сгенерируйте или загрузите "
             "таблицу</div>"
@@ -130,11 +150,13 @@ def generate_correlation_route() -> str:
         return render_page("", error_html)
 
     try:
-        report_html, info_html = build_correlation_report(generated_df)
+        report_html, info_html = build_correlation_report(df)
         response.content_type = "text/html; charset=utf-8"
         return render_page(report_html, info_html)
     except Exception as exc:  # noqa: WPS440
-        error_html = f"<div class='alert alert-danger'>{exc}</div>"
+        error_html = (
+            f"<div class='alert alert-danger'>{html.escape(str(exc))}</div>"
+        )
         return render_page("", error_html)
 
 
@@ -144,9 +166,9 @@ def generate_correlation_route() -> str:
 @route("/generate_plot", method="POST")
 def generate_plot_route() -> str:
     """Построить график по текущему датасету."""
-    global generated_df  # noqa: WPS420
+    df = get_current_df()
 
-    if generated_df is None:
+    if df is None:
         return render_page(
             "",
             "<div class='alert alert-danger'>Сначала сгенерируйте или "
@@ -154,7 +176,7 @@ def generate_plot_route() -> str:
         )
 
     plot_type = request.forms.get("plot_type")
-    html_snippet, error_html = build_plot(generated_df, plot_type)
+    html_snippet, error_html = build_plot(df, plot_type)
     response.content_type = "text/html; charset=utf-8"
     return render_page(html_snippet, error_html)
 
@@ -165,16 +187,16 @@ def generate_plot_route() -> str:
 @route("/make_prediction", method="POST")
 def make_prediction_route() -> str:
     """Сделать прогноз и отобразить результат."""
-    global generated_df  # noqa: WPS420
+    df = get_current_df()
 
-    if generated_df is None:
+    if df is None:
         return render_page(
             "",
             "<div class='alert alert-danger'>Сначала сгенерируйте или "
             "загрузите таблицу</div>",
         )
 
-    html_block, error_html = build_prediction(generated_df)
+    html_block, error_html = build_prediction(df)
     response.content_type = "text/html; charset=utf-8"
     return render_page(html_block, error_html)
 
@@ -182,9 +204,9 @@ def make_prediction_route() -> str:
 @route("/save_prediction", method="POST")
 def save_prediction_route() -> str:
     """Сохранить результаты предсказания вместе с датасетом."""
-    global generated_df  # noqa: WPS420
+    df = get_current_df()
 
-    if generated_df is None:
+    if df is None:
         return "<div class='alert alert-danger'>Нет данных для сохранения</div>"
 
     try:
@@ -192,7 +214,7 @@ def save_prediction_route() -> str:
         features_raw: List[str] = request.forms.get("features", "").split()
         features = [float(x) for x in features_raw]
 
-        return save_prediction(generated_df, target_col, features)
+        return save_prediction(df, target_col, features)
     except Exception as exc:  # noqa: WPS440
         return f"<div class='alert alert-danger'>{exc}</div>"
 
@@ -203,16 +225,16 @@ def save_prediction_route() -> str:
 @route("/generate_distributions", method="POST")
 def generate_distributions_route() -> str:
     """Сформировать отчёт о распределениях признаков."""
-    global generated_df  # noqa: WPS420
+    df = get_current_df()
 
-    if generated_df is None:
+    if df is None:
         return (
             "<div class='alert alert-danger'>Сначала сгенерируйте или "
             "загрузите таблицу</div>"
         )
 
     try:
-        html_report = build_distribution_report(generated_df)
+        html_report = build_distribution_report(df)
         response.content_type = "text/html; charset=utf-8"
         return html_report
     except Exception:  # noqa: WPS440
