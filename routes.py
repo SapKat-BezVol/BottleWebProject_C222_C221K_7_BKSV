@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import pandas as pd
 import numpy as np
+import os
 from datetime import datetime
 from io import BytesIO
 from bottle import route, template, view, request, response
@@ -217,11 +218,24 @@ def generate_distributions():
     global generated_df
     if generated_df is None:
         return "<div class='alert alert-danger'>Сначала сгенерируйте или загрузите таблицу</div>"
-    
+
     try:
         from services.distrib_generator import generate_distribution_html
+
+        # Генерируем HTML-отчёт
         html = generate_distribution_html(generated_df)
+
+        # Путь для сохранения
+        save_dir = r"C:\Users\Alex\source\repos\BottleWebProject_C222_C221K_7_BKSV\data\variant1"
+        os.makedirs(save_dir, exist_ok=True)
+        save_path = os.path.join(save_dir, "distribution_analysis.html")
+
+        # Сохраняем файл
+        with open(save_path, 'w', encoding='utf-8') as f:
+            f.write(html)
+
         return html
+
     except Exception as e:
         return f"<div class='alert alert-danger'>Ошибка: {str(e)}</div>"
 
