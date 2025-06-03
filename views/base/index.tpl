@@ -1,35 +1,35 @@
 % rebase('base/layout.tpl', title='Главная', year=year)
-<div class="jumbotron">
+<div class="p-5 mb-4 bg-light rounded-3">
    <h1>Элементы машинного обучения и анализа данных</h1>
 </div>
 <ul class="nav nav-tabs" id="variantTabs" role="tablist">
-   <li role="presentation" class="active">
-      <a href="#variant1" aria-controls="variant1" role="tab" data-toggle="tab">Вариант 1 <small>Статистика</small></a>
+   <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="variant1-tab" data-bs-toggle="tab" data-bs-target="#variant1" type="button" role="tab" aria-controls="variant1" aria-selected="true">Вариант 1 <small>Статистика</small></button>
    </li>
-   <li role="presentation">
-      <a href="#variant2" aria-controls="variant2" role="tab" data-toggle="tab">Вариант 2 <small>Корреляции</small></a>
+   <li class="nav-item" role="presentation">
+      <button class="nav-link" id="variant2-tab" data-bs-toggle="tab" data-bs-target="#variant2" type="button" role="tab" aria-controls="variant2" aria-selected="false">Вариант 2 <small>Корреляции</small></button>
    </li>
-   <li role="presentation">
-      <a href="#variant3" aria-controls="variant3" role="tab" data-toggle="tab">Вариант 3 <small>Графики</small></a>
+   <li class="nav-item" role="presentation">
+      <button class="nav-link" id="variant3-tab" data-bs-toggle="tab" data-bs-target="#variant3" type="button" role="tab" aria-controls="variant3" aria-selected="false">Вариант 3 <small>Графики</small></button>
    </li>
-   <li role="presentation">
-      <a href="#variant4" aria-controls="variant4" role="tab" data-toggle="tab">Вариант 4 <small>Прогноз</small></a>
+   <li class="nav-item" role="presentation">
+      <button class="nav-link" id="variant4-tab" data-bs-toggle="tab" data-bs-target="#variant4" type="button" role="tab" aria-controls="variant4" aria-selected="false">Вариант 4 <small>Прогноз</small></button>
    </li>
 </ul>
 <!-- Содержимое вкладок -->
 <div class="tab-content" style="margin-left: 20px; margin-right: 20px">
    <!-- Вариант 1 -->
-   <div role="tabpanel" class="tab-pane fade in active" id="variant1">
+   <div class="tab-pane fade show active" id="variant1" role="tabpanel" aria-labelledby="variant1-tab" tabindex="0">
    <div class="row">
       <div class="col-md-12">
          <h2>Вариант 1: Анализ распределений и статистик</h2>
          <p class="lead">Комплексный анализ распределений данных с проверкой на нормальность и выявлением аномалий</p>
          <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> 
-         <div class="panel" style="border: none; box-shadow: none;">
-            <div class="panel-heading" style="border: none; background: none; padding-left: 0;">
-               <h3 class="panel-title">Описание решения</h3>
+         <div class="card border-0 shadow-none">
+            <div class="card-header bg-transparent p-0">
+               <h3 class="card-title">Описание решения</h3>
             </div>
-            <div class="panel-body" style="padding-left: 0; padding-right: 0;">
+            <div class="card-body p-0">
                <div class="row">
                   <div class="col-md-6">
                      <h4>Основные этапы анализа:</h4>
@@ -57,7 +57,7 @@
                         <h4>Пример гистограммы с пояснениями</h4>
                         <div class="row">
                            <div class="col-md-6">
-                              <img src="/static/images/primeri/gistogramma.png" class="img-responsive" alt="Гистограмма">
+                              <img src="/static/images/primeri/gistogramma.png" class="img-fluid" alt="Гистограмма">
                            </div>
                            <div class="col-md-6">
                               <ul class="list-unstyled">
@@ -117,7 +117,7 @@
                      <h5>3. Тест Шапиро-Уилка:</h5>
                      <p>\[ W = \frac{(\sum_{i=1}^{n}a_i x_{(i)})^2}{\sum_{i=1}^{n}(x_i - \bar{x})^2} \]</p>
                      <p class="small">
-                         где $ W $ — статистика теста (значение от 0 до 1),<br>
+                         где \( W \) — статистика теста (значение от 0 до 1),<br>
                          \( a_i \) — весовые коэффициенты,<br>
                          \( x_{(i)} \) — упорядоченные данные (по возрастанию),<br>
                          \( \bar{x} \) — среднее значение выборки.
@@ -132,7 +132,7 @@
                         \end{cases} \]
                      </p>
                      <p class="small">
-                         где $ \text{IQR} $ — межквартильный размах,<br>
+                         где \( \text{IQR} \) — межквартильный размах,,<br>
                          \( Q_1 \) — первый квартиль (25%),<br>
                          \( Q_3 \) — третий квартиль (75%),<br>
                          \( x \) — значение из выборки.
@@ -219,7 +219,7 @@
    </div>
 </div>
    <!-- Вариант 2 -->
-   <div role="tabpanel" class="tab-pane fade" id="variant2">
+   <div class="tab-pane fade" id="variant2" role="tabpanel" aria-labelledby="variant2-tab" tabindex="0">
       <div class="row">
          <div class="col-md-12">
             <h2>Вариант 2: Корреляции и тепловая карта</h2>
@@ -315,7 +315,7 @@
          </div>
       </div>
    </div>
-   <div role="tabpanel" class="tab-pane fade in" id="variant3" style="line-height:1.7;">
+   <div class="tab-pane fade" id="variant3" role="tabpanel" aria-labelledby="variant3-tab" style="line-height:1.7;" tabindex="0">
       <div class="row">
          <div class="col-md-12">
             <h2>Вариант 3: Графики и scatter-matrix</h2>
@@ -354,19 +354,19 @@
                   </ul>
                </div>
                <div class="col-md-6 text-center">
-                  <h4 class="hidden-md hidden-lg">&nbsp;</h4>
+                  <h4 class="d-md-none d-lg-none">&nbsp;</h4>
                   <div class="row d-flex flex-wrap">
-                     <div class="col-xs-4">
-                        <img src="/static/images/primeri/gistogramma.png" class="img-thumbnail" style="max-width:100%;" alt="Гистограмма">
-                        <p class="small mt-1">Гистограмма</p>
+                     <div class="col-4">
+                       <img src="/static/images/primeri/gistogramma.png" class="img-thumbnail" style="max-width:100%;" alt="Гистограмма">
+                       <p class="small mt-1">Гистограмма</p>
                      </div>
-                     <div class="col-xs-4">
-                        <img src="/static/images/primeri/boxplot.png" class="img-thumbnail" style="max-width:100%;" alt="Box-plot">
-                        <p class="small mt-1">Box-plot</p>
+                     <div class="col-4">
+                       <img src="/static/images/primeri/boxplot.png" class="img-thumbnail" style="max-width:100%;" alt="Box-plot">
+                       <p class="small mt-1">Box-plot</p>
                      </div>
-                     <div class="col-xs-4">
-                        <img src="/static/images/primeri/scattermatrix.png" class="img-thumbnail" style="max-width:100%;" alt="Scatter-matrix">
-                        <p class="small mt-1">Scatter-matrix</p>
+                     <div class="col-4">
+                       <img src="/static/images/primeri/scattermatrix.png" class="img-thumbnail" style="max-width:100%;" alt="Scatter-matrix">
+                       <p class="small mt-1">Scatter-matrix</p>
                      </div>
                   </div>
                </div>
@@ -579,7 +579,7 @@
                </div>
                <div class="col-md-6">
                   <div class="alert alert-info mb-0">
-                     <h4 class="hidden-md hidden-lg mt-0">&nbsp;</h4>
+                     <h4 class="d-md-none d-lg-none mt-0">&nbsp;</h4>
                      <strong>Смешанные масштабы:</strong>
                      <ul class="mb-1">
                         <li>Стандартизация перед scatter-matrix</li>
@@ -595,7 +595,7 @@
       </div>
    </div>
    <!-- Вариант 4 -->
-   <div role="tabpanel" class="tab-pane fade" id="variant4">
+   <div class="tab-pane fade" id="variant4" role="tabpanel" aria-labelledby="variant4-tab" tabindex="0">
       <div class="row">
          <div class="col-md-12">
             <h2>Вариант 4: Модель и прогнозирование</h2>
@@ -740,3 +740,4 @@
       </div>
    </div>
 </div>
+<script src="/static/scripts/variant-tabs.js"></script>

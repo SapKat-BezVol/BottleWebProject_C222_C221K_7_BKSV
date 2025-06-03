@@ -1,22 +1,24 @@
-document.addEventListener('DOMContentLoaded', () => {
-        const iframe = document.getElementById('tableFrame');
+document.addEventListener('DOMContentLoaded', function () {
+    const iframe = document.getElementById('tableFrame');
+    if (!iframe) return;
 
-    // Ф-ция подгонки высоты iframe под реальную высоту содержимого
     function resizeFrame() {
-            try {
-                const doc = iframe.contentDocument || iframe.contentWindow.document;
-    iframe.style.height = doc.body.scrollHeight + 'px';
-            } catch (_) { /* на случай неожиданных кросс-доменных ошибок */}
+        try {
+            const doc = iframe.contentDocument || iframe.contentWindow.document;
+            iframe.style.height = doc.body.scrollHeight + 'px';
+        } catch (_) {
+            /* ignore cross-origin errors */
         }
+    }
 
-        // После каждой загрузки в iframe
-        iframe.addEventListener('load', () => {
-        iframe.style.display = 'block';   // делаем видимым
-    resizeFrame();                    // адаптируем высоту
-        });
-
-        // Доп-подгонка при изменении размера окна
-        window.addEventListener('resize', () => {
-            if (iframe.style.display !== 'none') resizeFrame();
-        });
+    iframe.addEventListener('load', function () {
+        iframe.style.display = 'block';
+        resizeFrame();
     });
+
+    window.addEventListener('resize', function () {
+        if (iframe.style.display !== 'none') {
+            resizeFrame();
+        }
+    });
+});
