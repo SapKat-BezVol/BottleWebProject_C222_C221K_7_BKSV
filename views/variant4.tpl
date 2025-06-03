@@ -15,4 +15,4 @@
     </div>
     <button type="submit" style="margin-top: 30px;" class="btn btn-primary">Сделать предсказание</button>
 </form>
-<iframe id="predictFrame" name="predictFrame"  title="Результат предсказания"></iframe>
+<iframe id="predictFrame" name="predictFrame" style="width: 100%; height: 300px" title="Результат предсказания"></iframe>
