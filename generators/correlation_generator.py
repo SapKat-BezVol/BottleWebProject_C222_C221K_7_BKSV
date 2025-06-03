@@ -60,9 +60,9 @@ def analyze_correlations(df: pd.DataFrame) -> str:
         for j in range(i + 1, len(corr.columns)):
             a, b = corr.columns[i], corr.columns[j]
             val = corr.iloc[i, j]
-            if abs(val) > 0.8:
+            if val > 0.8:
                 high_corr_pairs.append((a, b, val))
-            elif val < -0.5:
+            elif val < -0.8:
                 negative_corr_pairs.append((a, b, val))
             elif abs(val) < 0.2:
                 low_corr_pairs.append((a, b, val))
@@ -126,7 +126,7 @@ def build_correlation_html(df: pd.DataFrame) -> str:
         <head>
             <meta charset="UTF-8">
             <title>Correlation Report</title>
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+            <link rel="stylesheet" href="/static/content/bootstrap.min.css">
             <style>
                 body {{ padding: 2rem; font-family: sans-serif; }}
                 h2, h3, h4 {{ margin-top: 2rem; }}
