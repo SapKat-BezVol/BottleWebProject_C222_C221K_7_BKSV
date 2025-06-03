@@ -93,7 +93,6 @@
     <Folder Include="utils\" />
     <Folder Include="static\" />
     <Folder Include="static\content\" />
-    <Folder Include="static\fonts\" />
     <Folder Include="static\images\" />
     <Folder Include="static\scripts\" />
     <Folder Include="views\" />
