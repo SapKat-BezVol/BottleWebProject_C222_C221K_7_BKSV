@@ -1,9 +1,7 @@
 % rebase('layout.tpl', title='Главная', year=year)
-<!-- Главная страница с четырьмя вкладками для вариантов анализа -->
 <div class="jumbotron">
    <h1>Элементы машинного обучения и анализа данных</h1>
 </div>
-<!-- Навигационные вкладки -->
 <ul class="nav nav-tabs" id="variantTabs" role="tablist">
    <li role="presentation" class="active">
       <a href="#variant1" aria-controls="variant1" role="tab" data-toggle="tab">Вариант 1 <small>Статистика</small></a>
