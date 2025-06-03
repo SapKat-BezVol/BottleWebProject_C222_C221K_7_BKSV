@@ -1,5 +1,6 @@
-% rebase('layoutvariant.tpl', title='Вариант 3 — Таблицы и диаграммы', year=year)
-<script src="/static/scripts/variant3.js"></script>
+% rebase('variants/layout_variants.tpl', title='Вариант 3 — Таблицы и диаграммы', year=year)
+
+<script src="/static/scripts/local/variant3.js"></script>
 <h2>Выберите диаграмму</h2>
 <p class="mb-3">
     Нажмите кнопку, чтобы построить нужный график по уже сгенерированной таблице.

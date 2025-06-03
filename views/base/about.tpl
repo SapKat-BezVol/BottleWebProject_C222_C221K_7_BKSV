@@ -1,4 +1,4 @@
-% rebase('layout.tpl', title='О команде', year=year)
+% rebase('base/layout.tpl', title='О команде', year=year)
 
 <h2 style="padding-top: 40px;">О команде</h2>
 <p><strong>Команда 7</strong>: Безруких, Катаван, Сапрыкин, Володин</p>

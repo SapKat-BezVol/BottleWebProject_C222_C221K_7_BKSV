@@ -1,11 +1,11 @@
-% rebase('layoutvariant.tpl', title='Вариант 2 — Корреляции и тепловая карта', year=year)
-<script src="/static/scripts/variant2.js"></script>
+% rebase('variants/layout_variants.tpl', title='Вариант 2 — Корреляции и тепловая карта', year=year)
+
+<script src="/static/scripts/local/variant2.js"></script>
 <h2>Построить корреляционную матрицу и тепловую карту</h2>
 <p class="mb-3">
     Нажмите кнопку, чтобы построить <strong>таблицу коэффициентов корреляции</strong> и <strong>тепловую карту</strong> по уже сгенерированной таблице.
 </p>
 <form method="post" action="/generate_correlation" target="corrFrame" enctype="multipart/form-data">
-    <!-- поля формы -->
     <button type="submit" class="btn btn-primary">Сгенерировать</button>
 </form>
 <div class="alert alert-info">

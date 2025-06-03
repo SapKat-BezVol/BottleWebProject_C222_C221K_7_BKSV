@@ -1,5 +1,6 @@
-% rebase('layoutvariant.tpl', title='Вариант 1 - Распределение данных', year=year)
-<script src="/static/scripts/variant1.js"></script>
+% rebase('variants/layout_variants.tpl', title='Вариант 1 - Распределение данных', year=year)
+
+<script src="/static/scripts/local/variant1.js"></script>
 <div class="container mt-4">
     <h2 class="mb-4">Анализ распределений данных</h2>
     <div class="card mb-4">

@@ -1,4 +1,4 @@
-% rebase('layout.tpl', title='Главная', year=year)
+% rebase('base/layout.tpl', title='Главная', year=year)
 <div class="jumbotron">
    <h1>Элементы машинного обучения и анализа данных</h1>
 </div>

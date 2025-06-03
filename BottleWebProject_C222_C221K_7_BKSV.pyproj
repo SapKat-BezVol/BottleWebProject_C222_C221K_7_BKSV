@@ -88,6 +88,7 @@
     <Folder Include="data\variant1\" />
     <Folder Include="generators\" />
     <Folder Include="services\" />
+    <Folder Include="static\scripts\local\" />
     <Folder Include="tests\" />
     <Folder Include="utils\" />
     <Folder Include="static\" />
@@ -96,6 +97,8 @@
     <Folder Include="static\images\" />
     <Folder Include="static\scripts\" />
     <Folder Include="views\" />
+    <Folder Include="views\base\" />
+    <Folder Include="views\variants\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="requirements.txt" />
@@ -120,23 +123,21 @@
     <Content Include="static\scripts\jquery.validate.min.js" />
     <Content Include="static\scripts\jquery.validate.unobtrusive.js" />
     <Content Include="static\scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="static\scripts\local\variant4.js" />
     <Content Include="static\scripts\modernizr-2.6.2.js" />
     <Content Include="static\scripts\respond.js" />
     <Content Include="static\scripts\respond.min.js" />
-    <Content Include="static\scripts\variant2.js">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="static\scripts\_references.js" />
-    <Content Include="views\about.tpl" />
-    <Content Include="views\index.tpl" />
-    <Content Include="views\layoutvariant.tpl" />
-    <Content Include="views\layout.tpl" />
-    <Content Include="views\variant4.tpl" />
-    <Content Include="views\variant3.tpl" />
-    <Content Include="views\variant1.tpl">
+    <Content Include="views\base\about.tpl" />
+    <Content Include="views\base\index.tpl" />
+    <Content Include="views\variants\layout_variants.tpl" />
+    <Content Include="views\base\layout.tpl" />
+    <Content Include="views\variants\variant4.tpl" />
+    <Content Include="views\variants\variant3.tpl" />
+    <Content Include="views\variants\variant1.tpl">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="views\variant2.tpl">
+    <Content Include="views\variants\variant2.tpl">
       <SubType>Code</SubType>
     </Content>
   </ItemGroup>

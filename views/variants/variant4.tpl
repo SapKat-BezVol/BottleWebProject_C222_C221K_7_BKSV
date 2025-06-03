@@ -1,11 +1,10 @@
-% rebase('layoutvariant.tpl', title='Вариант 4 - Предсказание числа', year=year)
+% rebase('variants/layout_variants.tpl', title='Вариант 4 - Предсказание числа', year=year)
 
+<script src="/static/scripts/local/variant4.js"></script>
 <h2>Предсказание целевой переменной</h2>
 <p class="mb-3">
     Выберите целевой столбец и введите значения признаков для предсказания:
 </p>
-
-<!-- Основная форма для предсказания -->
 <form action="/make_prediction" target="predictFrame" method="post" class="mb-3">
     <div class="form-group">
         <label for="target_col">Номер целевого столбца:</label>
@@ -17,25 +16,11 @@
     </div>
     <button type="submit" style="margin-top: 30px;" class="btn btn-success">Сделать предсказание</button>
 </form>
-
 <iframe id="predictFrame" name="predictFrame" style="width: 100%; height: 280px" title="Результат предсказания"></iframe>
-
-<!-- Форма для сохранения с hidden-полями -->
 <form action="/save_prediction" target="predictFrame" method="post" class="mb-3" id="saveForm">
-    <!-- Скрытые поля, которые будут заполнены JS -->
     <input type="hidden" name="target_col" id="save_target_col">
     <input type="hidden" name="features" id="save_features">
-
     <button type="submit" style="margin-top: 30px;" class="btn btn-success">
         <i class="fas fa-save"></i> Сохранить результаты
     </button>
 </form>
-
-<!-- JavaScript для копирования значений -->
-<script>
-    document.getElementById("saveForm").addEventListener("submit", function (e) {
-        // Копируем значения из основной формы
-        document.getElementById("save_target_col").value = document.getElementById("target_col").value;
-        document.getElementById("save_features").value = document.getElementById("features").value;
-    });
-</script>

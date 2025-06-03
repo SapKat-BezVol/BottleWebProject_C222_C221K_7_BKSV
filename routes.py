@@ -30,14 +30,14 @@ generated_df: pd.DataFrame | None = None
 # -----------------------------------------------------------------------------
 @route("/")
 @route("/home")
-@view("index")
+@view("base/index")
 def home() -> dict[str, int]:
     """Домашняя страница."""
     return {"year": datetime.now().year}
 
 
 @route("/about")
-@view("about")
+@view("base/about")
 def about() -> dict[str, int]:
     """Страница «О команде»."""
     return {"year": datetime.now().year}
@@ -227,28 +227,28 @@ def generate_distributions_route() -> str:
 #   Учебные статические варианты
 # -----------------------------------------------------------------------------
 @route("/variant1")
-@view("variant1")
+@view("variants/variant1")
 def variant1_page() -> dict[str, int]:
     """Учебная страница «Вариант 1»."""
     return {"year": datetime.now().year}
 
 
 @route("/variant2", method=["GET", "POST"])
-@view("variant2")
+@view("variants/variant2")
 def variant2_page() -> dict[str, int]:
     """Учебная страница «Вариант 2»."""
     return {"year": datetime.now().year}
 
 
 @route("/variant3")
-@view("variant3")
+@view("variants/variant3")
 def variant3_page() -> dict[str, int]:
     """Учебная страница «Вариант 3»."""
     return {"year": datetime.now().year}
 
 
 @route("/variant4")
-@view("variant4")
+@view("variants/variant4")
 def variant4_page() -> dict[str, int]:
     """Учебная страница «Вариант 4»."""
     return {"year": datetime.now().year}
