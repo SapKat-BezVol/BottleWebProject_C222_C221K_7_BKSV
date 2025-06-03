@@ -153,32 +153,44 @@ def generate_table():
 
 @route("/generate_correlation", method="POST")
 def generate_correlation_route() -> str:
-   global generated_df
-   if generated_df is None:
-       error_html = "<div class='alert alert-danger'>Сначала сгенерируйте или загрузите таблицу</div>"
-       return render_page("", error_html)
+    global generated_df  # Используем глобальную переменную с данными
 
-   try:
-       numeric_df = generated_df.select_dtypes(include='number')
-       if numeric_df.shape[1] < 2:
-           raise ValueError("Недостаточно числовых столбцов для анализа корреляций (нужно минимум 2).")
-       corr_matrix = numeric_df.corr()
-       if corr_matrix.shape[0] != corr_matrix.shape[1]:
-           raise ValueError("Ошибка: матрица корреляций не квадратная. Проверьте данные.")
+    if generated_df is None:
+        # Если данных нет — сообщаем об ошибке
+        error_html = "<div class='alert alert-danger'>Сначала сгенерируйте или загрузите таблицу</div>"
+        return render_page("", error_html)
 
-       full_html = build_correlation_html(generated_df)
-       filepath = save_correlation_report(full_html)
+    try:
+        numeric_df = generated_df.select_dtypes(include='number')  # Оставляем только числовые столбцы
 
-       save_notice = f"<div class='alert alert-info'>Отчёт сохранён: <code>{filepath}</code></div>"
+        if numeric_df.shape[1] < 2:
+            raise ValueError("Недостаточно числовых столбцов для анализа корреляций (нужно минимум 2).")
 
-       error_html = save_notice
-       combined_html = full_html
-   except Exception as exc:
-       combined_html = None
-       error_html = f"<div class='alert alert-danger'>{exc}</div>"
+        corr_matrix = numeric_df.corr()
 
-   response.content_type = "text/html; charset=utf-8"
-   return render_page(combined_html, error_html)
+        if corr_matrix.shape[0] != corr_matrix.shape[1]:
+            raise ValueError("Ошибка: матрица корреляций не квадратная. Проверьте данные.")
+
+        # Генерируем HTML-отчёт
+        full_html = build_correlation_html(generated_df)
+
+        # Сохраняем его в файл
+        filepath = save_correlation_report(full_html)
+
+        # Информационное сообщение о сохранении
+        save_notice = f"<div class='alert alert-info'>Отчёт сохранён: <code>{filepath}</code></div>"
+
+        error_html = save_notice
+        combined_html = full_html
+
+    except Exception as exc:
+        # В случае ошибки — показываем сообщение
+        combined_html = None
+        error_html = f"<div class='alert alert-danger'>{exc}</div>"
+
+    response.content_type = "text/html; charset=utf-8"  # Устанавливаем кодировку ответа
+    return render_page(combined_html, error_html)       # Отправляем страницу пользователю
+
 
 
 
