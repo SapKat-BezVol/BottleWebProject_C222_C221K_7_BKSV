@@ -6,7 +6,7 @@
       <title>{{ title }} - Элементы машинного обучения и анализа данных</title>
       <link rel="stylesheet" href="/static/content/bootstrap.min.css">
       <script src="/static/scripts/bootstrap.bundle.min.js"></script>
-      <script src="/static/scripts/shower.js"></script>
+      <script src="/static/scripts/mapper.js"></script>
       <link rel="stylesheet" type="text/css" href="/static/content/site.css" />
       <link rel="stylesheet" href="/static/content/custom-navbar.css" />
       <link rel="icon" type="image/png" href="/static/images/favicon.png">
