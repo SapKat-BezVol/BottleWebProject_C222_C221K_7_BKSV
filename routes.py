@@ -76,7 +76,7 @@ def about() -> dict[str, int]:
 # ---------------------------------------------------------------------------
 
 @route('/show_sample', method='POST')
-def show_sample() -> str:  # noqa: WPS231: высокая когнитивная сложность приемлема
+def show_sample() -> str:
     """Показать выборку из текущей таблицы.
 
     Ожидает параметры формы:
@@ -87,7 +87,7 @@ def show_sample() -> str:  # noqa: WPS231: высокая когнитивная
     Returns:
         str: Готовый HTML‑фрагмент либо сообщение об ошибке.
     """
-    global generated_df  # pylint: disable=global-statement
+    global generated_df
 
     if generated_df is None:
         # Пользователь ещё не загрузил/сгенерировал таблицу
@@ -148,7 +148,7 @@ def show_sample() -> str:  # noqa: WPS231: высокая когнитивная
         </html>
         """
 
-    except Exception as exc:  # noqa: WPS440: перехватываем все исключения для UX
+    except Exception as exc:
         import logging
 
         logging.error("An error occurred in show_sample", exc_info=True)
@@ -173,7 +173,7 @@ def generate_table() -> str:
     Returns:
         str: HTML‑фрагмент с сообщением об успехе или ошибке.
     """
-    global generated_df  # pylint: disable=global-statement
+    global generated_df
 
     try:
         mode = request.forms.get('mode')
@@ -206,7 +206,7 @@ def generate_table() -> str:
             '</body></html>'
         )
 
-    except Exception as exc:  # noqa: WPS440
+    except Exception as exc:
         import traceback
         import logging
 
@@ -234,7 +234,7 @@ def generate_correlation_route() -> str:
         str: Полная HTML‑страница с тепловой картой, таблицей и ссылкой на
             сохранённый отчёт либо сообщение об ошибке.
     """
-    global generated_df  # pylint: disable=global-statement
+    global generated_df
 
     if generated_df is None:
         error_html = (
@@ -259,7 +259,7 @@ def generate_correlation_route() -> str:
 
         error_html = save_notice
         combined_html = full_html
-    except Exception as exc:  # noqa: WPS440
+    except Exception as exc:
         combined_html = None
         error_html = f"<div class='alert alert-danger'>{exc}</div>"
 
@@ -280,7 +280,7 @@ def generate_plot_route() -> str:
     Returns:
         str: HTML‑фрагмент с графиком либо ошибкой.
     """
-    global generated_df  # pylint: disable=global-statement
+    global generated_df
 
     if generated_df is None:
         error_html = '<div class="alert alert-danger">Сначала сгенерируйте или загрузите таблицу</div>'
@@ -290,7 +290,7 @@ def generate_plot_route() -> str:
     try:
         html_snippet = build_plot_html(generated_df, plot_type)
         error_html = None
-    except Exception as exc:  # noqa: WPS440
+    except Exception as exc:
         html_snippet = ''
         error_html = f'<div class="alert alert-danger">Ошибка: {exc}</div>'
 
@@ -309,7 +309,7 @@ def make_prediction_route() -> str:
     Returns:
         str: HTML‑фрагмент с числовым прогнозом либо описанием ошибки.
     """
-    global generated_df  # pylint: disable=global-statement
+    global generated_df
 
     if generated_df is None:
         error_html = '<div class="alert alert-danger">Сначала сгенерируйте или загрузите таблицу</div>'
@@ -318,7 +318,7 @@ def make_prediction_route() -> str:
     try:
         prediction_html = build_prediction_numbers(generated_df)
         error_html = None
-    except Exception as exc:  # noqa: WPS440
+    except Exception as exc:
         error_html = f'<div class="alert alert-danger">{exc}</div>'
 
     response.content_type = 'text/html; charset=utf-8'
@@ -330,13 +330,13 @@ def make_prediction_route() -> str:
 # ---------------------------------------------------------------------------
 
 @route('/generate_distributions', method='POST')
-def generate_distributions() -> str:  # noqa: WPS231
+def generate_distributions() -> str:
     """Сформировать и сохранить отчёт о распределениях признаков.
 
     Returns:
         str: HTML‑отчёт либо сообщение об ошибке.
     """
-    global generated_df  # pylint: disable=global-statement
+    global generated_df
 
     if generated_df is None:
         return '<div class="alert alert-danger">Сначала сгенерируйте или загрузите таблицу</div>'
@@ -360,7 +360,7 @@ def generate_distributions() -> str:  # noqa: WPS231
 
         return html_report
 
-    except Exception as exc:  # noqa: WPS440
+    except Exception as exc:
         import logging
 
         logging.error('An error occurred while generating distributions', exc_info=True)
