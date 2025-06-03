@@ -1,8 +1,5 @@
 % rebase('base/layout.tpl', title='Главная', year=year)
-<div class="p-5 mb-4 bg-light rounded-3">
-   <h1>Элементы машинного обучения и анализа данных</h1>
-</div>
-<ul class="nav nav-tabs" id="variantTabs" role="tablist">
+<ul class="nav nav-tabs" id="variantTabs" role="tablist" style="padding-top: 40px;">
    <li class="nav-item" role="presentation">
       <button class="nav-link active" id="variant1-tab" data-bs-toggle="tab" data-bs-target="#variant1" type="button" role="tab" aria-controls="variant1" aria-selected="true">Вариант 1 <small>Статистика</small></button>
    </li>
