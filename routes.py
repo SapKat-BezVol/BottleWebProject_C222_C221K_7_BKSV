@@ -235,7 +235,7 @@ def generate_distributions():
         html = generate_distribution_html(generated_df)
 
         # Путь для сохранения
-        save_dir = r"C:\Users\Alex\source\repos\BottleWebProject_C222_C221K_7_BKSV\data\variant1"
+        save_dir = r"data\variant1"
         os.makedirs(save_dir, exist_ok=True)
 
         # Формируем имя файла с текущей датой и временем
