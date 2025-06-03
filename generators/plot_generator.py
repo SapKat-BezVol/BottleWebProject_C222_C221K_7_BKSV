@@ -119,13 +119,14 @@ def _box_stats_table(stats: Dict[str, Dict[str, float]]) -> str:
     )
     body_rows: List[str] = []
     for col, st in stats.items():
-        body_rows.append(
+         row = (
             "<tr>"
             f"<td>{col}</td><td>{st['min']:.4f}</td><td>{st['q1']:.4f}</td>"
             f"<td>{st['median']:.4f}</td><td>{st['q3']:.4f}</td>"
             f"<td>{st['max']:.4f}</td><td>{st['iqr']:.4f}</td>"
             f"<td>{st['outliers_percent']:.2f}</td></tr>"
         )
+         body_rows.append(row)
     return (
         "<table class='table table-bordered table-sm table-scroll'>"
         "<thead>" + header + "</thead><tbody>" + "\n".join(body_rows) + "</tbody></table>"
