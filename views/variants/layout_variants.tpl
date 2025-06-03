@@ -4,8 +4,8 @@
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>{{ title }} - Элементы машинного обучения и анализа данных</title>
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+      <link rel="stylesheet" href="/static/content/bootstrap.min.css">
+      <script src="/static/scripts/bootstrap.bundle.min.js"></script>
       <script src="/static/scripts/shower.js"></script>
       <link rel="stylesheet" type="text/css" href="/static/content/site.css" />
       <link rel="stylesheet" href="/static/content/custom-navbar.css" />
