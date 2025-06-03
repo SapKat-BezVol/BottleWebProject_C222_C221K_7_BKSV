@@ -60,7 +60,7 @@ def analyze_correlations(df: pd.DataFrame) -> str:
         for j in range(i + 1, len(corr.columns)):
             a, b = corr.columns[i], corr.columns[j]
             val = corr.iloc[i, j]
-            if abs(val) > 0.8:
+            if val > 0.8:
                 high_corr_pairs.append((a, b, val))
             elif val < -0.5:
                 negative_corr_pairs.append((a, b, val))
