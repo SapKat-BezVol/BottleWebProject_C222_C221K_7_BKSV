@@ -1,17 +1,16 @@
-$(function () {
-    $('#plotForm').on('submit', function () {
-        // показываем спиннер, а сам iframe по-прежнему скрыт
-        $('#plotSpinner').html(
-            '<div class="spinner-border" role="status">' +
-            '<span class="visually-hidden">Загрузка...</span>' +
-            '</div>'
-        );
+document.addEventListener('DOMContentLoaded', function () {
+    const plotForm = document.getElementById('plotForm');
+    const plotFrame = document.getElementById('plotFrame');
+    const plotSpinner = document.getElementById('plotSpinner');
+    if (!plotForm || !plotFrame || !plotSpinner) return;
+    plotForm.addEventListener('submit', function () {
+        plotSpinner.innerHTML = '<div class="spinner-border" role="status"><span class="visually-hidden">Загрузка...</span></div>';
+        plotFrame.style.display = 'none';
     });
-
-    $('#plotFrame').on('load', function () {
-        $('#plotSpinner').empty();                     // убираем спиннер
-        const body = this.contentWindow.document.body; // вычисляем высоту
-        this.style.height = body.scrollHeight + 'px';  // авто-рост фрейма
-        $(this).show();                                // делаем видимым
+    plotFrame.addEventListener('load', function () {
+        plotSpinner.innerHTML = '';
+        const body = plotFrame.contentWindow.document.body;
+        plotFrame.style.height = body.scrollHeight + 'px';
+        plotFrame.style.display = 'block';
     });
 });
