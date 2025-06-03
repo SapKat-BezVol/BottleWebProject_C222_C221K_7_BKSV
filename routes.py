@@ -19,7 +19,7 @@ import html
 import numpy as np
 import pandas as pd
 from bottle import route, template, view, request, response
-from sklearn.linear_model import LinearRegression
+
 
 # --- Внутренние пакеты проекта ---
 from utils.table_maker import (
