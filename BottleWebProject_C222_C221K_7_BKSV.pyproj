@@ -21,7 +21,8 @@
     <WebBrowserPort>80</WebBrowserPort>
     <TestFramework>unittest</TestFramework>
     <UnitTestPattern>test*.py</UnitTestPattern>
-    <UnitTestRootDirectory>tests</UnitTestRootDirectory>
+    <UnitTestRootDirectory>
+    </UnitTestRootDirectory>
     <InterpreterId>
     </InterpreterId>
     <SuppressEnvironmentCreationPrompt>True</SuppressEnvironmentCreationPrompt>
@@ -66,7 +67,6 @@
     <Compile Include="utils\__init__.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="__init__.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="data\" />
