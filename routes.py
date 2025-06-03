@@ -223,7 +223,9 @@ def generate_distributions():
         html = generate_distribution_html(generated_df)
         return html
     except Exception as e:
-        return f"<div class='alert alert-danger'>Ошибка: {str(e)}</div>"
+        import logging
+        logging.error("An error occurred while generating distributions", exc_info=True)
+        return "<div class='alert alert-danger'>Произошла внутренняя ошибка. Пожалуйста, попробуйте позже.</div>"
 
 
 @route('/variant1', method='GET')
