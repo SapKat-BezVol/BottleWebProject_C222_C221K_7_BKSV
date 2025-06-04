@@ -6,7 +6,7 @@
     Нажмите кнопку, чтобы построить <strong>таблицу коэффициентов корреляции</strong> и <strong>тепловую карту</strong> по уже сгенерированной таблице.
 </p>
 <form method="post" action="/generate_correlation" target="corrFrame" enctype="multipart/form-data">
-    <button type="submit" class="btn btn-primary">Сгенерировать</button>
+    <button type="submit" class="btn btn-success btn-primary">Сгенерировать</button>
 </form>
 <div class="alert alert-info">
     <h4 class="mb-2">Что показывает матрица корреляций?</h4>
