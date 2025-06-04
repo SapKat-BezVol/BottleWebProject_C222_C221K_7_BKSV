@@ -10,14 +10,23 @@ import seaborn as sns
 import os
 from datetime import datetime
 
-def build_correlation_table(df: pd.DataFrame) -> str:
-    """Создаёт HTML-таблицу с корреляционной матрицей на основе числовых данных."""
-    corr_matrix = df.corr(numeric_only=True)        # Вычисляем корреляционную матрицу только по числовым столбцам
-    corr_rounded = corr_matrix.round(2)             # Округляем значения до 2 знаков после запятой
-    html_table = corr_rounded.to_html(              # Преобразуем DataFrame в HTML-таблицу
-        classes="table table-bordered table-striped", border=1
-    )
-    return f"<h3 class='mt-3'>Correlation Matrix</h3>{html_table}"  # Добавляем заголовок
+def build_correlation_table(df):
+    """
+    Строит HTML-таблицу с коэффициентами корреляции.
+    Возвращает сообщение, если таблицу построить нельзя.
+    """
+    if df.empty or df.shape[1] < 2:
+        return "<p>Нет данных для отображения корреляционной таблицы.</p>"
+
+    corr_matrix = df.corr()
+
+    if corr_matrix.empty:
+        return "<p>Нет данных для отображения корреляционной таблицы.</p>"
+
+    html = "<h3 class='mt-3'>Correlation Matrix</h3>"
+    html += corr_matrix.to_html(classes="dataframe table table-bordered table-striped", border=1)
+    return html
+
 
 
 def _fig_to_base64(fig: plt.Figure) -> str:
@@ -29,19 +38,23 @@ def _fig_to_base64(fig: plt.Figure) -> str:
 
 
 
-def build_correlation_heatmap(df: pd.DataFrame) -> str:
-    """Генерирует тепловую карту корреляций и возвращает HTML-изображение."""
-    corr_matrix = df.corr(numeric_only=True)         # Корреляции между числовыми столбцами
-    fig, ax = plt.subplots(figsize=(8, 6))            # Создаём график
-    sns.heatmap(corr_matrix, annot=True, cmap="coolwarm", fmt=".2f", ax=ax)  # Тепловая карта
-    plt.title("Correlation Heatmap")
-    b64 = _fig_to_base64(fig)                         # Преобразуем график в base64
-    plt.close(fig)                                    # Закрываем фигуру (освобождаем память)
+def build_correlation_heatmap(df):
+    corr_matrix = df.corr()
 
-    return (
-        "<h3 class='mt-3'>Correlation Heatmap</h3>"
-        f"<img class='img-fluid' src='data:image/png;base64,{b64}' alt='heatmap'>"
-    )
+    # Проверка: пустая или полностью NaN корреляционная матрица
+    if corr_matrix.empty or corr_matrix.isnull().all().all():
+        return "<p>Нет данных для отображения тепловой карты.</p>"
+
+    plt.figure(figsize=(8, 6))
+    ax = sns.heatmap(corr_matrix, annot=True, cmap="coolwarm", fmt=".2f")
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png', bbox_inches='tight')
+    plt.close()
+    buf.seek(0)
+    img_base64 = base64.b64encode(buf.read()).decode('utf-8')
+
+    return f'<img src="data:image/png;base64,{img_base64}" alt="Correlation Heatmap">'
 
 
 
@@ -52,6 +65,19 @@ def analyze_correlations(df: pd.DataFrame) -> str:
     - Сильную отрицательную (< -0.5)
     - Слабую (< 0.2)
     """
+    # Проверка на пустой или малый DataFrame
+    if df.empty or df.shape[1] < 2:
+        return """
+        <div class="mt-4">
+          <h4>Выводы по корреляции</h4>
+          <div class="list-group">
+            <div class='list-group-item list-group-item-secondary'>
+              <em>Данных недостаточно для анализа корреляций.</em>
+            </div>
+          </div>
+        </div>
+        """
+
     corr = df.corr(numeric_only=True)
     high_corr_pairs, negative_corr_pairs, low_corr_pairs = [], [], []
 
@@ -98,6 +124,7 @@ def analyze_correlations(df: pd.DataFrame) -> str:
 
     html += "</div></div>"
     return html
+
 
 
 def save_correlation_report(html: str, output_dir: str = "data/variant2") -> str:
