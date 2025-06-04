@@ -11,7 +11,6 @@ class TestPredictionService(unittest.TestCase):
             'f2': [2, 3],
             'target': [3, 5]
         })
-
     @patch('services.prediction_service.build_prediction_numbers')
     def test_build_prediction_success(self, mock_build):
         mock_build.return_value = '<div>ok</div>'
