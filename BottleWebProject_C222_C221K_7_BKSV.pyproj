@@ -60,19 +60,16 @@
     </Compile>
     <Compile Include="services\table_service.py" />
     <Compile Include="services\__init__.py" />
-    <Compile Include="tests\test_plot_generator.py">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="tests\.py" />
+    <Compile Include="tests\test_correlation.py" />
+    <Compile Include="tests\test_distribution.py" />
+    <Compile Include="tests\test_plot.py" />
+    <Compile Include="tests\test_prediction.py" />
+    <Compile Include="tests\__init__.py" />
     <Compile Include="utils\table_maker.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="generators\__init__.py" />
-    <Compile Include="tests\test_correlation_generator.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="tests\test_distrib_generator.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="utils\data_loader.py">
       <SubType>Code</SubType>
     </Compile>
@@ -90,6 +87,7 @@
     <Folder Include="services\" />
     <Folder Include="static\scripts\local\" />
     <Folder Include="tests\" />
+    <Folder Include="tests\__pycache__\" />
     <Folder Include="utils\" />
     <Folder Include="static\" />
     <Folder Include="static\content\" />
@@ -108,6 +106,14 @@
     <Content Include="static\content\site.css" />
     <Content Include="static\scripts\bootstrap.bundle.min.js" />
     <Content Include="static\scripts\local\variant4.js" />
+    <Content Include="tests\__pycache__\test_correlation.cpython-310.pyc" />
+    <Content Include="tests\__pycache__\test_correlation_generator.cpython-310.pyc" />
+    <Content Include="tests\__pycache__\test_distribution.cpython-310.pyc" />
+    <Content Include="tests\__pycache__\test_distrib_generator.cpython-310.pyc" />
+    <Content Include="tests\__pycache__\test_plot.cpython-310.pyc" />
+    <Content Include="tests\__pycache__\test_plot_generator.cpython-310.pyc" />
+    <Content Include="tests\__pycache__\test_prediction.cpython-310.pyc" />
+    <Content Include="tests\__pycache__\__init__.cpython-310.pyc" />
     <Content Include="views\base\about.tpl" />
     <Content Include="views\base\index.tpl" />
     <Content Include="views\variants\layout_variants.tpl" />
