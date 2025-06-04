@@ -1,5 +1,6 @@
 import unittest
 import pandas as pd
+import numpy as np
 from generators.correlation_generator import (
     build_correlation_table,
     build_correlation_heatmap,
@@ -9,7 +10,7 @@ from generators.correlation_generator import (
 class TestCorrelationGenerator(unittest.TestCase):
 
     def setUp(self):
-        # Наборы тестовых DataFrame'ов
+        # Подготовка различных тестовых DataFrame'ов
         self.datasets = {
             "positive_correlation": pd.DataFrame({
                 "X": [1, 2, 3, 4, 5],
@@ -35,6 +36,7 @@ class TestCorrelationGenerator(unittest.TestCase):
         }
 
     def test_build_correlation_table_html_structure(self):
+        # Проверка, что функция возвращает HTML-таблицу с заголовком
         for name, df in self.datasets.items():
             with self.subTest(name=name):
                 html = build_correlation_table(df)
@@ -42,6 +44,7 @@ class TestCorrelationGenerator(unittest.TestCase):
                 self.assertIn("Correlation Matrix", html)
 
     def test_analyze_correlations_output_contains_expected_phrases(self):
+        # Проверка корректности текстового анализа корреляций
         expectations = {
             "positive_correlation": ["Сильная положительная корреляция"],
             "negative_correlation": ["Сильная отрицательная корреляция"],
@@ -57,11 +60,50 @@ class TestCorrelationGenerator(unittest.TestCase):
                     self.assertIn(phrase, result)
 
     def test_build_correlation_heatmap_returns_img_tag(self):
+        # Проверка, что тепловая карта содержит <img> с base64
         for name, df in self.datasets.items():
             with self.subTest(name=name):
                 heatmap_html = build_correlation_heatmap(df)
                 self.assertIn("<img", heatmap_html)
                 self.assertIn("base64", heatmap_html)
+
+    def test_handle_empty_dataframe(self):
+        # Проверка, что при пустом DataFrame возвращается сообщение, а не пустая таблица
+        df = pd.DataFrame()
+        table_html = build_correlation_table(df)
+        heatmap_html = build_correlation_heatmap(df)
+        result_text = analyze_correlations(df)
+
+        self.assertIn("Нет данных для отображения корреляционной таблицы.", table_html)
+        self.assertIn("Нет данных для отображения тепловой карты.", heatmap_html)
+        self.assertIn("данных недостаточно", result_text.lower())
+
+
+    def test_handle_nan_values(self):
+        # Проверка, что NaN не вызывает ошибку при построении
+        df = pd.DataFrame({
+            "A": [1, 2, np.nan, 4, 5],
+            "B": [5, np.nan, 3, 2, 1]
+        })
+        table_html = build_correlation_table(df)
+        heatmap_html = build_correlation_heatmap(df)
+        result_text = analyze_correlations(df)
+        self.assertIn("<table", table_html)
+        self.assertIn("<img", heatmap_html)
+        self.assertIn("корреляция", result_text.lower())
+
+    def test_correlation_table_shape(self):
+        # Проверка, что таблица корреляции квадратная и по размеру как количество переменных
+        df = self.datasets["positive_correlation"]
+        corr = df.corr()
+        self.assertEqual(corr.shape[0], corr.shape[1])
+        self.assertEqual(corr.shape[0], len(df.columns))
+
+    def test_correlation_diagonal_values(self):
+        # Проверка, что на диагонали всегда стоит 1.0
+        df = self.datasets["positive_correlation"]
+        table_html = build_correlation_table(df)
+        self.assertIn("1.0", table_html)  # Не "1.00", а "1.0"
 
 if __name__ == "__main__":
     unittest.main()
