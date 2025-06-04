@@ -61,10 +61,17 @@ def build_sample_html(df: pd.DataFrame, n: int = 5, mode: str = "head") -> str:
 
     mode:
         * head   — первые n строк
-        * tail   — последние n строк
-        * random — случайные n строк
+        * tail   — последние n строки
+        * random — случайные n строки
     """
-    n = max(1, min(n, len(df)))
+    warning_msg = ""
+
+    if n < 1:
+        warning_msg = f"<div class='alert alert-warning'>Значение n={n} не должно быть меньше 1.</div>"
+        n = 1
+    elif n > len(df):
+        warning_msg = f"<div class='alert alert-warning'>Значение n={n} превышает количество строк {len(df)} в таблице.</div>"
+        n = len(df)
 
     if mode == "head":
         sample_df = df.head(n)
@@ -74,8 +81,7 @@ def build_sample_html(df: pd.DataFrame, n: int = 5, mode: str = "head") -> str:
         sample_df = df.sample(n)
     else:
         return (
-            "<div class='alert alert-danger'>Некорректный режим отображения"
-            "</div>"
+            "<div class='alert alert-danger'>Некорректный режим отображения</div>"
         )
 
     table_html = sample_df.to_html(
@@ -83,19 +89,18 @@ def build_sample_html(df: pd.DataFrame, n: int = 5, mode: str = "head") -> str:
         index=False,
         border=0,
     )
+
     return f"""
     <!DOCTYPE html>
     <html lang="ru">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-        >
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"  rel="stylesheet">
         <style>body{{margin:0;padding:1rem}}</style>
     </head>
     <body>
+        {warning_msg}
         <h5>Отображаемые данные ({html.escape(mode)}, {n} записей):</h5>
         {table_html}
     </body>
