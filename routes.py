@@ -118,7 +118,7 @@ def generate_table_route() -> str:
         return (
             "<!DOCTYPE html><html><head>"
             "<meta charset='utf-8'>"
-            "<link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' "
+            "<link href='/static/content/bootstrap.min.css' "
             "rel='stylesheet'>"
             "<style>html,body{margin:0;padding:0;overflow:hidden}</style>"
             "</head><body>"
