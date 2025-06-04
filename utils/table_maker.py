@@ -16,6 +16,7 @@ from __future__ import annotations
 
 from io import BytesIO
 from typing import Optional, Tuple
+import html
 
 import pandas as pd
 
@@ -56,6 +57,9 @@ def _parse_upload(upload_file) -> pd.DataFrame:
 
     # Читаем содержимое файла как bytes (важно для BytesIO)
     raw_bytes: bytes = upload_file.file.read()
+    # Простейшая защита от загрузки чрезмерно больших файлов
+    if len(raw_bytes) > 5 * 1024 * 1024:  # 5 MB
+        raise ValueError("Размер файла превышает 5 МБ.")
 
     # Карта расширений к функциям‑парсерам pandas
     parser_map = {
@@ -130,8 +134,9 @@ def build_table(
         return table_html, None, df
 
     except Exception as exc:
-        # Оборачиваем текст ошибки в Bootstrap‑alert, чтобы сохранить единый стиль.
-        error_html = f"<div class='alert alert-danger'>{exc}</div>"
+        # Оборачиваем текст ошибки в Bootstrap‑alert, экранируя текст
+        safe_exc = html.escape(str(exc))
+        error_html = f"<div class='alert alert-danger'>{safe_exc}</div>"
         return None, error_html, None
 
 
