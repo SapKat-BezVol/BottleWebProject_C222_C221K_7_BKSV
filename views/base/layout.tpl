@@ -8,8 +8,6 @@
         <link rel="stylesheet" href="/static/content/site.css" />
         <link rel="icon" type="image/png" href="/static/images/favicon.png">
         <script src="/static/scripts/bootstrap.bundle.min.js"></script>
-        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">

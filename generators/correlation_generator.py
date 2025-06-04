@@ -153,7 +153,7 @@ def build_correlation_html(df: pd.DataFrame) -> str:
         <head>
             <meta charset="UTF-8">
             <title>Correlation Report</title>
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+            <link href="/static/content/bootstrap.min.css" rel="stylesheet">
             <style>
                 body {{ padding: 2rem; font-family: sans-serif; }}
                 h2, h3, h4 {{ margin-top: 2rem; }}
